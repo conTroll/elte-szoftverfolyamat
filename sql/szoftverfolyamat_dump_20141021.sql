@@ -18,28 +18,28 @@ USE `szoftverfolyamat`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `advertisement`
+-- Table structure for table `advertisements`
 --
 
-DROP TABLE IF EXISTS `advertisement`;
+DROP TABLE IF EXISTS `advertisements`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `advertisement` (
-  `advertisementId` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `advertisements` (
+  `advertisement_id` int(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(128) NOT NULL,
   `link` varchar(128) DEFAULT NULL,
   `text` text NOT NULL,
-  PRIMARY KEY (`advertisementId`)
+  PRIMARY KEY (`advertisement_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `advertisement`
+-- Dumping data for table `advertisements`
 --
 
-LOCK TABLES `advertisement` WRITE;
-/*!40000 ALTER TABLE `advertisement` DISABLE KEYS */;
-/*!40000 ALTER TABLE `advertisement` ENABLE KEYS */;
+LOCK TABLES `advertisements` WRITE;
+/*!40000 ALTER TABLE `advertisements` DISABLE KEYS */;
+/*!40000 ALTER TABLE `advertisements` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -50,13 +50,13 @@ DROP TABLE IF EXISTS `channel_profile_data`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `channel_profile_data` (
-  `credentialId` int(11) NOT NULL,
+  `credential_id` int(11) NOT NULL,
   `email` varchar(128) NOT NULL,
   `name` varchar(128) NOT NULL,
   `description` varchar(256) NOT NULL,
-  `open` tinyint(1) DEFAULT NULL,
-  PRIMARY KEY (`credentialId`),
-  CONSTRAINT `fk_credential_channel` FOREIGN KEY (`credentialId`) REFERENCES `user_credential` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  `open` tinyint(1) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`credential_id`),
+  CONSTRAINT `fk_channel_credential_id` FOREIGN KEY (`credential_id`) REFERENCES `user_credentials` (`credential_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -77,12 +77,12 @@ DROP TABLE IF EXISTS `channel_subscribers`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `channel_subscribers` (
-  `channelId` int(11) NOT NULL,
-  `subscriberId` int(11) NOT NULL,
-  KEY `fk_channel_idx` (`channelId`),
-  KEY `fk_subscriber_idx` (`subscriberId`),
-  CONSTRAINT `fk_channel` FOREIGN KEY (`channelId`) REFERENCES `channel_profile_data` (`credentialId`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_subscriber` FOREIGN KEY (`subscriberId`) REFERENCES `user_profile_data` (`credentialId`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  `channel_credential_id` int(11) NOT NULL,
+  `subscriber_credential_id` int(11) NOT NULL,
+  PRIMARY KEY (`channel_credential_id`,`subscriber_credential_id`),
+  KEY `fk_subscribers_user_credential_id_idx` (`subscriber_credential_id`),
+  CONSTRAINT `fk_subscribers_channel_credential_id` FOREIGN KEY (`channel_credential_id`) REFERENCES `channel_profile_data` (`credential_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_subscribers_user_credential_id` FOREIGN KEY (`subscriber_credential_id`) REFERENCES `user_profile_data` (`credential_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -96,87 +96,87 @@ LOCK TABLES `channel_subscribers` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `comment`
+-- Table structure for table `comments`
 --
 
-DROP TABLE IF EXISTS `comment`;
+DROP TABLE IF EXISTS `comments`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `comment` (
-  `commentId` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `comments` (
+  `comment_id` int(11) NOT NULL,
   `text` text NOT NULL,
-  `author` int(11) NOT NULL,
-  `post` int(11) NOT NULL,
-  PRIMARY KEY (`commentId`),
-  KEY `fk_comment_author_idx` (`author`),
-  KEY `fk_post_idx` (`post`),
-  CONSTRAINT `fk_comment_author` FOREIGN KEY (`author`) REFERENCES `user_credential` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_post` FOREIGN KEY (`post`) REFERENCES `post` (`postId`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  `credential_id` int(11) NOT NULL,
+  `post_id` int(11) NOT NULL,
+  PRIMARY KEY (`comment_id`),
+  KEY `fk_comment_credential_id_idx` (`credential_id`),
+  KEY `fk_post_id_idx` (`post_id`),
+  CONSTRAINT `fk_comment_credential_id` FOREIGN KEY (`credential_id`) REFERENCES `user_credentials` (`credential_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_post_id` FOREIGN KEY (`post_id`) REFERENCES `posts` (`post_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `comment`
+-- Dumping data for table `comments`
 --
 
-LOCK TABLES `comment` WRITE;
-/*!40000 ALTER TABLE `comment` DISABLE KEYS */;
-/*!40000 ALTER TABLE `comment` ENABLE KEYS */;
+LOCK TABLES `comments` WRITE;
+/*!40000 ALTER TABLE `comments` DISABLE KEYS */;
+/*!40000 ALTER TABLE `comments` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `message`
+-- Table structure for table `messages`
 --
 
-DROP TABLE IF EXISTS `message`;
+DROP TABLE IF EXISTS `messages`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `message` (
-  `messageId` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `messages` (
+  `message_id` int(11) NOT NULL AUTO_INCREMENT,
   `text` text NOT NULL,
-  `senderId` int(11) NOT NULL,
-  `recipientId` int(11) NOT NULL,
-  PRIMARY KEY (`messageId`),
-  KEY `fk_sender_idx` (`senderId`),
-  KEY `fk_recipient_idx` (`recipientId`),
-  CONSTRAINT `fk_recipient` FOREIGN KEY (`recipientId`) REFERENCES `user_profile_data` (`credentialId`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_sender` FOREIGN KEY (`senderId`) REFERENCES `user_profile_data` (`credentialId`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  `sender_credential_id` int(11) NOT NULL,
+  `recipient_credential_id` int(11) NOT NULL,
+  PRIMARY KEY (`message_id`),
+  KEY `fk_sender_credential_id_idx` (`sender_credential_id`),
+  KEY `fk_recipient_credential_id_idx` (`recipient_credential_id`),
+  CONSTRAINT `fk_recipient_credential_id` FOREIGN KEY (`recipient_credential_id`) REFERENCES `user_profile_data` (`credential_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_sender_credential_id` FOREIGN KEY (`sender_credential_id`) REFERENCES `user_profile_data` (`credential_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `message`
+-- Dumping data for table `messages`
 --
 
-LOCK TABLES `message` WRITE;
-/*!40000 ALTER TABLE `message` DISABLE KEYS */;
-/*!40000 ALTER TABLE `message` ENABLE KEYS */;
+LOCK TABLES `messages` WRITE;
+/*!40000 ALTER TABLE `messages` DISABLE KEYS */;
+/*!40000 ALTER TABLE `messages` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `post`
+-- Table structure for table `posts`
 --
 
-DROP TABLE IF EXISTS `post`;
+DROP TABLE IF EXISTS `posts`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `post` (
-  `postId` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `posts` (
+  `post_id` int(11) NOT NULL AUTO_INCREMENT,
   `text` text NOT NULL,
-  `author` int(11) NOT NULL,
-  PRIMARY KEY (`postId`),
-  KEY `fk_author_idx` (`author`),
-  CONSTRAINT `fk_post_author` FOREIGN KEY (`author`) REFERENCES `user_credential` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  `credential_id` int(11) NOT NULL,
+  PRIMARY KEY (`post_id`),
+  KEY `fk_post_credential_id_idx` (`credential_id`),
+  CONSTRAINT `fk_post_credential_id` FOREIGN KEY (`credential_id`) REFERENCES `user_credentials` (`credential_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `post`
+-- Dumping data for table `posts`
 --
 
-LOCK TABLES `post` WRITE;
-/*!40000 ALTER TABLE `post` DISABLE KEYS */;
-/*!40000 ALTER TABLE `post` ENABLE KEYS */;
+LOCK TABLES `posts` WRITE;
+/*!40000 ALTER TABLE `posts` DISABLE KEYS */;
+/*!40000 ALTER TABLE `posts` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -187,12 +187,12 @@ DROP TABLE IF EXISTS `user_connections`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `user_connections` (
-  `userId_1` int(11) NOT NULL,
-  `userId_2` int(11) NOT NULL,
-  KEY `fk_userid_1_idx` (`userId_1`),
-  KEY `fk_userid_2_idx` (`userId_2`),
-  CONSTRAINT `fk_userid_1` FOREIGN KEY (`userId_1`) REFERENCES `user_profile_data` (`credentialId`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_userid_2` FOREIGN KEY (`userId_2`) REFERENCES `user_profile_data` (`credentialId`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  `credential_id_1` int(11) NOT NULL,
+  `credential_id_2` int(11) NOT NULL,
+  PRIMARY KEY (`credential_id_1`,`credential_id_2`),
+  KEY `fk_user_connections_credential_id_2_idx` (`credential_id_2`),
+  CONSTRAINT `fk_user_connections_credential_id_1` FOREIGN KEY (`credential_id_1`) REFERENCES `user_profile_data` (`credential_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_user_connections_credential_id_2` FOREIGN KEY (`credential_id_2`) REFERENCES `user_profile_data` (`credential_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -206,27 +206,27 @@ LOCK TABLES `user_connections` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `user_credential`
+-- Table structure for table `user_credentials`
 --
 
-DROP TABLE IF EXISTS `user_credential`;
+DROP TABLE IF EXISTS `user_credentials`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `user_credential` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `passwordHash` varchar(128) NOT NULL,
+CREATE TABLE `user_credentials` (
+  `credential_id` int(11) NOT NULL AUTO_INCREMENT,
+  `password_hash` varchar(128) NOT NULL,
   `enabled` tinyint(4) NOT NULL DEFAULT '1',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`credential_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `user_credential`
+-- Dumping data for table `user_credentials`
 --
 
-LOCK TABLES `user_credential` WRITE;
-/*!40000 ALTER TABLE `user_credential` DISABLE KEYS */;
-/*!40000 ALTER TABLE `user_credential` ENABLE KEYS */;
+LOCK TABLES `user_credentials` WRITE;
+/*!40000 ALTER TABLE `user_credentials` DISABLE KEYS */;
+/*!40000 ALTER TABLE `user_credentials` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -237,20 +237,20 @@ DROP TABLE IF EXISTS `user_profile_data`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `user_profile_data` (
-  `credentialId` int(11) NOT NULL,
+  `credential_id` int(11) NOT NULL,
   `email` varchar(128) NOT NULL,
-  `fullName` varchar(128) NOT NULL,
-  `shortName` varchar(32) NOT NULL,
-  `publicLocation` tinyint(1) NOT NULL DEFAULT '1',
+  `full_name` varchar(128) NOT NULL,
+  `short_name` varchar(32) NOT NULL,
+  `public_location` tinyint(1) NOT NULL DEFAULT '1',
   `location` varchar(128) NOT NULL,
-  `publicJobAndWorkplace` tinyint(1) NOT NULL DEFAULT '1',
+  `public_job_and_workplace` tinyint(1) NOT NULL DEFAULT '1',
   `job` varchar(128) NOT NULL,
   `workplace` varchar(128) DEFAULT NULL,
-  `publicBirthday` tinyint(1) NOT NULL DEFAULT '1',
+  `public_birthday` tinyint(1) NOT NULL DEFAULT '1',
   `birthday` date NOT NULL,
-  PRIMARY KEY (`credentialId`),
-  KEY `fk_user_credential_idx` (`credentialId`),
-  CONSTRAINT `fk_credential_user` FOREIGN KEY (`credentialId`) REFERENCES `user_credential` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  PRIMARY KEY (`credential_id`),
+  KEY `fk_user_credential_idx` (`credential_id`),
+  CONSTRAINT `fk_user_credential_id` FOREIGN KEY (`credential_id`) REFERENCES `user_credentials` (`credential_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -272,12 +272,12 @@ DROP TABLE IF EXISTS `user_roles`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `user_roles` (
   `user_role_id` int(11) NOT NULL AUTO_INCREMENT,
-  `userId` int(11) NOT NULL,
-  `ROLE` varchar(45) NOT NULL,
+  `credential_id` int(11) NOT NULL,
+  `role` varchar(45) NOT NULL,
   PRIMARY KEY (`user_role_id`),
-  UNIQUE KEY `uni_username_role` (`ROLE`,`userId`),
-  KEY `fk_user_credential_idx` (`userId`),
-  CONSTRAINT `fk_user_credential` FOREIGN KEY (`userId`) REFERENCES `user_credential` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  UNIQUE KEY `uni_credential_id_role` (`role`,`credential_id`),
+  KEY `fk_credential_id_idx` (`credential_id`),
+  CONSTRAINT `fk_credential_id` FOREIGN KEY (`credential_id`) REFERENCES `user_credentials` (`credential_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -299,4 +299,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-10-20 13:20:20
+-- Dump completed on 2014-10-21 13:01:50
