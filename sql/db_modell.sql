@@ -1,5 +1,6 @@
 CREATE TABLE user_credentials (
  credential_id INT(10) NOT NULL,
+ username VARCHAR(20) NOT NULL,
  password_hash VARCHAR(128) NOT NULL,
  enabled TINYINT(3) DEFAULT 1 NOT NULL
 );
