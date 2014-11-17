@@ -6,7 +6,9 @@ CREATE TABLE user_credentials (
 );
 
 ALTER TABLE user_credentials ADD CONSTRAINT PK_user_credentials PRIMARY KEY (credential_id);
-
+SET FOREIGN_KEY_CHECKS = 0;
+alter table user_credentials CHANGE credential_id credential_id INT( 10 ) not null AUTO_INCREMENT ;
+SET FOREIGN_KEY_CHECKS = 1;
 
 CREATE TABLE user_profile_data (
  credential_id INT(10) NOT NULL,
@@ -32,7 +34,9 @@ CREATE TABLE user_roles (
 );
 
 ALTER TABLE user_roles ADD CONSTRAINT PK_user_roles PRIMARY KEY (user_role_id);
-
+SET FOREIGN_KEY_CHECKS = 0;
+alter table user_roles CHANGE user_role_id user_role_id INT( 10 ) not null AUTO_INCREMENT ;
+SET FOREIGN_KEY_CHECKS = 1;
 
 CREATE TABLE advertisements (
  advertisement_id INT(10) NOT NULL,
