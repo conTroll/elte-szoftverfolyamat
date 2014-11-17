@@ -1,90 +1,72 @@
-package hu.szoftverfolyamat.entity;
+package hu.szoftverfolyamat.dto;
 
 import java.util.Date;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+public class RegistrationFormDto {
 
-@Entity
-@Table(name = "user_profile_data")
-public class UserProfileData {
-
-	private Long credentialId;
+	private String username;
+	private String password;
 	private String email;
 	private String fullName;
 	private String shortName;
-	private boolean publicHabitat;
+	private Boolean publicHabitat;
 	private String habitat;
-	private boolean publicJobAndWorkplace;
+	private Boolean publicJobAndWorkplace;
 	private String job;
 	private String workplace;
-	private boolean publicBirthday;
+	private Boolean publicBirthday;
 	private Date birthday;
 
-	@Column(name = "birthday")
 	public Date getBirthday() {
 		return this.birthday;
 	}
 
-	@Id
-	@Column(name = "credential_id")
-	public Long getCredentialId() {
-		return this.credentialId;
-	}
-
-	@Column(name = "email")
 	public String getEmail() {
 		return this.email;
 	}
 
-	@Column(name = "full_name")
 	public String getFullName() {
 		return this.fullName;
 	}
 
-	@Column(name = "habitat")
 	public String getHabitat() {
 		return this.habitat;
 	}
 
-	@Column(name = "job")
 	public String getJob() {
 		return this.job;
 	}
 
-	@Column(name = "public_birthday")
-	public boolean getPublicBirthday() {
+	public String getPassword() {
+		return this.password;
+	}
+
+	public Boolean getPublicBirthday() {
 		return this.publicBirthday;
 	}
 
-	@Column(name = "public_habitat")
-	public boolean getPublicHabitat() {
+	public Boolean getPublicHabitat() {
 		return this.publicHabitat;
 	}
 
-	@Column(name = "public_job_and_workplace")
-	public boolean getPublicJobAndWorkplace() {
+	public Boolean getPublicJobAndWorkplace() {
 		return this.publicJobAndWorkplace;
 	}
 
-	@Column(name = "short_name")
 	public String getShortName() {
 		return this.shortName;
 	}
 
-	@Column(name = "workplace")
+	public String getUsername() {
+		return this.username;
+	}
+
 	public String getWorkplace() {
 		return this.workplace;
 	}
 
 	public void setBirthday(Date birthday) {
 		this.birthday = birthday;
-	}
-
-	public void setCredentialId(Long credentialId) {
-		this.credentialId = credentialId;
 	}
 
 	public void setEmail(String email) {
@@ -103,15 +85,19 @@ public class UserProfileData {
 		this.job = job;
 	}
 
-	public void setPublicBirthday(boolean publicBirthday) {
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public void setPublicBirthday(Boolean publicBirthday) {
 		this.publicBirthday = publicBirthday;
 	}
 
-	public void setPublicHabitat(boolean publicHabitat) {
+	public void setPublicHabitat(Boolean publicHabitat) {
 		this.publicHabitat = publicHabitat;
 	}
 
-	public void setPublicJobAndWorkplace(boolean publicJobAndWorkplace) {
+	public void setPublicJobAndWorkplace(Boolean publicJobAndWorkplace) {
 		this.publicJobAndWorkplace = publicJobAndWorkplace;
 	}
 
@@ -119,7 +105,12 @@ public class UserProfileData {
 		this.shortName = shortName;
 	}
 
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
 	public void setWorkplace(String workplace) {
 		this.workplace = workplace;
 	}
+
 }

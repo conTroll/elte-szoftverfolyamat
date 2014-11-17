@@ -17,6 +17,10 @@
 			<groupId>hu.szoftverfolyamat</groupId>
 			<artifactId>szoftverfolyamat-service</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>hu.szoftverfolyamat</groupId>
+			<artifactId>szoftverfolyamat-api</artifactId>
+		</dependency>
 		
 		<dependency>
 			<groupId>junit</groupId>

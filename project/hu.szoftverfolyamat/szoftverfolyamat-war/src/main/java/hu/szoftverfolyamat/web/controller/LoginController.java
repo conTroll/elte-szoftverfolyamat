@@ -9,7 +9,7 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class LoginController {
 
-	private static final String JSP_NAME = "login";
+	public static final String JSP_NAME = "login";
 
 	@RequestMapping(value = "/" + LoginController.JSP_NAME, method = RequestMethod.GET)
 	public ModelAndView handleGet(
@@ -18,8 +18,8 @@ public class LoginController {
 		ModelAndView modelAndView;
 
 		modelAndView = new ModelAndView(LoginController.JSP_NAME);
-		if(error != null) {
-			//TODO szerver oldali hibaüzenet kezelése a bejelentkezésnél
+		if (error != null) {
+			// TODO szerver oldali hibaüzenet kezelése a bejelentkezésnél
 			modelAndView.addObject("error", "error");
 		}
 		return modelAndView;

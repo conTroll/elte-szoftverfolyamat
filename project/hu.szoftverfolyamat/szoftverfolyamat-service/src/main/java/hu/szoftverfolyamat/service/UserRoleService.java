@@ -1,6 +1,7 @@
 package hu.szoftverfolyamat.service;
 
 import hu.szoftverfolyamat.entity.UserRole;
+import hu.szoftverfolyamat.enums.Role;
 import hu.szoftverfolyamat.repository.UserRoleRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,10 +13,16 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserRoleService {
 
 	@Autowired
-    private UserRoleRepository userRoleRepository;
- 
-    public UserRole getRole(long id) {
-        return this.userRoleRepository.findOne(id);
-    }
-    
+	private UserRoleRepository userRoleRepository;
+
+	public UserRole createRole(Long userCredentialId, Role role) {
+		UserRole userRole;
+
+		userRole = new UserRole();
+		userRole.setCredentialId(userCredentialId);
+		userRole.setRole(role.getRoleName());
+
+		return this.userRoleRepository.saveAndFlush(userRole);
+	}
+
 }

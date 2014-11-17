@@ -36,7 +36,6 @@
 							<div class="ui corner label">
 								<i class="asterisk icon"></i>
 							</div>
-							<div class="ui red pointing above ui label">Enter username</div>
 						</div>
 					</div>
 					<div class="field">
@@ -46,7 +45,6 @@
 							<div class="ui corner label">
 								<i class="asterisk icon"></i>
 							</div>
-							<div class="ui red pointing above ui label">Enter password</div>
 						</div>
 					</div>
 					<input type="submit" class="ui blue submit button" value="Login"/>

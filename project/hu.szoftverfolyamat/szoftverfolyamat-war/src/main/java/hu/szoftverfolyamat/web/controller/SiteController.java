@@ -8,7 +8,7 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class SiteController {
 
-	private static final String JSP_NAME = "site";
+	public static final String JSP_NAME = "site";
 
 	@RequestMapping(value = "/" + SiteController.JSP_NAME, method = RequestMethod.GET)
 	public ModelAndView handleGet() {

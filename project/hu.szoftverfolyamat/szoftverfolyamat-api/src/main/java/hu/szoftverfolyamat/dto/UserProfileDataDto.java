@@ -1,15 +1,7 @@
-package hu.szoftverfolyamat.entity;
+package hu.szoftverfolyamat.dto;
 
-import java.util.Date;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
-@Entity
-@Table(name = "user_profile_data")
-public class UserProfileData {
+public class UserProfileDataDto {
 
 	private Long credentialId;
 	private String email;
@@ -21,65 +13,59 @@ public class UserProfileData {
 	private String job;
 	private String workplace;
 	private boolean publicBirthday;
-	private Date birthday;
+	private String birthday;
 
-	@Column(name = "birthday")
-	public Date getBirthday() {
+	public UserProfileDataDto() {
+		this.publicHabitat = false;
+		this.publicJobAndWorkplace = false;
+		this.publicBirthday = false;
+	}
+
+	public String getBirthday() {
 		return this.birthday;
 	}
 
-	@Id
-	@Column(name = "credential_id")
 	public Long getCredentialId() {
 		return this.credentialId;
 	}
 
-	@Column(name = "email")
 	public String getEmail() {
 		return this.email;
 	}
 
-	@Column(name = "full_name")
 	public String getFullName() {
 		return this.fullName;
 	}
 
-	@Column(name = "habitat")
 	public String getHabitat() {
 		return this.habitat;
 	}
 
-	@Column(name = "job")
 	public String getJob() {
 		return this.job;
 	}
 
-	@Column(name = "public_birthday")
 	public boolean getPublicBirthday() {
 		return this.publicBirthday;
 	}
 
-	@Column(name = "public_habitat")
 	public boolean getPublicHabitat() {
 		return this.publicHabitat;
 	}
 
-	@Column(name = "public_job_and_workplace")
 	public boolean getPublicJobAndWorkplace() {
 		return this.publicJobAndWorkplace;
 	}
 
-	@Column(name = "short_name")
 	public String getShortName() {
 		return this.shortName;
 	}
 
-	@Column(name = "workplace")
 	public String getWorkplace() {
 		return this.workplace;
 	}
 
-	public void setBirthday(Date birthday) {
+	public void setBirthday(String birthday) {
 		this.birthday = birthday;
 	}
 

@@ -9,6 +9,11 @@
 	<artifactId>szoftverfolyamat-service</artifactId>
 
 	<dependencies>
+		
+		<dependency>
+			<groupId>hu.szoftverfolyamat</groupId>
+			<artifactId>szoftverfolyamat-api</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
