@@ -12,6 +12,7 @@
 		<module>szoftverfolyamat-war</module>
 	</modules>
 
+	<!--  -->
 	<properties>
 		<junit.version>4.11</junit.version>
 		<spring.version>4.1.2.RELEASE</spring.version>
