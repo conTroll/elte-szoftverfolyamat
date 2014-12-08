@@ -13,4 +13,4 @@
 **Linkek:**
 * [Határidők, feladatok](https://github.com/conTroll/elte-szoftverfolyamat/milestones)
 * [Wiki, dokumentáció](https://github.com/conTroll/elte-szoftverfolyamat/wiki)
-* [Fejlesztői eszközök](https://www.dropbox.com/sh/zsnys74rdxktld3/AADE7VPiXBYB6JwKNUz79XgZa?dl=0)
+* [Fejlesztői eszközök](https://github.com/conTroll/elte-szoftverfolyamat/wiki/Eclipse)
