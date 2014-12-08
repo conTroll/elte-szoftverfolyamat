@@ -25,6 +25,7 @@ CREATE TABLE user_profile_data (
 );
 
 ALTER TABLE user_profile_data ADD CONSTRAINT PK_user_profile_data PRIMARY KEY (credential_id);
+ALTER TABLE user_profile_data ADD COLUMN avatar LONGBLOB NOT NULL;
 
 
 CREATE TABLE user_roles (
@@ -86,6 +87,8 @@ CREATE TABLE posts (
 );
 
 ALTER TABLE posts ADD CONSTRAINT PK_posts PRIMARY KEY (post_id);
+alter table posts CHANGE post_id post_id INT( 10 ) not null AUTO_INCREMENT;
+ALTER TABLE posts ADD COLUMN creation_date DATETIME NOT NULL;
 
 
 CREATE TABLE user_connections (
@@ -104,6 +107,8 @@ CREATE TABLE comments (
 );
 
 ALTER TABLE comments ADD CONSTRAINT PK_comments PRIMARY KEY (comment_id);
+alter table comments CHANGE comment_id comment_id INT( 10 ) not null AUTO_INCREMENT;
+ALTER TABLE comments ADD COLUMN creation_date DATETIME NOT NULL;
 
 
 ALTER TABLE user_profile_data ADD CONSTRAINT FK_user_profile_data_0 FOREIGN KEY (credential_id) REFERENCES user_credentials (credential_id);
