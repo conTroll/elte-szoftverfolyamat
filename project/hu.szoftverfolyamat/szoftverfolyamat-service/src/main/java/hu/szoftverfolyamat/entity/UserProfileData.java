@@ -22,6 +22,12 @@ public class UserProfileData {
 	private String workplace;
 	private boolean publicBirthday;
 	private Date birthday;
+	private byte[] avatar;
+
+	@Column(name = "avatar")
+	public byte[] getAvatar() {
+		return this.avatar;
+	}
 
 	@Column(name = "birthday")
 	public Date getBirthday() {
@@ -77,6 +83,10 @@ public class UserProfileData {
 	@Column(name = "workplace")
 	public String getWorkplace() {
 		return this.workplace;
+	}
+
+	public void setAvatar(byte[] avatar) {
+		this.avatar = avatar;
 	}
 
 	public void setBirthday(Date birthday) {

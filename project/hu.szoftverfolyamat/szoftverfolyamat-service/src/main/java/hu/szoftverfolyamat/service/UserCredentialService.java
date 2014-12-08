@@ -52,6 +52,17 @@ public class UserCredentialService {
 	}
 
 	public UserCredential getUser(String username) {
-		return this.userCredentialsRepository.getUserByUsername(username);
+		UserCredential userCredential;
+
+		userCredential = this.userCredentialsRepository
+				.getUserByUsername(username);
+		userCredential.setUserRole(this.userRoleService
+				.getRoleByCredentialId(userCredential.getCredentialId()));
+		return userCredential;
 	}
+	// TODO userrole fetchelése, hogy egy selectel menyjen!
+	// public UserCredential getUser(String username) {
+	//
+	// return this.userCredentialsRepository.getUserByUsername(username);
+	// }
 }

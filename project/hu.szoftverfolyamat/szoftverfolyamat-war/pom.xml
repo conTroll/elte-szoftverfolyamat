@@ -13,6 +13,13 @@
 	<name>szoftverfolyamat-war Maven Webapp</name>
 
 	<dependencies>
+
+		<dependency>
+			<groupId>org.json</groupId>
+			<artifactId>json</artifactId>
+			<version>${json.version}</version>
+		</dependency>
+
 		<dependency>
 			<groupId>hu.szoftverfolyamat</groupId>
 			<artifactId>szoftverfolyamat-service</artifactId>
@@ -21,7 +28,7 @@
 			<groupId>hu.szoftverfolyamat</groupId>
 			<artifactId>szoftverfolyamat-api</artifactId>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>

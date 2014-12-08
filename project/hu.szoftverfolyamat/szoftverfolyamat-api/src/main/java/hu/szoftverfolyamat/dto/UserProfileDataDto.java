@@ -1,6 +1,5 @@
 package hu.szoftverfolyamat.dto;
 
-
 public class UserProfileDataDto {
 
 	private Long credentialId;
@@ -14,11 +13,14 @@ public class UserProfileDataDto {
 	private String workplace;
 	private boolean publicBirthday;
 	private String birthday;
+	private Long friendNumber;
+	private boolean friend;
 
 	public UserProfileDataDto() {
 		this.publicHabitat = false;
 		this.publicJobAndWorkplace = false;
 		this.publicBirthday = false;
+		this.friend = false;
 	}
 
 	public String getBirthday() {
@@ -31,6 +33,10 @@ public class UserProfileDataDto {
 
 	public String getEmail() {
 		return this.email;
+	}
+
+	public Long getFriendNumber() {
+		return this.friendNumber;
 	}
 
 	public String getFullName() {
@@ -65,6 +71,10 @@ public class UserProfileDataDto {
 		return this.workplace;
 	}
 
+	public boolean isFriend() {
+		return this.friend;
+	}
+
 	public void setBirthday(String birthday) {
 		this.birthday = birthday;
 	}
@@ -75,6 +85,14 @@ public class UserProfileDataDto {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public void setFriend(boolean friend) {
+		this.friend = friend;
+	}
+
+	public void setFriendNumber(Long friendNumber) {
+		this.friendNumber = friendNumber;
 	}
 
 	public void setFullName(String fullName) {

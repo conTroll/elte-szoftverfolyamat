@@ -21,11 +21,19 @@
 		<mysql.connector.version>5.1.34</mysql.connector.version>
 		<spring-data-jpa.version>1.7.1.RELEASE</spring-data-jpa.version>
 		<hu-szoftverfolyamat.version>0.0.1-SNAPSHOT</hu-szoftverfolyamat.version>
+		<json.version>20140107</json.version>
 	</properties>
 
 	<dependencyManagement>
 		<dependencies>
-		
+
+			<dependency>
+				<groupId>org.json</groupId>
+				<artifactId>json</artifactId>
+				<version>${json.version}</version>
+			</dependency>
+
+
 			<dependency>
 				<groupId>hu.szoftverfolyamat</groupId>
 				<artifactId>szoftverfolyamat-api</artifactId>
@@ -41,7 +49,7 @@
 				<artifactId>szoftverfolyamat-war</artifactId>
 				<version>${hu-szoftverfolyamat.version}</version>
 			</dependency>
-		
+
 			<dependency>
 				<groupId>junit</groupId>
 				<artifactId>junit</artifactId>
@@ -117,10 +125,10 @@
 				<version>${spring.version}</version>
 			</dependency>
 			<dependency>
-			<groupId>org.springframework.data</groupId>
-			<artifactId>spring-data-jpa</artifactId>
-			<version>${spring-data-jpa.version}</version>
-		</dependency>
+				<groupId>org.springframework.data</groupId>
+				<artifactId>spring-data-jpa</artifactId>
+				<version>${spring-data-jpa.version}</version>
+			</dependency>
 			<dependency>
 				<groupId>org.springframework</groupId>
 				<artifactId>spring-orm</artifactId>

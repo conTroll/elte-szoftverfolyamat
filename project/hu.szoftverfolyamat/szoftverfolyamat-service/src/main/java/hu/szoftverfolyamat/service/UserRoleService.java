@@ -25,4 +25,8 @@ public class UserRoleService {
 		return this.userRoleRepository.saveAndFlush(userRole);
 	}
 
+	public UserRole getRoleByCredentialId(Long userCredentialId) {
+		return this.userRoleRepository.getByUserCredentialId(userCredentialId);
+	}
+
 }
