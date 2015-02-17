@@ -6,9 +6,11 @@
 **IDE:** Spring Tool Suite (Eclipse)  
 
 **Csapattagok:**
-* Bitai Zoltán
 * Elekes Tamás
 * Rónai Péter
+* Simon Bence
+* Pető Bence
+* Tóth Gábor
 
 **Linkek:**
 * [Határidők, feladatok](https://github.com/conTroll/elte-szoftverfolyamat/milestones)
