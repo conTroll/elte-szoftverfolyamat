@@ -77,5 +77,4 @@ public class UserCredential {
 	public void setUserRole(UserRole userRole) {
 		this.userRole = userRole;
 	}
-
 }

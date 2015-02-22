@@ -15,16 +15,14 @@
 	<jpa:repositories base-package="hu.szoftverfolyamat.repository" />
 	
 	<!-- Datasource -->
-	<bean id="dataSource"
-		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
 		<property name="url" value="jdbc:mysql://localhost:3306/elte_szoftverfolyamat" />
-		<property name="username" value="elekest" />
-		<property name="password" value="cvw5e8" />
+		<property name="username" value="root" />
+		<property name="password" value="root" />
 	</bean>
 
-	<bean id="entityManagerFactory"
-		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+	<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
 		<property name="dataSource" ref="dataSource" />
 		<property name="packagesToScan" value="hu.szoftverfolyamat.entity" />
 		<property name="jpaVendorAdapter">
@@ -41,9 +39,9 @@
 	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
 		<property name="entityManagerFactory" ref="entityManagerFactory" />
 	</bean>
+
 	<bean id="customUserProfileDataRepositoryImpl" class="hu.szoftverfolyamat.repository.CustomUserProfileDataRepositoryImpl" />
 
 	<!-- Services -->
 	<context:component-scan base-package="hu.szoftverfolyamat.service" />
-	
 </beans>

@@ -33,5 +33,4 @@ public class UserConnectionEntity {
 	public void setCredentialId2(long credentialId2) {
 		this.credentialId2 = credentialId2;
 	};
-
 }

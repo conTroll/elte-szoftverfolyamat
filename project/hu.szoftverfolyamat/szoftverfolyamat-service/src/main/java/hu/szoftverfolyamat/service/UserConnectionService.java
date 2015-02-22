@@ -17,43 +17,31 @@ public class UserConnectionService {
 	@Autowired
 	private UserConnectionsRepository userConnectionsRepository;
 
-	public void createUserConnection(Long userCredentialId1,
-			Long userCredentialId2) {
-		UserConnectionEntity connectionEntity;
+	public void createUserConnection(final Long userCredentialId1, final Long userCredentialId2) {
+		final UserConnectionEntity connectionEntity1 = new UserConnectionEntity();
+		connectionEntity1.setCredentialId1(userCredentialId1);
+		connectionEntity1.setCredentialId2(userCredentialId2);
+		userConnectionsRepository.saveAndFlush(connectionEntity1);
 
-		connectionEntity = new UserConnectionEntity();
-		connectionEntity.setCredentialId1(userCredentialId1);
-		connectionEntity.setCredentialId2(userCredentialId2);
-
-		this.userConnectionsRepository.saveAndFlush(connectionEntity);
-
-		connectionEntity = new UserConnectionEntity();
-		connectionEntity.setCredentialId1(userCredentialId2);
-		connectionEntity.setCredentialId2(userCredentialId1);
-
-		this.userConnectionsRepository.saveAndFlush(connectionEntity);
+        final UserConnectionEntity connectionEntity2 = new UserConnectionEntity();
+		connectionEntity2.setCredentialId1(userCredentialId2);
+		connectionEntity2.setCredentialId2(userCredentialId1);
+		userConnectionsRepository.saveAndFlush(connectionEntity2);
 	}
 
-	public void deleteUserConnection(Long userCredentialId1,
-			Long userCredentialId2) {
-		UserConnectionId connectionId;
+	public void deleteUserConnection(final Long userCredentialId1, final Long userCredentialId2) {
+		final UserConnectionId connectionId1 = new UserConnectionId();
+		connectionId1.setCredentialId1(userCredentialId1);
+		connectionId1.setCredentialId2(userCredentialId2);
+		userConnectionsRepository.delete(connectionId1);
 
-		connectionId = new UserConnectionId();
-		connectionId.setCredentialId1(userCredentialId1);
-		connectionId.setCredentialId2(userCredentialId2);
-
-		this.userConnectionsRepository.delete(connectionId);
-
-		connectionId = new UserConnectionId();
-		connectionId.setCredentialId1(userCredentialId2);
-		connectionId.setCredentialId2(userCredentialId1);
-
-		this.userConnectionsRepository.delete(connectionId);
-
+        final UserConnectionId connectionId2 = new UserConnectionId();
+		connectionId2.setCredentialId1(userCredentialId2);
+		connectionId2.setCredentialId2(userCredentialId1);
+		userConnectionsRepository.delete(connectionId2);
 	}
 
-	public List<Long> getFriendsIdByUserCredentialId(Long credentialId) {
-		return this.userConnectionsRepository
-				.getFriendsIdByUserCredentialId(credentialId);
+	public List<Long> getFriendsIdByUserCredentialId(final Long credentialId) {
+		return userConnectionsRepository.getFriendsIdByUserCredentialId(credentialId);
 	}
 }

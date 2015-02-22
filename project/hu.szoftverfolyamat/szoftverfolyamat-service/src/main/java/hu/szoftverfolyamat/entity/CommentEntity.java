@@ -68,5 +68,4 @@ public class CommentEntity {
 	public void setUserProfileData(UserProfileData userProfileData) {
 		this.userProfileData = userProfileData;
 	}
-
 }

@@ -15,18 +15,15 @@ public class UserRoleService {
 	@Autowired
 	private UserRoleRepository userRoleRepository;
 
-	public UserRole createRole(Long userCredentialId, Role role) {
-		UserRole userRole;
-
-		userRole = new UserRole();
+	public UserRole createRole(final Long userCredentialId, final Role role) {
+		UserRole userRole = new UserRole();
 		userRole.setCredentialId(userCredentialId);
 		userRole.setRole(role.getRoleName());
-
-		return this.userRoleRepository.saveAndFlush(userRole);
+		return userRoleRepository.saveAndFlush(userRole);
 	}
 
-	public UserRole getRoleByCredentialId(Long userCredentialId) {
-		return this.userRoleRepository.getByUserCredentialId(userCredentialId);
+	public UserRole getRoleByCredentialId(final Long userCredentialId) {
+		return userRoleRepository.getByUserCredentialId(userCredentialId);
 	}
 
 }

@@ -23,29 +23,23 @@ public class CustomUserDetailsService implements UserDetailsService {
 
 	@Autowired
 	private UserCredentialService userCredentialService;
-	
-	@Autowired
-	private UserRoleService userRoleService;
      
-    private Collection<? extends GrantedAuthority> getGrantedAuthorities(UserRole userRole) {
-    	List<GrantedAuthority> authorities;
-    	
-    	authorities = new ArrayList<GrantedAuthority>();
+    private Collection<? extends GrantedAuthority> getGrantedAuthorities(final UserRole userRole) {
+    	final List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
     	authorities.add(new SimpleGrantedAuthority(userRole.getRole()));
-    	
     	return authorities;
     }
     
-    public UserDetails loadUserByUsername(String username)
-			throws UsernameNotFoundException {
-		UserCredential userCredential;
-		
-		userCredential = this.userCredentialService.getUser(username);
-		if(userCredential != null) {
-			return new User(userCredential.getUsername(), userCredential.getPassword(), userCredential.isEnabled(), true, true, true, this.getGrantedAuthorities(userCredential.getUserRole()));
-		}
-		return null;
+    public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException {
+		final UserCredential userCredential  = this.userCredentialService.getUser(username);
+
+		return (userCredentialService.getUser(username) != null)
+            ? getUser(userCredential)
+            : null;
 	}
 
-	
+    private User getUser(final UserCredential userCredential) {
+        return new User(userCredential.getUsername(), userCredential.getPassword(), userCredential.isEnabled(),
+                true, true, true, this.getGrantedAuthorities(userCredential.getUserRole()));
+    }
 }

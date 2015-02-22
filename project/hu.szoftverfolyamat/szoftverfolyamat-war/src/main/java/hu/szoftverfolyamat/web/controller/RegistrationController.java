@@ -17,7 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class RegistrationController {
 
-	public static final String JSP_NAME = "registration";
+	private static final String JSP_NAME = "registration";
 
 	@Autowired
 	private UserCredentialService userCredentialService;
@@ -51,31 +51,27 @@ public class RegistrationController {
 	// return userCredentialDto;
 	// }
 
-	@RequestMapping(value = "/" + RegistrationController.JSP_NAME, method = RequestMethod.GET)
+	@RequestMapping(value = "/" + JSP_NAME, method = RequestMethod.GET)
 	public ModelAndView handleGet() {
-		ModelAndView modelAndView;
-		UserCredentialDto userCredentialDto;
-
-		userCredentialDto = new UserCredentialDto();
+        final UserCredentialDto userCredentialDto = new UserCredentialDto();
 		userCredentialDto.setUserProfileDataDto(new UserProfileDataDto());
 
-		modelAndView = new ModelAndView(RegistrationController.JSP_NAME);
-		modelAndView.addObject("userCredentialDto", userCredentialDto);
-		return modelAndView;
+        final  ModelAndView result = new ModelAndView(JSP_NAME);
+		result.addObject("userCredentialDto", userCredentialDto);
+		return result;
 	}
 
-	@RequestMapping(value = "/" + RegistrationController.JSP_NAME, method = RequestMethod.POST)
-	public ModelAndView register(
-			@ModelAttribute(value = "userCredentialDto") UserCredentialDto userCredentialDto)
-			throws ParseException {
+	@RequestMapping(value = "/" + JSP_NAME, method = RequestMethod.POST)
+	public ModelAndView register(@ModelAttribute(value = "userCredentialDto") UserCredentialDto userCredentialDto)  throws ParseException {
 		ModelAndView modelAndView;
 
 		try {
-			this.userCredentialService.createUserCredential(userCredentialDto);
+			userCredentialService.createUserCredential(userCredentialDto);
+            // TODO RedirectView instead
 			modelAndView = new ModelAndView("redirect:"
 					+ LoginController.JSP_NAME);
 		} catch (UserServiceException e) {
-			modelAndView = new ModelAndView(RegistrationController.JSP_NAME);
+			modelAndView = new ModelAndView(JSP_NAME);
 			// TODO hibakódok és hibaüzenetek bevezetése
 			modelAndView.addObject("error", "error");
 		}

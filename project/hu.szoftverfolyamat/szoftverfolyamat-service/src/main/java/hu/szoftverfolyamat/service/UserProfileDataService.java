@@ -29,73 +29,57 @@ public class UserProfileDataService {
 	@Autowired
 	private CustomUserProfileDataRepositoryImpl customUserProfileDataRepositoryImpl;
 
-	public UserProfileData createUserProfileData(Long userCredentialId,
-			UserProfileDataDto userProfileDataDto) throws UserServiceException,
-			ParseException {
-		UserProfileData userProfileData;
+	public UserProfileData createUserProfileData(final Long userCredentialId, final UserProfileDataDto userProfileDataDto)
+            throws UserServiceException, ParseException {
 
-		userProfileData = this.userProfileDataRepository
-				.findOne(userCredentialId);
-		if (userProfileData != null) {
-			throw new UserServiceException(
-					"Can not create user with userCredentialId: '"
-							+ userCredentialId
-							+ "', because user already exists!");
+		if (userProfileDataRepository.findOne(userCredentialId) != null) {
+			throw new UserServiceException("Can not create user with userCredentialId: '" + userCredentialId + "', because user already exists!");
 		}
-		userProfileData = new UserProfileData();
+
+		final UserProfileData userProfileData = new UserProfileData();
 		userProfileData.setCredentialId(userCredentialId);
-		userProfileData.setBirthday(new SimpleDateFormat("YYYY.MM.dd",
-				Locale.ENGLISH).parse(userProfileDataDto.getBirthday()));
+		userProfileData.setBirthday(new SimpleDateFormat("YYYY.MM.dd", Locale.ENGLISH).parse(userProfileDataDto.getBirthday()));
 		userProfileData.setEmail(userProfileDataDto.getEmail());
 		userProfileData.setFullName(userProfileDataDto.getFullName());
 		userProfileData.setHabitat(userProfileDataDto.getHabitat());
 		userProfileData.setJob(userProfileDataDto.getJob());
-		userProfileData.setPublicBirthday(userProfileDataDto
-				.getPublicBirthday());
-		userProfileData.setPublicHabitat(userProfileDataDto.getPublicHabitat());
-		userProfileData.setPublicJobAndWorkplace(userProfileDataDto
-				.getPublicJobAndWorkplace());
+		userProfileData.setPublicBirthday(userProfileDataDto.isPublicBirthday());
+		userProfileData.setPublicHabitat(userProfileDataDto.isPublicHabitat());
+		userProfileData.setPublicJobAndWorkplace(userProfileDataDto.isPublicJobAndWorkplace());
 		userProfileData.setShortName(userProfileDataDto.getShortName());
 		userProfileData.setWorkplace(userProfileDataDto.getWorkplace());
 
-		return this.userProfileDataRepository.saveAndFlush(userProfileData);
+		return userProfileDataRepository.saveAndFlush(userProfileData);
 	}
 
-	public UserProfileData findByUserCredentialId(long id) {
-		return this.userProfileDataRepository.findOne(id);
+	public UserProfileData findByUserCredentialId(final long id) {
+		return userProfileDataRepository.findOne(id);
 	}
 
-	public List<UserProfileDataDto> getFriendsByUserId(Long userCredentialId) {
-		List<Long> friendsId;
-		List<UserProfileDataDto> result;
+	public List<UserProfileDataDto> getFriendsByUserId(final Long userCredentialId) {
+        final List<Long> friendsId = userConnectionService.getFriendsIdByUserCredentialId(userCredentialId);
+        final List<UserProfileDataDto> result = parseEntitiesToDtos(userProfileDataRepository.findAll(friendsId));
 
-		friendsId = this.userConnectionService
-				.getFriendsIdByUserCredentialId(userCredentialId);
-		result = this.parseEntitiesToDtos(this.userProfileDataRepository
-				.findAll(friendsId));
-		for (UserProfileDataDto dataDto : result) {
+		for (final UserProfileDataDto dataDto : result) {
 			dataDto.setFriend(true);
 		}
+
 		return result;
 	}
 
-	public List<UserProfileDataDto> parseEntitiesToDtos(
-			List<UserProfileData> entities) {
-		List<UserProfileDataDto> dtos;
+	private List<UserProfileDataDto> parseEntitiesToDtos(final List<UserProfileData> entities) {
+		final List<UserProfileDataDto> dtos = new ArrayList<UserProfileDataDto>();
 
-		dtos = new ArrayList<UserProfileDataDto>();
-		for (UserProfileData entity : entities) {
+		for (final UserProfileData entity : entities) {
 			dtos.add(this.parseEntityToDto(entity));
 		}
+
 		return dtos;
 	}
 
-	public UserProfileDataDto parseEntityToDto(UserProfileData entity) {
-		UserProfileDataDto dto;
-
-		dto = new UserProfileDataDto();
-		dto.setBirthday(new SimpleDateFormat("YYYY.MM.dd").format(entity
-				.getBirthday()));
+	public UserProfileDataDto parseEntityToDto(final UserProfileData entity) {
+		final UserProfileDataDto dto  = new UserProfileDataDto();
+		dto.setBirthday(new SimpleDateFormat("YYYY.MM.dd").format(entity.getBirthday()));
 		dto.setCredentialId(entity.getCredentialId());
 		dto.setEmail(entity.getEmail());
 		dto.setFullName(entity.getFullName());
@@ -106,69 +90,25 @@ public class UserProfileDataService {
 		dto.setPublicJobAndWorkplace(entity.getPublicJobAndWorkplace());
 		dto.setShortName(entity.getShortName());
 		dto.setWorkplace(entity.getWorkplace());
-		dto.setFriendNumber((long) this.userConnectionService
-				.getFriendsIdByUserCredentialId(entity.getCredentialId())
-				.size());
+		dto.setFriendNumber((long) userConnectionService.getFriendsIdByUserCredentialId(entity.getCredentialId()).size());
 		return dto;
 	}
 
-	public List<UserProfileDataDto> searchUserProfileDataDtos(
-			Long credentialId, String emailAddress, String fullName,
-			String place, String job) {
-		List<UserProfileDataDto> dataDtos;
-		List<Long> friendIds;
-		List<UserProfileDataDto> result;
+	public List<UserProfileDataDto> searchUserProfileDataDtos(final Long credentialId, final String emailAddress,
+            final String fullName, final String place, final String job) {
+        final List<Long> friendIds = userConnectionService.getFriendsIdByUserCredentialId(credentialId);
+        final List<UserProfileDataDto> dataDtos = parseEntitiesToDtos(
+                customUserProfileDataRepositoryImpl.searchUserProfileData(emailAddress, fullName, place, job));
+        final List<UserProfileDataDto> result = new ArrayList<UserProfileDataDto>();
 
-		friendIds = this.userConnectionService
-				.getFriendsIdByUserCredentialId(credentialId);
-		dataDtos = this
-				.parseEntitiesToDtos(this.customUserProfileDataRepositoryImpl
-						.searchUserProfileData(emailAddress, fullName, place,
-								job));
-
-		result = new ArrayList<UserProfileDataDto>();
-		for (UserProfileDataDto dataDto : dataDtos) {
+		for (final UserProfileDataDto dataDto : dataDtos) {
 			if (dataDto.getCredentialId() != credentialId) {
 				dataDtos.remove(dataDto);
-				if (friendIds.contains(dataDto.getCredentialId())) {
-					dataDto.setFriend(true);
-				} else {
-					dataDto.setFriend(false);
-				}
+                dataDto.setFriend(friendIds.contains(dataDto.getCredentialId()));
 				result.add(dataDto);
 			}
 		}
+
 		return result;
-	}
-
-	public UserProfileData updateUserProfileData(Long userCredentialId,
-			UserProfileDataDto userProfileDataDto) throws UserServiceException,
-			ParseException {
-		UserProfileData userProfileData;
-
-		userProfileData = this.userProfileDataRepository
-				.findOne(userCredentialId);
-		if (userProfileData == null) {
-			throw new UserServiceException(
-					"Can not update user with userCredentialId: '"
-							+ userCredentialId
-							+ "', because user is not exist!");
-		}
-		userProfileData = new UserProfileData();
-		userProfileData.setBirthday(new SimpleDateFormat("YYYY.MM.dd",
-				Locale.ENGLISH).parse(userProfileDataDto.getBirthday()));
-		userProfileData.setEmail(userProfileDataDto.getEmail());
-		userProfileData.setFullName(userProfileDataDto.getFullName());
-		userProfileData.setHabitat(userProfileDataDto.getHabitat());
-		userProfileData.setJob(userProfileDataDto.getJob());
-		userProfileData.setPublicBirthday(userProfileDataDto
-				.getPublicBirthday());
-		userProfileData.setPublicHabitat(userProfileDataDto.getPublicHabitat());
-		userProfileData.setPublicJobAndWorkplace(userProfileDataDto
-				.getPublicJobAndWorkplace());
-		userProfileData.setShortName(userProfileDataDto.getShortName());
-		userProfileData.setWorkplace(userProfileDataDto.getWorkplace());
-
-		return this.userProfileDataRepository.saveAndFlush(userProfileData);
 	}
 }

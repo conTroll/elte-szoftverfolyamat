@@ -21,10 +21,12 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class ContactsController {
 
-	public static final String JSP_NAME = "viewContacts";
-	public static final String SEARCH_CONTRACTS = "searchContacts";
-	public static final String DELETE_CONTRACT = "deleteContact";
-	public static final String ADD_CONTRACT = "addContact";
+    // TODO a SpringMVC tamogatja, hogy o feloldja a JSON-t, majd megnezem, hogy csinaltuk
+
+    private static final String JSP_NAME = "viewContacts";
+    private static final String SEARCH_CONTRACTS = "searchContacts";
+    private static final String DELETE_CONTRACT = "deleteContact";
+    private static final String ADD_CONTRACT = "addContact";
 
 	@Autowired
 	private UserProfileDataService userProfileDataService;
@@ -36,103 +38,73 @@ public class ContactsController {
 	private UserCredentialService userCredentialService;
 
 	@Secured({ "ROLE_USER", "ROLE_ADMIN" })
-	@RequestMapping(value = "/" + ContactsController.ADD_CONTRACT, method = RequestMethod.POST)
+	@RequestMapping(value = "/" + ADD_CONTRACT, method = RequestMethod.POST)
 	public ModelAndView addContact(Principal principal, @RequestBody String text) {
-		ModelAndView modelAndView;
-		Long userId;
-		String postContent;
-
-		userId = this.userCredentialService.getUser(principal.getName())
-				.getCredentialId();
+		final Long userId = userCredentialService.getUser(principal.getName()).getCredentialId();
 
 		if ((text != null) && text.startsWith("id=")) {
-			postContent = text.replace("id=contact", "");
+            final String postContent = text.replace("id=contact", "");
+
 			if (!postContent.isEmpty()) {
-				this.userConnectionService.createUserConnection(userId,
-						Long.parseLong(postContent));
+				userConnectionService.createUserConnection(userId, Long.parseLong(postContent));
 			}
 		}
 
-		modelAndView = new ModelAndView(ContactsController.JSP_NAME);
-		modelAndView.addObject("contactList", this.userProfileDataService
-				.getFriendsByUserId(this.extractIdFromPrincipal(principal)));
-		return modelAndView;
+		final ModelAndView result = new ModelAndView(JSP_NAME);
+		result.addObject("contactList", userProfileDataService.getFriendsByUserId(extractIdFromPrincipal(principal)));
+		return result;
 	}
 
 	@Secured({ "ROLE_USER", "ROLE_ADMIN" })
-	@RequestMapping(value = "/" + ContactsController.DELETE_CONTRACT, method = RequestMethod.POST)
-	public ModelAndView deleteContact(Principal principal,
-			@RequestBody String text) {
-		ModelAndView modelAndView;
-		Long userId;
-		String postContent;
-
-		userId = this.userCredentialService.getUser(principal.getName())
-				.getCredentialId();
+	@RequestMapping(value = "/" + DELETE_CONTRACT, method = RequestMethod.POST)
+	public ModelAndView deleteContact(Principal principal, @RequestBody String text) {
+		final Long userId = userCredentialService.getUser(principal.getName()).getCredentialId();
 
 		if ((text != null) && text.startsWith("id=")) {
-			postContent = text.replace("id=contact", "");
+			final String postContent = text.replace("id=contact", "");
+
 			if (!postContent.isEmpty()) {
-				this.userConnectionService.deleteUserConnection(userId,
-						Long.parseLong(postContent));
+				userConnectionService.deleteUserConnection(userId, Long.parseLong(postContent));
 			}
 		}
 
-		modelAndView = new ModelAndView(ContactsController.JSP_NAME);
-		modelAndView.addObject("contactList", this.userProfileDataService
-				.getFriendsByUserId(this.extractIdFromPrincipal(principal)));
-		return modelAndView;
+        final ModelAndView result = new ModelAndView(JSP_NAME);
+		result.addObject("contactList", userProfileDataService.getFriendsByUserId(extractIdFromPrincipal(principal)));
+		return result;
 	}
 
 	private Long extractIdFromPrincipal(Principal principal) {
-		return this.userCredentialService.getUser(principal.getName())
-				.getCredentialId();
+		return this.userCredentialService.getUser(principal.getName()).getCredentialId();
 	}
 
 	@Secured({ "ROLE_USER", "ROLE_ADMIN" })
-	@RequestMapping(value = "/" + ContactsController.SEARCH_CONTRACTS, method = RequestMethod.GET)
+	@RequestMapping(value = "/" + SEARCH_CONTRACTS, method = RequestMethod.GET)
 	public ModelAndView getSearch() {
-		ModelAndView modelAndView;
-
-		modelAndView = new ModelAndView(ContactsController.SEARCH_CONTRACTS);
-		return modelAndView;
+		return new ModelAndView(SEARCH_CONTRACTS);
 	}
 
 	@Secured({ "ROLE_USER", "ROLE_ADMIN" })
-	@RequestMapping(value = "/" + ContactsController.JSP_NAME, method = RequestMethod.GET)
+	@RequestMapping(value = "/" + JSP_NAME, method = RequestMethod.GET)
 	public ModelAndView handleGet(Principal principal) {
-		ModelAndView modelAndView;
-
-		modelAndView = new ModelAndView(ContactsController.JSP_NAME);
-		modelAndView.addObject("contactList", this.userProfileDataService
-				.getFriendsByUserId(this.extractIdFromPrincipal(principal)));
-		return modelAndView;
+		final ModelAndView result = new ModelAndView(JSP_NAME);
+		result.addObject("contactList", userProfileDataService.getFriendsByUserId(extractIdFromPrincipal(principal)));
+		return result;
 	}
 
 	@Secured({ "ROLE_USER", "ROLE_ADMIN" })
-	@RequestMapping(value = "/" + ContactsController.SEARCH_CONTRACTS, method = RequestMethod.POST)
-	public ModelAndView search(Principal principal, @RequestBody String text)
-			throws JSONException, UnsupportedEncodingException {
-		ModelAndView modelAndView;
-		JSONObject obj;
-		String email;
-		String fullName;
-		String place;
-		String job;
+	@RequestMapping(value = "/" + SEARCH_CONTRACTS, method = RequestMethod.POST)
+	public ModelAndView search(Principal principal, @RequestBody String text) throws JSONException, UnsupportedEncodingException {
+		final String encodedText = URLDecoder.decode(text, "UTF-8");
+        final JSONObject jsonObject = new JSONObject(encodedText);
+        final ModelAndView result = new ModelAndView(SEARCH_CONTRACTS);
+		result.addObject("contactList", userProfileDataService.searchUserProfileDataDtos(
+                extractIdFromPrincipal(principal),
+                jsonObject.getString("email"),
+                jsonObject.getString("fullName"),
+                jsonObject.getString("place"),
+                jsonObject.getString("job")
+        ));
 
-		String encoded = URLDecoder.decode(text, "UTF-8");
-
-		obj = new JSONObject(encoded);
-		email = obj.getString("email");
-		fullName = obj.getString("fullName");
-		place = obj.getString("place");
-		job = obj.getString("job");
-
-		modelAndView = new ModelAndView(ContactsController.SEARCH_CONTRACTS);
-		modelAndView.addObject("contactList", this.userProfileDataService
-				.searchUserProfileDataDtos(
-						this.extractIdFromPrincipal(principal), email,
-						fullName, place, job));
-		return modelAndView;
+		return result;
 	}
 }

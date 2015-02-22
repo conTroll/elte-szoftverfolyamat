@@ -29,57 +29,43 @@ public class PostService {
 	@Autowired
 	private UserConnectionService userConnectionService;
 
-	public void createNewPost(String text, long ownerId) {
-		PostEntity postEntity;
-
-		postEntity = new PostEntity();
-		postEntity.setUserProfileData(this.userProfileDataService
-				.findByUserCredentialId(ownerId));
+	public void createNewPost(final String text, final long ownerId) {
+		final PostEntity postEntity  = new PostEntity();
+		postEntity.setUserProfileData(userProfileDataService.findByUserCredentialId(ownerId));
 		postEntity.setText(text);
 		postEntity.setCreationDate(new Date());
-
-		this.postRepository.saveAndFlush(postEntity);
+		postRepository.saveAndFlush(postEntity);
 	}
 
-	public void deletePost(long postId) {
-		PostEntity postEntity;
+	public void deletePost(final long postId) {
+		final PostEntity postEntity = postRepository.findOne(postId);
 
-		postEntity = this.postRepository.findOne(postId);
 		if (postEntity != null) {
-			this.commentService.deleteComments(postEntity.getCommentEntities());
-			this.postRepository.delete(postEntity);
+			commentService.deleteComments(postEntity.getCommentEntities());
+			postRepository.delete(postEntity);
 		}
-
 	}
 
-	public List<PostDto> getPostsForUser(long id) {
-		List<Long> ids;
-
-		ids = this.userConnectionService.getFriendsIdByUserCredentialId(id);
+	public List<PostDto> getPostsForUser(final long id) {
+		List<Long> ids = userConnectionService.getFriendsIdByUserCredentialId(id);
 		ids.add(id);
-		return this.parseEntitiesToDtos(this.postRepository
-				.findByAuthorIds(ids));
+		return parseEntitiesToDtos(postRepository.findByAuthorIds(ids));
 	}
 
-	private List<PostDto> parseEntitiesToDtos(List<PostEntity> entities) {
-		List<PostDto> dtos;
-		PostDto dto;
+	private List<PostDto> parseEntitiesToDtos(final List<PostEntity> entities) {
+		final List<PostDto> dtos = new ArrayList<PostDto>();
 
-		dtos = new ArrayList<PostDto>();
-		for (PostEntity entity : entities) {
-			dto = new PostDto();
-			dto.setUserProfileDataDto(this.userProfileDataService
-					.parseEntityToDto(entity.getUserProfileData()));
-			dto.setAuthorCredentialId(entity.getUserProfileData()
-					.getCredentialId());
+		for (final PostEntity entity : entities) {
+            final PostDto dto = new PostDto();
+			dto.setUserProfileDataDto(userProfileDataService.parseEntityToDto(entity.getUserProfileData()));
+			dto.setAuthorCredentialId(entity.getUserProfileData().getCredentialId());
 			dto.setPostId(entity.getPostId());
 			dto.setText(entity.getText());
-			dto.setCreationDate(new SimpleDateFormat("YYYY.MM.dd HH:mm:ss")
-					.format(entity.getCreationDate()));
-			dto.setCommentDtos(this.commentService.parseEntitiesToDtos(entity
-					.getCommentEntities()));
+			dto.setCreationDate(new SimpleDateFormat("YYYY.MM.dd HH:mm:ss").format(entity.getCreationDate()));
+			dto.setCommentDtos(commentService.parseEntitiesToDtos(entity.getCommentEntities()));
 			dtos.add(dto);
 		}
+
 		return dtos;
 	}
 }

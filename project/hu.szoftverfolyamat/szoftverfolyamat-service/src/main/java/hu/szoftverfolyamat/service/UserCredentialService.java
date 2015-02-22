@@ -25,42 +25,30 @@ public class UserCredentialService {
 	@Autowired
 	private UserRoleService userRoleService;
 
-	public UserCredential createUserCredential(
-			UserCredentialDto userCredentialDto) throws UserServiceException,
-			ParseException {
-		UserCredential userCredential;
-
-		userCredential = this.userCredentialsRepository
-				.getUserByUsername(userCredentialDto.getUsername());
-		if (userCredential != null) {
-			throw new UserServiceException("Can not create user with name '"
-					+ userCredentialDto.getUsername()
-					+ "', because name already exists!");
+	public UserCredential createUserCredential(final UserCredentialDto userCredentialDto) throws UserServiceException, ParseException {
+		if (userCredentialsRepository.getUserByUsername(userCredentialDto.getUsername()) != null) {
+			throw new UserServiceException("Can not create user with name '" + userCredentialDto.getUsername() + "', because name already exists!");
 		}
-		userCredential = new UserCredential();
+
+		UserCredential userCredential = new UserCredential();
 		userCredential.setEnabled(true);
 		userCredential.setPassword(userCredentialDto.getPassword());
 		userCredential.setUsername(userCredentialDto.getUsername());
-		userCredential = this.userCredentialsRepository
-				.saveAndFlush(userCredential);
-		userCredential.setUserProfileData(this.userProfileDataService
-				.createUserProfileData(userCredential.getCredentialId(),
-						userCredentialDto.getUserProfileDataDto()));
-		userCredential.setUserRole(this.userRoleService.createRole(
-				userCredential.getCredentialId(), Role.ROLE_USER));
-		return this.userCredentialsRepository.saveAndFlush(userCredential);
+
+        userCredential = userCredentialsRepository.saveAndFlush(userCredential);
+		userCredential.setUserProfileData(userProfileDataService
+                .createUserProfileData(userCredential.getCredentialId(), userCredentialDto.getUserProfileDataDto()));
+        userCredential.setUserRole(userRoleService.createRole(userCredential.getCredentialId(), Role.ROLE_USER));
+		return userCredentialsRepository.saveAndFlush(userCredential);
 	}
 
 	public UserCredential getUser(String username) {
-		UserCredential userCredential;
-
-		userCredential = this.userCredentialsRepository
-				.getUserByUsername(username);
-		userCredential.setUserRole(this.userRoleService
-				.getRoleByCredentialId(userCredential.getCredentialId()));
+		final UserCredential userCredential  = userCredentialsRepository.getUserByUsername(username);
+		userCredential.setUserRole(userRoleService.getRoleByCredentialId(userCredential.getCredentialId()));
 		return userCredential;
 	}
-	// TODO userrole fetchelése, hogy egy selectel menyjen!
+
+	// TODO userrole fetchelese, hogy egy selectel menyjen!
 	// public UserCredential getUser(String username) {
 	//
 	// return this.userCredentialsRepository.getUserByUsername(username);

@@ -4,10 +4,8 @@ import java.io.Serializable;
 
 public class UserConnectionId implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1292409400291822898L;
+
 	private long credentialId1;
 	private long credentialId2;
 

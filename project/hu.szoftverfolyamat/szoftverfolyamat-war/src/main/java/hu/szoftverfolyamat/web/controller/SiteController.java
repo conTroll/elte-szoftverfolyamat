@@ -15,7 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class SiteController {
 
-	public static final String JSP_NAME = "site";
+	private static final String JSP_NAME = "site";
 
 	@Autowired
 	private PostService postService;
@@ -24,17 +24,13 @@ public class SiteController {
 	private UserCredentialService userCredentialService;
 
 	@Secured({ "ROLE_USER", "ROLE_ADMIN" })
-	@RequestMapping(value = "/" + SiteController.JSP_NAME, method = RequestMethod.GET)
-	public ModelAndView handleGet(Principal principal) {
-		ModelAndView modelAndView;
-
-		modelAndView = new ModelAndView(SiteController.JSP_NAME);
-		modelAndView.addObject("username", principal.getName());
-		modelAndView.addObject("currentUserId", this.userCredentialService
-				.getUser(principal.getName()).getCredentialId());
-		modelAndView.addObject("postList", this.postService
-				.getPostsForUser(this.userCredentialService.getUser(
-						principal.getName()).getCredentialId()));
-		return modelAndView;
+	@RequestMapping(value = "/" + JSP_NAME, method = RequestMethod.GET)
+	public ModelAndView handleGet(final Principal principal) {
+        // RedirectView (to the post list) instead
+        final ModelAndView result = new ModelAndView(JSP_NAME);
+		result.addObject("username", principal.getName());
+		result.addObject("currentUserId", userCredentialService.getUser(principal.getName()).getCredentialId());
+		result.addObject("postList", postService.getPostsForUser(userCredentialService.getUser(principal.getName()).getCredentialId()));
+		return result;
 	}
 }

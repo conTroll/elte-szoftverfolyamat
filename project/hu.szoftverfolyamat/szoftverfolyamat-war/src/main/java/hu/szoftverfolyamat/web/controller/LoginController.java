@@ -11,17 +11,16 @@ public class LoginController {
 
 	public static final String JSP_NAME = "login";
 
-	@RequestMapping(value = "/" + LoginController.JSP_NAME, method = RequestMethod.GET)
+	@RequestMapping(value = "/" + JSP_NAME, method = RequestMethod.GET)
 	public ModelAndView handleGet(
 			@RequestParam(value = "error", required = false) String error,
 			@RequestParam(value = "logout", required = false) String logout) {
-		ModelAndView modelAndView;
+		ModelAndView result = new ModelAndView(JSP_NAME);
 
-		modelAndView = new ModelAndView(LoginController.JSP_NAME);
 		if (error != null) {
 			// TODO szerver oldali hibaüzenet kezelése a bejelentkezésnél
-			modelAndView.addObject("error", "error");
+			result.addObject("error", "error");
 		}
-		return modelAndView;
+		return result;
 	}
 }

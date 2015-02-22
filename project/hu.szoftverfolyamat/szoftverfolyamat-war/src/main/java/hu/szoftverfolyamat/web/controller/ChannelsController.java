@@ -9,25 +9,19 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class ChannelsController {
 
-	public static final String JSP_NAME = "browseChannels";
-	public static final String MY_CHANNELS = "myChannels";
+	private static final String JSP_NAME = "browseChannels";
+    private static final String MY_CHANNELS = "myChannels";
 
 	@Secured({ "ROLE_USER", "ROLE_ADMIN" })
-	@RequestMapping(value = "/" + ChannelsController.JSP_NAME, method = RequestMethod.GET)
+	@RequestMapping(value = "/" + JSP_NAME, method = RequestMethod.GET)
 	public ModelAndView handleGet() {
-		ModelAndView modelAndView;
-
-		modelAndView = new ModelAndView(ChannelsController.JSP_NAME);
-		return modelAndView;
+		return new ModelAndView(JSP_NAME);
 	}
 
 	@Secured({ "ROLE_USER", "ROLE_ADMIN" })
-	@RequestMapping(value = "/" + ChannelsController.MY_CHANNELS, method = RequestMethod.GET)
+	@RequestMapping(value = "/" + MY_CHANNELS, method = RequestMethod.GET)
 	public ModelAndView search() {
-		ModelAndView modelAndView;
-
-		modelAndView = new ModelAndView(ChannelsController.MY_CHANNELS);
-		return modelAndView;
+		return new ModelAndView(MY_CHANNELS);
 	}
 
 }

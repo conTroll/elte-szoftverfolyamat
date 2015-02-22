@@ -23,48 +23,40 @@ public class CommentService {
 	@Autowired
 	private UserProfileDataService userProfileDataService;
 
-	public void createComment(Long authorCredentialId, Long postId, String text) {
-		CommentEntity commentEntity;
-
-		commentEntity = new CommentEntity();
-		commentEntity.setUserProfileData(this.userProfileDataService
-				.findByUserCredentialId(authorCredentialId));
+	public void createComment(final Long authorCredentialId, final Long postId, final String text) {
+		final CommentEntity commentEntity = new CommentEntity();
+		commentEntity.setUserProfileData(userProfileDataService.findByUserCredentialId(authorCredentialId));
 		commentEntity.setPostId(postId);
 		commentEntity.setText(text);
 		commentEntity.setCreationDate(new Date());
-		this.commentRepository.saveAndFlush(commentEntity);
+		commentRepository.saveAndFlush(commentEntity);
 	}
 
 	public void deleteCommentById(Long id) {
-		this.commentRepository.delete(id);
+		commentRepository.delete(id);
 	}
 
-	public void deleteComments(List<CommentEntity> entities) {
-		this.commentRepository.delete(entities);
+	public void deleteComments(final List<CommentEntity> entities) {
+        commentRepository.delete(entities);
 	}
 
-	public List<CommentDto> parseEntitiesToDtos(List<CommentEntity> entities) {
-		List<CommentDto> dtos;
+	public List<CommentDto> parseEntitiesToDtos(final List<CommentEntity> entities) {
+		final List<CommentDto> dtos = new ArrayList<CommentDto>();
 
-		dtos = new ArrayList<CommentDto>();
-		for (CommentEntity entity : entities) {
+		for (final CommentEntity entity : entities) {
 			dtos.add(this.parseEntityToDto(entity));
 		}
+
 		return dtos;
 	}
 
-	public CommentDto parseEntityToDto(CommentEntity entity) {
-		CommentDto commentDto;
-
-		commentDto = new CommentDto();
-		commentDto.setUserProfileDataDto(this.userProfileDataService
-				.parseEntityToDto(entity.getUserProfileData()));
+	private CommentDto parseEntityToDto(final CommentEntity entity) {
+		final CommentDto commentDto = new CommentDto();
+		commentDto.setUserProfileDataDto(userProfileDataService.parseEntityToDto(entity.getUserProfileData()));
 		commentDto.setCommentId(entity.getCommentId());
-		commentDto.setCreationDate(new SimpleDateFormat("YYYY.MM.dd HH:mm:ss")
-				.format(entity.getCreationDate()));
+		commentDto.setCreationDate(new SimpleDateFormat("YYYY.MM.dd HH:mm:ss").format(entity.getCreationDate()));
 		commentDto.setPostId(entity.getPostId());
 		commentDto.setText(entity.getText());
 		return commentDto;
 	}
-
 }
