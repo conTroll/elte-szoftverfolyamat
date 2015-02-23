@@ -25,5 +25,4 @@ public class UserRoleService {
 	public UserRole getRoleByCredentialId(final Long userCredentialId) {
 		return userRoleRepository.getByUserCredentialId(userCredentialId);
 	}
-
 }

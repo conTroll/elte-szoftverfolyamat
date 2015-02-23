@@ -3,6 +3,7 @@ package hu.szoftverfolyamat.service;
 import hu.szoftverfolyamat.dto.UserProfileDataDto;
 import hu.szoftverfolyamat.entity.UserProfileData;
 import hu.szoftverfolyamat.exception.UserServiceException;
+
 import hu.szoftverfolyamat.repository.CustomUserProfileDataRepositoryImpl;
 import hu.szoftverfolyamat.repository.UserProfileDataRepository;
 
@@ -12,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import hu.szoftverfolyamat.service.mapper.UserProfileDataMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,6 +21,9 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 public class UserProfileDataService {
+
+    @Autowired
+    private UserProfileDataMapper userProfileDataMapper;
 
 	@Autowired
 	private UserProfileDataRepository userProfileDataRepository;
@@ -58,7 +63,7 @@ public class UserProfileDataService {
 
 	public List<UserProfileDataDto> getFriendsByUserId(final Long userCredentialId) {
         final List<Long> friendsId = userConnectionService.getFriendsIdByUserCredentialId(userCredentialId);
-        final List<UserProfileDataDto> result = parseEntitiesToDtos(userProfileDataRepository.findAll(friendsId));
+        final List<UserProfileDataDto> result = userProfileDataMapper.apply(userProfileDataRepository.findAll(friendsId));
 
 		for (final UserProfileDataDto dataDto : result) {
 			dataDto.setFriend(true);
@@ -67,43 +72,15 @@ public class UserProfileDataService {
 		return result;
 	}
 
-	private List<UserProfileDataDto> parseEntitiesToDtos(final List<UserProfileData> entities) {
-		final List<UserProfileDataDto> dtos = new ArrayList<UserProfileDataDto>();
-
-		for (final UserProfileData entity : entities) {
-			dtos.add(this.parseEntityToDto(entity));
-		}
-
-		return dtos;
-	}
-
-	public UserProfileDataDto parseEntityToDto(final UserProfileData entity) {
-		final UserProfileDataDto dto  = new UserProfileDataDto();
-		dto.setBirthday(new SimpleDateFormat("YYYY.MM.dd").format(entity.getBirthday()));
-		dto.setCredentialId(entity.getCredentialId());
-		dto.setEmail(entity.getEmail());
-		dto.setFullName(entity.getFullName());
-		dto.setHabitat(entity.getHabitat());
-		dto.setJob(entity.getJob());
-		dto.setPublicBirthday(entity.getPublicBirthday());
-		dto.setPublicHabitat(entity.getPublicHabitat());
-		dto.setPublicJobAndWorkplace(entity.getPublicJobAndWorkplace());
-		dto.setShortName(entity.getShortName());
-		dto.setWorkplace(entity.getWorkplace());
-		dto.setFriendNumber((long) userConnectionService.getFriendsIdByUserCredentialId(entity.getCredentialId()).size());
-		return dto;
-	}
-
 	public List<UserProfileDataDto> searchUserProfileDataDtos(final Long credentialId, final String emailAddress,
             final String fullName, final String place, final String job) {
         final List<Long> friendIds = userConnectionService.getFriendsIdByUserCredentialId(credentialId);
-        final List<UserProfileDataDto> dataDtos = parseEntitiesToDtos(
-                customUserProfileDataRepositoryImpl.searchUserProfileData(emailAddress, fullName, place, job));
+        final List<UserProfileDataDto> dataDtoList = userProfileDataMapper.apply(customUserProfileDataRepositoryImpl.searchUserProfileData(emailAddress, fullName, place, job));
         final List<UserProfileDataDto> result = new ArrayList<UserProfileDataDto>();
 
-		for (final UserProfileDataDto dataDto : dataDtos) {
+		for (final UserProfileDataDto dataDto : dataDtoList) {
 			if (dataDto.getCredentialId() != credentialId) {
-				dataDtos.remove(dataDto);
+				dataDtoList.remove(dataDto);
                 dataDto.setFriend(friendIds.contains(dataDto.getCredentialId()));
 				result.add(dataDto);
 			}

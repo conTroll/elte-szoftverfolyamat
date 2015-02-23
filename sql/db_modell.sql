@@ -111,6 +111,16 @@ alter table comments CHANGE comment_id comment_id INT( 10 ) not null AUTO_INCREM
 ALTER TABLE comments ADD COLUMN creation_date DATETIME NOT NULL;
 
 
+CREATE TABLE messages (
+  id INT(10) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  text TEXT NOT NULL,
+  created_at TIMESTAMP NOT NULL,
+  user_from INT(10) NOT NULL,
+  user_to INT(10) NOT NULL,
+  status VARCHAR(16)
+);
+
+
 ALTER TABLE user_profile_data ADD CONSTRAINT FK_user_profile_data_0 FOREIGN KEY (credential_id) REFERENCES user_credentials (credential_id);
 
 
@@ -141,4 +151,5 @@ ALTER TABLE user_connections ADD CONSTRAINT FK_user_connections_1 FOREIGN KEY (c
 ALTER TABLE comments ADD CONSTRAINT FK_comments_0 FOREIGN KEY (post_id) REFERENCES posts (post_id);
 ALTER TABLE comments ADD CONSTRAINT FK_comments_1 FOREIGN KEY (author_credential_id) REFERENCES user_credentials (credential_id);
 
-
+ALTER TABLE messages ADD CONSTRAINT fk_messages_from FOREIGN KEY (user_from) REFERENCES user_profile_data (credential_id);
+ALTER TABLE messages ADD CONSTRAINT fk_messages_to   FOREIGN KEY (user_to)   REFERENCES user_profile_data (credential_id);

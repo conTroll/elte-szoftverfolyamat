@@ -14,6 +14,5 @@ public interface PostRepository extends JpaRepository<PostEntity, Long> {
 	public List<PostEntity> findByAuthorId(@Param("authorId") long authorId);
 
 	@Query("select pe from PostEntity pe left join fetch pe.userProfileData upd where upd.credentialId in (:authorIds) order by pe.creationDate DESC")
-	public List<PostEntity> findByAuthorIds(
-			@Param("authorIds") List<Long> authorIds);
+	public List<PostEntity> findByAuthorIds(@Param("authorIds") List<Long> authorIds);
 }

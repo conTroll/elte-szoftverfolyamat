@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-public class RegistrationController {
+public class RegistrationController extends BaseController {
 
 	private static final String JSP_NAME = "registration";
 

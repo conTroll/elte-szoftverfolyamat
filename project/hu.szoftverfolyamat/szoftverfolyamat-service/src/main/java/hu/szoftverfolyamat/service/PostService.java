@@ -2,10 +2,9 @@ package hu.szoftverfolyamat.service;
 
 import hu.szoftverfolyamat.dto.PostDto;
 import hu.szoftverfolyamat.entity.PostEntity;
+import hu.szoftverfolyamat.service.mapper.PostMapper;
 import hu.szoftverfolyamat.repository.PostRepository;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -16,6 +15,9 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 public class PostService {
+
+    @Autowired
+    private PostMapper postMapper;
 
 	@Autowired
 	private PostRepository postRepository;
@@ -47,25 +49,8 @@ public class PostService {
 	}
 
 	public List<PostDto> getPostsForUser(final long id) {
-		List<Long> ids = userConnectionService.getFriendsIdByUserCredentialId(id);
+		final List<Long> ids = userConnectionService.getFriendsIdByUserCredentialId(id);
 		ids.add(id);
-		return parseEntitiesToDtos(postRepository.findByAuthorIds(ids));
-	}
-
-	private List<PostDto> parseEntitiesToDtos(final List<PostEntity> entities) {
-		final List<PostDto> dtos = new ArrayList<PostDto>();
-
-		for (final PostEntity entity : entities) {
-            final PostDto dto = new PostDto();
-			dto.setUserProfileDataDto(userProfileDataService.parseEntityToDto(entity.getUserProfileData()));
-			dto.setAuthorCredentialId(entity.getUserProfileData().getCredentialId());
-			dto.setPostId(entity.getPostId());
-			dto.setText(entity.getText());
-			dto.setCreationDate(new SimpleDateFormat("YYYY.MM.dd HH:mm:ss").format(entity.getCreationDate()));
-			dto.setCommentDtos(commentService.parseEntitiesToDtos(entity.getCommentEntities()));
-			dtos.add(dto);
-		}
-
-		return dtos;
+		return postMapper.apply(postRepository.findByAuthorIds(ids));
 	}
 }
