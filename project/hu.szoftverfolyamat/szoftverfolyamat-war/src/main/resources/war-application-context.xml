@@ -26,4 +26,8 @@
 	<mvc:resources mapping="/**" location="/WEB-INF/resources/" />
 	
 	<mvc:annotation-driven />
+
+    <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+        <property name="supportedMediaTypes" value="application/json" />
+    </bean>
 </beans>

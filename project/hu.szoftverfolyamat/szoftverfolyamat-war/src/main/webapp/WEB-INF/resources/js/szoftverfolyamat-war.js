@@ -41,7 +41,9 @@ function submitPost() {
 	$.ajax({
 		  type: "POST",
 		  url: "createPost",
-		  data: data,
+          dataType: "json",
+          contentType: "application/json",
+		  data: JSON.stringify(data),
 		  success: function( data ) {
 				changeContent(data);
 		  }
@@ -56,6 +58,8 @@ function submitComment(id) {
 	$.ajax({
 		  type: "POST",
 		  url: "createComment",
+          dataType: "json",
+          contentType: "application/json",
 		  data: JSON.stringify(data),
 		  success: function( data ) {
 				changeContent(data);
@@ -129,6 +133,8 @@ function searchContacts() {
 	$.ajax({
 		  type: "POST",
 		  url: "searchContacts",
+          dataType: "json",
+          contentType: "application/json",
 		  data: JSON.stringify(data),
 		  success: function( data ) {
 				changeContent(data);
