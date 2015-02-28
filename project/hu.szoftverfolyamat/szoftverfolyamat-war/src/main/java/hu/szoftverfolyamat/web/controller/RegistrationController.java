@@ -7,6 +7,8 @@ import hu.szoftverfolyamat.service.UserCredentialService;
 
 import java.text.ParseException;
 
+import hu.szoftverfolyamat.web.helper.Template;
+import hu.szoftverfolyamat.web.helper.URI;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -15,9 +17,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
+@RequestMapping(value = URI.USER_REGISTRATION)
 public class RegistrationController extends BaseController {
 
-	private static final String JSP_NAME = "registration";
 
 	@Autowired
 	private UserCredentialService userCredentialService;
@@ -51,27 +53,26 @@ public class RegistrationController extends BaseController {
 	// return userCredentialDto;
 	// }
 
-	@RequestMapping(value = "/" + JSP_NAME, method = RequestMethod.GET)
-	public ModelAndView handleGet() {
+	@RequestMapping(method = RequestMethod.GET)
+	public ModelAndView showForm() {
         final UserCredentialDto userCredentialDto = new UserCredentialDto();
 		userCredentialDto.setUserProfileDataDto(new UserProfileDataDto());
 
-        final  ModelAndView result = new ModelAndView(JSP_NAME);
+        final  ModelAndView result = new ModelAndView(Template.USER_REGISTRATION);
 		result.addObject("userCredentialDto", userCredentialDto);
 		return result;
 	}
 
-	@RequestMapping(value = "/" + JSP_NAME, method = RequestMethod.POST)
-	public ModelAndView register(@ModelAttribute(value = "userCredentialDto") UserCredentialDto userCredentialDto)  throws ParseException {
+	@RequestMapping(method = RequestMethod.POST)
+	public ModelAndView doRegistration(@ModelAttribute(value = "userCredentialDto") UserCredentialDto userCredentialDto)  throws ParseException {
 		ModelAndView modelAndView;
 
 		try {
 			userCredentialService.createUserCredential(userCredentialDto);
             // TODO RedirectView instead
-			modelAndView = new ModelAndView("redirect:"
-					+ LoginController.JSP_NAME);
+			modelAndView = new ModelAndView("redirect:" + URI.USER_LOGIN);
 		} catch (UserServiceException e) {
-			modelAndView = new ModelAndView(JSP_NAME);
+			modelAndView = new ModelAndView(Template.USER_REGISTRATION);
 			// TODO hibakódok és hibaüzenetek bevezetése
 			modelAndView.addObject("error", "error");
 		}

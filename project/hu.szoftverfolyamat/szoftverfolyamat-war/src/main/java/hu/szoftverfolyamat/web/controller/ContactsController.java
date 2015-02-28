@@ -1,13 +1,10 @@
 package hu.szoftverfolyamat.web.controller;
 
 import hu.szoftverfolyamat.service.UserConnectionService;
-import hu.szoftverfolyamat.service.UserCredentialService;
 import hu.szoftverfolyamat.service.UserProfileDataService;
-
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-import java.security.Principal;
-
+import hu.szoftverfolyamat.web.helper.Role;
+import hu.szoftverfolyamat.web.helper.Template;
+import hu.szoftverfolyamat.web.helper.URI;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,16 +14,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.security.Principal;
 
 @Controller
-public class ContactsController {
+@Secured({ Role.USER, Role.ADMIN })
+public class ContactsController extends BaseController {
 
     // TODO a SpringMVC tamogatja, hogy o feloldja a JSON-t, majd megnezem, hogy csinaltuk
-
-    private static final String JSP_NAME = "viewContacts";
-    private static final String SEARCH_CONTRACTS = "searchContacts";
-    private static final String DELETE_CONTRACT = "deleteContact";
-    private static final String ADD_CONTRACT = "addContact";
 
 	@Autowired
 	private UserProfileDataService userProfileDataService;
@@ -34,71 +32,50 @@ public class ContactsController {
 	@Autowired
 	private UserConnectionService userConnectionService;
 
-	@Autowired
-	private UserCredentialService userCredentialService;
+    @RequestMapping(URI.CONTACTS_SHOW)
+    public ModelAndView show(final Principal principal) {
+        final ModelAndView result = new ModelAndView(Template.CONTACTS_SHOW);
+        result.addObject("contactList", userProfileDataService.getFriendsByUserId(getCurrentUser(principal)));
+        return result;
+    }
 
-	@Secured({ "ROLE_USER", "ROLE_ADMIN" })
-	@RequestMapping(value = "/" + ADD_CONTRACT, method = RequestMethod.POST)
-	public ModelAndView addContact(Principal principal, @RequestBody String text) {
-		final Long userId = userCredentialService.getUser(principal.getName()).getCredentialId();
-
+	@RequestMapping(value = URI.CONTACTS_ADD, method = RequestMethod.POST)
+	public RedirectView addContact(final Principal principal, final @RequestBody String text) {
 		if ((text != null) && text.startsWith("id=")) {
             final String postContent = text.replace("id=contact", "");
 
 			if (!postContent.isEmpty()) {
-				userConnectionService.createUserConnection(userId, Long.parseLong(postContent));
+				userConnectionService.createUserConnection(getCurrentUser(principal), Long.parseLong(postContent));
 			}
 		}
 
-		final ModelAndView result = new ModelAndView(JSP_NAME);
-		result.addObject("contactList", userProfileDataService.getFriendsByUserId(extractIdFromPrincipal(principal)));
-		return result;
+        return new RedirectView(URI.CONTACTS_SEARCH);
 	}
 
-	@Secured({ "ROLE_USER", "ROLE_ADMIN" })
-	@RequestMapping(value = "/" + DELETE_CONTRACT, method = RequestMethod.POST)
-	public ModelAndView deleteContact(Principal principal, @RequestBody String text) {
-		final Long userId = userCredentialService.getUser(principal.getName()).getCredentialId();
-
+	@RequestMapping(value = URI.CONTACTS_DELETE, method = RequestMethod.POST)
+	public RedirectView deleteContact(final Principal principal, final @RequestBody String text) {
 		if ((text != null) && text.startsWith("id=")) {
 			final String postContent = text.replace("id=contact", "");
 
 			if (!postContent.isEmpty()) {
-				userConnectionService.deleteUserConnection(userId, Long.parseLong(postContent));
+				userConnectionService.deleteUserConnection(getCurrentUser(principal), Long.parseLong(postContent));
 			}
 		}
 
-        final ModelAndView result = new ModelAndView(JSP_NAME);
-		result.addObject("contactList", userProfileDataService.getFriendsByUserId(extractIdFromPrincipal(principal)));
-		return result;
+        return new RedirectView(URI.CONTACTS_SEARCH);
 	}
 
-	private Long extractIdFromPrincipal(Principal principal) {
-		return this.userCredentialService.getUser(principal.getName()).getCredentialId();
-	}
+    @RequestMapping(value = URI.CONTACTS_SEARCH, method = RequestMethod.GET)
+    public String showSearch() {
+        return Template.CONTACTS_SEARCH;
+    }
 
-	@Secured({ "ROLE_USER", "ROLE_ADMIN" })
-	@RequestMapping(value = "/" + SEARCH_CONTRACTS, method = RequestMethod.GET)
-	public ModelAndView getSearch() {
-		return new ModelAndView(SEARCH_CONTRACTS);
-	}
-
-	@Secured({ "ROLE_USER", "ROLE_ADMIN" })
-	@RequestMapping(value = "/" + JSP_NAME, method = RequestMethod.GET)
-	public ModelAndView handleGet(Principal principal) {
-		final ModelAndView result = new ModelAndView(JSP_NAME);
-		result.addObject("contactList", userProfileDataService.getFriendsByUserId(extractIdFromPrincipal(principal)));
-		return result;
-	}
-
-	@Secured({ "ROLE_USER", "ROLE_ADMIN" })
-	@RequestMapping(value = "/" + SEARCH_CONTRACTS, method = RequestMethod.POST)
-	public ModelAndView search(Principal principal, @RequestBody String text) throws JSONException, UnsupportedEncodingException {
-		final String encodedText = URLDecoder.decode(text, "UTF-8");
-        final JSONObject jsonObject = new JSONObject(encodedText);
-        final ModelAndView result = new ModelAndView(SEARCH_CONTRACTS);
+	@RequestMapping(value = URI.CONTACTS_SEARCH, method = RequestMethod.POST)
+	public ModelAndView doSearch(final Principal principal, final @RequestBody String text) throws JSONException, UnsupportedEncodingException {
+        final JSONObject jsonObject = new JSONObject(URLDecoder.decode(text, "UTF-8"));
+        final ModelAndView result = new ModelAndView(Template.CONTACTS_SEARCH);
 		result.addObject("contactList", userProfileDataService.searchUserProfileDataDtos(
-                extractIdFromPrincipal(principal),
+                getCurrentUser(principal),
                 jsonObject.getString("email"),
                 jsonObject.getString("fullName"),
                 jsonObject.getString("place"),

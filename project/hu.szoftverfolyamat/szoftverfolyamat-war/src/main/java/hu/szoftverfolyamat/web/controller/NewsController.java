@@ -8,6 +8,9 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.security.Principal;
 
+import hu.szoftverfolyamat.web.helper.Role;
+import hu.szoftverfolyamat.web.helper.Template;
+import hu.szoftverfolyamat.web.helper.URI;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
@@ -16,15 +19,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
-public class NewsController {
-
-    private static final String JSP_NAME = "news";
-    private static final String CREATE_POST = "createPost";
-    private static final String CREATE_COMMENT = "createComment";
-    private static final String DELETE_POST = "deletePost";
-    private static final String DELETE_COMMENT = "deleteComment";
+@Secured({ Role.USER, Role.ADMIN })
+public class NewsController extends BaseController {
 
     @Autowired
 	private PostService postService;
@@ -32,56 +31,32 @@ public class NewsController {
 	@Autowired
 	private CommentService commentService;
 
-	@Autowired
-	private UserCredentialService userCredentialService;
 
-	@Secured({ "ROLE_USER", "ROLE_ADMIN" })
-	@RequestMapping(value = "/" + CREATE_COMMENT, method = RequestMethod.POST)
-	public ModelAndView createComment(Principal principal, @RequestBody String text) throws UnsupportedEncodingException {
-		final String encodedText = URLDecoder.decode(text, "UTF-8");
-        final JSONObject obj = new JSONObject(encodedText);
-		final String postId = obj.getString("postId").replace("post", "");
-		final String commentText = obj.getString("text");
+    @RequestMapping(URI.POSTS_SHOW)
+    public ModelAndView show(final Principal principal) {
+        final ModelAndView result = new ModelAndView(Template.POSTS_SHOW);
+        result.addObject("currentUserId", getCurrentUser(principal));
+        result.addObject("postList", postService.getPostsForUser(getCurrentUser(principal)));
+        return result;
+    }
 
-		if ((postId != null) && (commentText != null) && !commentText.isEmpty()) {
-			commentService.createComment(extractIdFromPrincipal(principal), Long.parseLong(postId), commentText);
-		}
-
-        // TODO RedirectView instead
-        return generateResult(principal);
-	}
-
-    @Secured({ "ROLE_USER", "ROLE_ADMIN" })
-	@RequestMapping(value = "/" + CREATE_POST, method = RequestMethod.POST)
-	public ModelAndView createPost(Principal principal, @RequestBody String text) {
+    // TODO JSON parsing
+	@RequestMapping(value = URI.POSTS_CREATE, method = RequestMethod.POST)
+	public RedirectView createPost(final Principal principal, final @RequestBody String text) {
 		if ((text != null) && text.startsWith("text=")) {
 			final String postContent = text.replace("text=", "");
+
 			if (!postContent.isEmpty()) {
-				postService.createNewPost(postContent, userCredentialService.getUser(principal.getName()).getCredentialId());
+				postService.createNewPost(postContent, getCurrentUser(principal));
 			}
 		}
 
-        // TODO RedirectView instead
-        return generateResult(principal);
+        return new RedirectView(URI.POSTS_SHOW, true);
 	}
 
-	@Secured({ "ROLE_USER", "ROLE_ADMIN" })
-	@RequestMapping(value = "/" + DELETE_COMMENT, method = RequestMethod.POST)
-	public ModelAndView deleteComment(Principal principal, @RequestBody String text) throws UnsupportedEncodingException {
-		if ((text != null) && text.startsWith("id=")) {
-            final String postContent = text.replace("id=comment", "");
-			if (!postContent.isEmpty()) {
-				commentService.deleteCommentById(Long.parseLong(postContent));
-			}
-		}
-
-        // TODO RedirectView instead
-        return generateResult(principal);
-	}
-
-	@Secured({ "ROLE_USER", "ROLE_ADMIN" })
-	@RequestMapping(value = "/" + DELETE_POST, method = RequestMethod.POST)
-	public ModelAndView deletePost(Principal principal, @RequestBody String text) {
+    // TODO JSON parsing
+	@RequestMapping(value = URI.POSTS_DELETE, method = RequestMethod.POST)
+	public RedirectView deletePost(final @RequestBody String text) {
 		if ((text != null) && text.startsWith("id=")) {
             String postContent = text.replace("id=post", "");
 			if (!postContent.isEmpty()) {
@@ -89,24 +64,34 @@ public class NewsController {
 			}
 		}
 
-        // TODO RedirectView instead
-        return generateResult(principal);
+        return new RedirectView(URI.POSTS_SHOW, true);
 	}
 
-	@Secured({ "ROLE_USER", "ROLE_ADMIN" })
-	@RequestMapping(value = "/" + JSP_NAME, method = RequestMethod.GET)
-	public ModelAndView handleGet(final Principal principal) {
-		return generateResult(principal);
-	}
+    // TODO JSON parsing
+    @RequestMapping(value = URI.COMMENTS_CREATE, method = RequestMethod.POST)
+    public RedirectView deleteComment(final @RequestBody String text) throws UnsupportedEncodingException {
+        if ((text != null) && text.startsWith("id=")) {
+            final String postContent = text.replace("id=comment", "");
+            if (!postContent.isEmpty()) {
+                commentService.deleteCommentById(Long.parseLong(postContent));
+            }
+        }
 
-    private ModelAndView generateResult(final Principal principal) {
-        final ModelAndView result = new ModelAndView(JSP_NAME);
-        result.addObject("currentUserId", userCredentialService.getUser(principal.getName()).getCredentialId());
-        result.addObject("postList", postService.getPostsForUser(userCredentialService.getUser(principal.getName()).getCredentialId()));
-        return result;
+        return new RedirectView(URI.POSTS_SHOW, true);
     }
 
-    private Long extractIdFromPrincipal(final Principal principal) {
-        return userCredentialService.getUser(principal.getName()).getCredentialId();
+    // TODO JSON parsing
+    @RequestMapping(value = URI.COMMENTS_DELETE, method = RequestMethod.POST)
+    public RedirectView createComment(final Principal principal, final @RequestBody String text) throws UnsupportedEncodingException {
+        final String encodedText = URLDecoder.decode(text, "UTF-8");
+        final JSONObject obj = new JSONObject(encodedText);
+        final String postId = obj.getString("postId").replace("post", "");
+        final String commentText = obj.getString("text");
+
+        if ((postId != null) && (commentText != null) && !commentText.isEmpty()) {
+            commentService.createComment(getCurrentUser(principal), Long.parseLong(postId), commentText);
+        }
+
+        return new RedirectView(URI.POSTS_SHOW, true);
     }
 }

@@ -24,7 +24,7 @@ public class MessageEntity {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(final long id) {
         this.id = id;
     }
 
@@ -33,7 +33,7 @@ public class MessageEntity {
         return text;
     }
 
-    public void setText(String text) {
+    public void setText(final String text) {
         this.text = text;
     }
 
@@ -42,7 +42,7 @@ public class MessageEntity {
         return createdAt;
     }
 
-    public void setCreatedAt(Date createdAt) {
+    public void setCreatedAt(final Date createdAt) {
         this.createdAt = createdAt;
     }
 
@@ -52,7 +52,7 @@ public class MessageEntity {
         return userFrom;
     }
 
-    public void setUserFrom(UserProfileData userFrom) {
+    public void setUserFrom(final UserProfileData userFrom) {
         this.userFrom = userFrom;
     }
 
@@ -62,7 +62,7 @@ public class MessageEntity {
         return userTo;
     }
 
-    public void setUserTo(UserProfileData userTo) {
+    public void setUserTo(final UserProfileData userTo) {
         this.userTo = userTo;
     }
 
@@ -72,7 +72,7 @@ public class MessageEntity {
         return status;
     }
 
-    public void setStatus(MessageStatus status) {
+    public void setStatus(final MessageStatus status) {
         this.status = status;
     }
 }
