@@ -13,7 +13,7 @@ public final class URI {
     public static final String DELETE = "/delete";
 
     // INDEX
-    public static final String INDEX = "/site";
+    public static final String INDEX = "/";
 
     // POSTS
     public static final String POSTS_SHOW = "/news";
