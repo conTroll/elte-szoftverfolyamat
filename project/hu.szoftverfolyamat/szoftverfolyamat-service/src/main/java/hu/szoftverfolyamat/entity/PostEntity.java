@@ -71,5 +71,4 @@ public class PostEntity {
 	public void setUserProfileData(UserProfileData userProfileData) {
 		this.userProfileData = userProfileData;
 	}
-
 }

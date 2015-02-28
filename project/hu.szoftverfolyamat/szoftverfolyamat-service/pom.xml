@@ -9,8 +9,8 @@
 	<artifactId>szoftverfolyamat-service</artifactId>
 
 	<dependencies>
-		
-		<dependency>
+
+        <dependency>
 			<groupId>hu.szoftverfolyamat</groupId>
 			<artifactId>szoftverfolyamat-api</artifactId>
 		</dependency>
@@ -87,7 +87,7 @@
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 		</dependency>
-	</dependencies>
+    </dependencies>
 
 	<build>
 		<finalName>szoftverfolyamat-service</finalName>

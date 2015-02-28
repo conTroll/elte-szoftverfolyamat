@@ -1,27 +1,25 @@
 package hu.szoftverfolyamat.web.controller;
 
+import hu.szoftverfolyamat.web.helper.Template;
+import hu.szoftverfolyamat.web.helper.URI;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-public class LoginController {
+public class LoginController extends BaseController {
 
-	public static final String JSP_NAME = "login";
-
-	@RequestMapping(value = "/" + LoginController.JSP_NAME, method = RequestMethod.GET)
+	@RequestMapping(URI.USER_LOGIN)
 	public ModelAndView handleGet(
-			@RequestParam(value = "error", required = false) String error,
-			@RequestParam(value = "logout", required = false) String logout) {
-		ModelAndView modelAndView;
+            final @RequestParam(value = "error", required = false) String error,
+			final @RequestParam(value = "logout", required = false) String logout) {
+		final ModelAndView result = new ModelAndView(Template.USER_LOGIN);
 
-		modelAndView = new ModelAndView(LoginController.JSP_NAME);
 		if (error != null) {
 			// TODO szerver oldali hibaüzenet kezelése a bejelentkezésnél
-			modelAndView.addObject("error", "error");
+			result.addObject("error", "error");
 		}
-		return modelAndView;
+		return result;
 	}
 }

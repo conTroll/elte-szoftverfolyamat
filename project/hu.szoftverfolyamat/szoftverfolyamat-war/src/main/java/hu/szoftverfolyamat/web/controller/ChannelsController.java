@@ -1,33 +1,23 @@
 package hu.szoftverfolyamat.web.controller;
 
+import hu.szoftverfolyamat.web.helper.Role;
+import hu.szoftverfolyamat.web.helper.Template;
+import hu.szoftverfolyamat.web.helper.URI;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
 
 @Controller
+@Secured({ Role.USER, Role.ADMIN })
 public class ChannelsController {
 
-	public static final String JSP_NAME = "browseChannels";
-	public static final String MY_CHANNELS = "myChannels";
-
-	@Secured({ "ROLE_USER", "ROLE_ADMIN" })
-	@RequestMapping(value = "/" + ChannelsController.JSP_NAME, method = RequestMethod.GET)
-	public ModelAndView handleGet() {
-		ModelAndView modelAndView;
-
-		modelAndView = new ModelAndView(ChannelsController.JSP_NAME);
-		return modelAndView;
+	@RequestMapping(URI.CHANNELS_BROWSE)
+	public String showChannels() {
+		return Template.CHANNELS_BROWSER;
 	}
 
-	@Secured({ "ROLE_USER", "ROLE_ADMIN" })
-	@RequestMapping(value = "/" + ChannelsController.MY_CHANNELS, method = RequestMethod.GET)
-	public ModelAndView search() {
-		ModelAndView modelAndView;
-
-		modelAndView = new ModelAndView(ChannelsController.MY_CHANNELS);
-		return modelAndView;
+	@RequestMapping(URI.CHANNELS_MINE)
+	public String showMine() {
+        return Template.CHANNELS_MINE;
 	}
-
 }

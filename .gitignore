@@ -17,3 +17,7 @@ hs_err_pid*
 
 # Astah
 *.bak
+
+# Intellij Idea
+*.iml
+.idea/

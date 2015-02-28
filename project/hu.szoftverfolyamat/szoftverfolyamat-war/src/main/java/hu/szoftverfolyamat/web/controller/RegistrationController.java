@@ -7,6 +7,8 @@ import hu.szoftverfolyamat.service.UserCredentialService;
 
 import java.text.ParseException;
 
+import hu.szoftverfolyamat.web.helper.Template;
+import hu.szoftverfolyamat.web.helper.URI;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -15,9 +17,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-public class RegistrationController {
+@RequestMapping(value = URI.USER_REGISTRATION)
+public class RegistrationController extends BaseController {
 
-	public static final String JSP_NAME = "registration";
 
 	@Autowired
 	private UserCredentialService userCredentialService;
@@ -51,31 +53,26 @@ public class RegistrationController {
 	// return userCredentialDto;
 	// }
 
-	@RequestMapping(value = "/" + RegistrationController.JSP_NAME, method = RequestMethod.GET)
-	public ModelAndView handleGet() {
-		ModelAndView modelAndView;
-		UserCredentialDto userCredentialDto;
-
-		userCredentialDto = new UserCredentialDto();
+	@RequestMapping(method = RequestMethod.GET)
+	public ModelAndView showForm() {
+        final UserCredentialDto userCredentialDto = new UserCredentialDto();
 		userCredentialDto.setUserProfileDataDto(new UserProfileDataDto());
 
-		modelAndView = new ModelAndView(RegistrationController.JSP_NAME);
-		modelAndView.addObject("userCredentialDto", userCredentialDto);
-		return modelAndView;
+        final  ModelAndView result = new ModelAndView(Template.USER_REGISTRATION);
+		result.addObject("userCredentialDto", userCredentialDto);
+		return result;
 	}
 
-	@RequestMapping(value = "/" + RegistrationController.JSP_NAME, method = RequestMethod.POST)
-	public ModelAndView register(
-			@ModelAttribute(value = "userCredentialDto") UserCredentialDto userCredentialDto)
-			throws ParseException {
+	@RequestMapping(method = RequestMethod.POST)
+	public ModelAndView doRegistration(@ModelAttribute(value = "userCredentialDto") UserCredentialDto userCredentialDto)  throws ParseException {
 		ModelAndView modelAndView;
 
 		try {
-			this.userCredentialService.createUserCredential(userCredentialDto);
-			modelAndView = new ModelAndView("redirect:"
-					+ LoginController.JSP_NAME);
+			userCredentialService.createUserCredential(userCredentialDto);
+            // TODO RedirectView instead
+			modelAndView = new ModelAndView("redirect:" + URI.USER_LOGIN);
 		} catch (UserServiceException e) {
-			modelAndView = new ModelAndView(RegistrationController.JSP_NAME);
+			modelAndView = new ModelAndView(Template.USER_REGISTRATION);
 			// TODO hibakódok és hibaüzenetek bevezetése
 			modelAndView.addObject("error", "error");
 		}

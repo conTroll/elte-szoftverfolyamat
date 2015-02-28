@@ -22,8 +22,8 @@ public class UserCredentialsRepositoryTest {
 
 	@Test
 	public void testGetUserByUsername() {
-		UserCredential userCredential;
-
+        // given
+		final UserCredential userCredential;
 		userCredential = new UserCredential();
 		userCredential.setEnabled(true);
 		userCredential.setPassword("123");
@@ -31,8 +31,10 @@ public class UserCredentialsRepositoryTest {
 		userCredential.setUserProfileData(null);
 		userCredential.setUserRole(null);
 
+        // when
 		this.userCredentialsRepository.saveAndFlush(userCredential);
-		Assert.assertNotNull(this.userCredentialsRepository
-				.getUserByUsername("admin"));
+
+        // then
+		Assert.assertNotNull(this.userCredentialsRepository.getUserByUsername("admin"));
 	}
 }

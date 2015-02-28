@@ -22,6 +22,7 @@
 		<spring-data-jpa.version>1.7.1.RELEASE</spring-data-jpa.version>
 		<hu-szoftverfolyamat.version>0.0.1-SNAPSHOT</hu-szoftverfolyamat.version>
 		<json.version>20140107</json.version>
+        <lombok.version>1.16.2</lombok.version>
 	</properties>
 
 	<dependencyManagement>
@@ -157,6 +158,12 @@
 				<artifactId>jstl</artifactId>
 				<version>${jstl.version}</version>
 			</dependency>
+
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
+            </dependency>
 		</dependencies>
 	</dependencyManagement>
 </project>
