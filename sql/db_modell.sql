@@ -25,7 +25,6 @@ CREATE TABLE user_profile_data (
 );
 
 ALTER TABLE user_profile_data ADD CONSTRAINT PK_user_profile_data PRIMARY KEY (credential_id);
-ALTER TABLE user_profile_data ADD COLUMN avatar LONGBLOB NOT NULL;
 
 
 CREATE TABLE user_roles (
@@ -125,7 +124,6 @@ ALTER TABLE user_profile_data ADD CONSTRAINT FK_user_profile_data_0 FOREIGN KEY 
 
 
 ALTER TABLE user_roles ADD CONSTRAINT FK_user_roles_0 FOREIGN KEY (credential_id) REFERENCES user_credentials (credential_id);
-
 
 ALTER TABLE advertisements ADD CONSTRAINT FK_advertisements_0 FOREIGN KEY (author_credential_id) REFERENCES user_credentials (credential_id);
 
