@@ -21,7 +21,8 @@ CREATE TABLE user_profile_data (
  job VARCHAR(128) NOT NULL,
  workplace VARCHAR(128),
  public_birthday BIT(1) DEFAULT 1 NOT NULL,
- birthday DATE NOT NULL
+ birthday DATE NOT NULL,
+ avatar LONGBLOB
 );
 
 ALTER TABLE user_profile_data ADD CONSTRAINT PK_user_profile_data PRIMARY KEY (credential_id);
