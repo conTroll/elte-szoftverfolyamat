@@ -1,10 +1,14 @@
 package hu.szoftverfolyamat.entity;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
 @Entity
@@ -23,6 +27,7 @@ public class UserProfileData {
 	private boolean publicBirthday;
 	private Date birthday;
 	private byte[] avatar;
+	private List<ChannelProfileEntity> ownedChannels;
 
 	@Column(name = "avatar")
 	public byte[] getAvatar() {
@@ -84,6 +89,12 @@ public class UserProfileData {
 	public String getWorkplace() {
 		return this.workplace;
 	}
+	
+	@OneToMany(mappedBy = "leader", fetch = FetchType.LAZY)
+	@OrderBy("name ASC")
+	public List<ChannelProfileEntity> getOwnedChannels() {
+		return ownedChannels;
+	}
 
 	public void setAvatar(byte[] avatar) {
 		this.avatar = avatar;
@@ -132,4 +143,9 @@ public class UserProfileData {
 	public void setWorkplace(String workplace) {
 		this.workplace = workplace;
 	}
+	
+	public void setOwnedChannels(List<ChannelProfileEntity> ownedChannels) {
+		this.ownedChannels = ownedChannels;
+	}
+	
 }
