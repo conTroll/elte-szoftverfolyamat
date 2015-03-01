@@ -51,7 +51,8 @@ CREATE TABLE channel_profile_data (
  leader_credential_id INT(10) NOT NULL,
  name VARCHAR(128) NOT NULL,
  description VARCHAR(256) NOT NULL,
- open BIT(0) DEFAULT 1 NOT NULL
+ open BIT(0) DEFAULT 1 NOT NULL,
+ creation_date DATETIME NOT NULL
 );
 
 ALTER TABLE channel_profile_data ADD CONSTRAINT FK_channel_profile_data_leader FOREIGN KEY (leader_credential_id) REFERENCES user_credentials (credential_id);
@@ -59,7 +60,8 @@ ALTER TABLE channel_profile_data ADD CONSTRAINT FK_channel_profile_data_leader F
 CREATE TABLE channel_subscribers (
  channel_id INT(10) NOT NULL,
  subscriber_credential_id INT(10) NOT NULL,
- subscriber_status VARCHAR(63)
+ subscriber_status VARCHAR(63) NOT NULL,
+ subscription_date DATETIME NOT NULL
 );
 
 ALTER TABLE channel_subscribers ADD CONSTRAINT PK_channel_subscribers PRIMARY KEY (channel_id, subscriber_credential_id);
@@ -68,7 +70,8 @@ ALTER TABLE channel_subscribers ADD CONSTRAINT FK_channel_subscribers_subscriber
 CREATE TABLE channel_posts (
  channel_post_id INT(10) NOT NULL PRIMARY KEY AUTO_INCREMENT,
  channel_id INT(10) NOT NULL,
- text TEXT NOT NULL
+ text TEXT NOT NULL,
+ creation_date DATETIME NOT NULL
 );
 
 ALTER TABLE channel_posts ADD CONSTRAINT FK_channel_posts_channel FOREIGN KEY (channel_id) REFERENCES channel_profile_data (channel_id);
@@ -77,7 +80,8 @@ CREATE TABLE channel_post_comments (
  channel_post_comment_id INT(10) NOT NULL PRIMARY KEY AUTO_INCREMENT,
  channel_post_id INT(10) NOT NULL,
  author_credential_id INT(10) NOT NULL,
- text TEXT NOT NULL
+ text TEXT NOT NULL,
+ creation_date DATETIME NOT NULL
 );
 
 ALTER TABLE channel_post_comments ADD CONSTRAINT FK_channel_post_comments_post FOREIGN KEY (channel_post_id) REFERENCES channel_posts (channel_post_id);
