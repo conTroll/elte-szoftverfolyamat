@@ -68,17 +68,6 @@ CREATE TABLE channel_subscribers (
 
 ALTER TABLE channel_subscribers ADD CONSTRAINT PK_channel_subscribers PRIMARY KEY (channel_credential_id,subscriber_credential_id);
 
-
-CREATE TABLE messages (
- message_id INT(10) NOT NULL,
- text TEXT NOT NULL,
- sender_credential_id INT(10) NOT NULL,
- address_credential_id INT(10) NOT NULL
-);
-
-ALTER TABLE messages ADD CONSTRAINT PK_messages PRIMARY KEY (message_id);
-
-
 CREATE TABLE posts (
  post_id INT(10) NOT NULL,
  text TEXT NOT NULL,
@@ -119,7 +108,6 @@ CREATE TABLE messages (
   status VARCHAR(16)
 );
 
-
 ALTER TABLE user_profile_data ADD CONSTRAINT FK_user_profile_data_0 FOREIGN KEY (credential_id) REFERENCES user_credentials (credential_id);
 
 
@@ -133,11 +121,6 @@ ALTER TABLE channel_profile_data ADD CONSTRAINT FK_channel_profile_data_0 FOREIG
 
 ALTER TABLE channel_subscribers ADD CONSTRAINT FK_channel_subscribers_0 FOREIGN KEY (channel_credential_id) REFERENCES channel_profile_data (credential_id);
 ALTER TABLE channel_subscribers ADD CONSTRAINT FK_channel_subscribers_1 FOREIGN KEY (subscriber_credential_id) REFERENCES user_profile_data (credential_id);
-
-
-ALTER TABLE messages ADD CONSTRAINT FK_messages_0 FOREIGN KEY (sender_credential_id) REFERENCES user_profile_data (credential_id);
-ALTER TABLE messages ADD CONSTRAINT FK_messages_1 FOREIGN KEY (address_credential_id) REFERENCES user_profile_data (credential_id);
-
 
 ALTER TABLE posts ADD CONSTRAINT FK_posts_0 FOREIGN KEY (author_credential_id) REFERENCES user_credentials (credential_id);
 
