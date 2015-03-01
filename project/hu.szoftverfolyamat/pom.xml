@@ -13,6 +13,7 @@
 	</modules>
 
 	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<junit.version>4.11</junit.version>
 		<spring.version>4.1.2.RELEASE</spring.version>
 		<jstl.version>1.2</jstl.version>
@@ -21,36 +22,49 @@
 		<mysql.connector.version>5.1.34</mysql.connector.version>
 		<spring-data-jpa.version>1.7.1.RELEASE</spring-data-jpa.version>
 		<hu-szoftverfolyamat.version>0.0.1-SNAPSHOT</hu-szoftverfolyamat.version>
-        <lombok.version>1.16.2</lombok.version>
-        <fasterxml.jackson.version>2.5.1</fasterxml.jackson.version>
-        <jackson.json.version>1.9.13</jackson.json.version>
+		<lombok.version>1.16.2</lombok.version>
+		<fasterxml.jackson.version>2.5.1</fasterxml.jackson.version>
+		<jackson.json.version>1.9.13</jackson.json.version>
 	</properties>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 
 	<dependencyManagement>
 		<dependencies>
-            <dependency>
-                <groupId>com.fasterxml.jackson.core</groupId>
-                <artifactId>jackson-core</artifactId>
-                <version>${fasterxml.jackson.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.fasterxml.jackson.core</groupId>
-                <artifactId>jackson-databind</artifactId>
-                <version>${fasterxml.jackson.version}</version>
-            </dependency>
+			<dependency>
+				<groupId>com.fasterxml.jackson.core</groupId>
+				<artifactId>jackson-core</artifactId>
+				<version>${fasterxml.jackson.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.fasterxml.jackson.core</groupId>
+				<artifactId>jackson-databind</artifactId>
+				<version>${fasterxml.jackson.version}</version>
+			</dependency>
 
-            <dependency>
-                <groupId>org.codehaus.jackson</groupId>
-                <artifactId>jackson-mapper-asl</artifactId>
-                <version>${jackson.json.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.codehaus.jackson</groupId>
-                <artifactId>jackson-core-asl</artifactId>
-                <version>${jackson.json.version}</version>
-            </dependency>
+			<dependency>
+				<groupId>org.codehaus.jackson</groupId>
+				<artifactId>jackson-mapper-asl</artifactId>
+				<version>${jackson.json.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.codehaus.jackson</groupId>
+				<artifactId>jackson-core-asl</artifactId>
+				<version>${jackson.json.version}</version>
+			</dependency>
 
-            <dependency>
+			<dependency>
 				<groupId>hu.szoftverfolyamat</groupId>
 				<artifactId>szoftverfolyamat-api</artifactId>
 				<version>${hu-szoftverfolyamat.version}</version>
@@ -174,11 +188,11 @@
 				<version>${jstl.version}</version>
 			</dependency>
 
-            <dependency>
-                <groupId>org.projectlombok</groupId>
-                <artifactId>lombok</artifactId>
-                <version>${lombok.version}</version>
-            </dependency>
+			<dependency>
+				<groupId>org.projectlombok</groupId>
+				<artifactId>lombok</artifactId>
+				<version>${lombok.version}</version>
+			</dependency>
 
 
 		</dependencies>

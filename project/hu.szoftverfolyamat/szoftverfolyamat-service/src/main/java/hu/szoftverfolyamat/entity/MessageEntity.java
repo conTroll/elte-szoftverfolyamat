@@ -1,6 +1,5 @@
 package hu.szoftverfolyamat.entity;
 
-import hu.szoftverfolyamat.dto.UserProfileDataDto;
 import hu.szoftverfolyamat.enums.MessageStatus;
 
 import javax.persistence.*;

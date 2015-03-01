@@ -39,6 +39,7 @@ public class CustomUserProfileDataRepositoryImpl {
 					: " and upd.job like '%") + job + "%'";
 			firstElement = false;
 		}
-		return this.entityManager.createQuery(query).getResultList();
+		
+		return this.entityManager.createQuery(query, UserProfileData.class).getResultList();
 	}
 }
