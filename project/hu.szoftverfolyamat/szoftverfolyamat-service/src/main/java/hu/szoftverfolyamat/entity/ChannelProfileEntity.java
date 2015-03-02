@@ -21,7 +21,7 @@ import javax.persistence.Table;
 @Table(name = "channel_profile_data")
 public class ChannelProfileEntity implements Serializable {
 	
-	private static final long serialVersionUID = 5221266339115704529L;
+	private static final long serialVersionUID = -3771475272950984076L;
 	
 	private Long id;
 	private UserProfileData leader;
@@ -29,22 +29,10 @@ public class ChannelProfileEntity implements Serializable {
 	private String description;
 	private boolean open;
 	private Date creationDate;
+
 	private Set<ChannelSubscriberEntity> subscribers;
 	private List<ChannelPostEntity> posts;
 	
-	@Override
-	public boolean equals(Object obj) {
-		
-		if (this == obj) return true;
-		if (obj == null) return false;
-		if (!(obj instanceof ChannelProfileEntity))
-			return false;
-		
-		ChannelProfileEntity other = (ChannelProfileEntity) obj;
-		return Objects.equals(this.id, other.id);
-		
-	}
-
 	@Id
 	@GeneratedValue
 	@Column(name = "channel_id", nullable = false)
@@ -79,14 +67,14 @@ public class ChannelProfileEntity implements Serializable {
 		return this.subscribers;
 	}
 	
-	@Override
-	public int hashCode() {
-		return 31 + Objects.hashCode(this.id);
-	}
-	
 	@Column(name = "open", nullable = false)
 	public boolean isOpen() {
 		return this.open;
+	}
+	
+	@Column(name = "creation_date", nullable = false)
+	public Date getCreationDate() {
+		return creationDate;
 	}
 	
 	public void setId(Long id) {
@@ -115,6 +103,28 @@ public class ChannelProfileEntity implements Serializable {
 	
 	public void setSubscribers(Set<ChannelSubscriberEntity> subscribers) {
 		this.subscribers = subscribers;
+	}
+	
+	public void setCreationDate(Date creationDate) {
+		this.creationDate = creationDate;
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		
+		if (this == obj) return true;
+		if (obj == null) return false;
+		if (!(obj instanceof ChannelProfileEntity))
+			return false;
+		
+		ChannelProfileEntity other = (ChannelProfileEntity) obj;
+		return Objects.equals(this.id, other.id);
+		
+	}
+	
+	@Override
+	public int hashCode() {
+		return 31 + Objects.hashCode(this.id);
 	}
 	
 	@Override
