@@ -21,6 +21,7 @@ public class MessageMapper extends AbstractMapper<MessageEntity, MessageDto> {
         result.setText(entity.getText());
         result.setUserFrom(userProfileDataMapper.apply(entity.getUserFrom()));
         result.setUserTo(userProfileDataMapper.apply(entity.getUserTo()));
+        result.setViewed(entity.getIsViewed());
         return result;
     }
 }

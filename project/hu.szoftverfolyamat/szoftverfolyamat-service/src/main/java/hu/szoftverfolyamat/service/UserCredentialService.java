@@ -48,7 +48,7 @@ public class UserCredentialService {
 		return userCredential;
 	}
 
-	// TODO userrole fetchelese, hogy egy selectel menyjen!
+	// TODO userrole fetchelese, hogy egy selectel menjen!
 	// public UserCredential getUser(String username) {
 	//
 	// return this.userCredentialsRepository.getUserByUsername(username);

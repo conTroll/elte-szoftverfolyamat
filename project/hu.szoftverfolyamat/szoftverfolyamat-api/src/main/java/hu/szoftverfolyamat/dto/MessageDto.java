@@ -14,4 +14,5 @@ public class MessageDto {
     private UserProfileDataDto userFrom;
     private UserProfileDataDto userTo;
     private MessageStatus status;
+    private boolean isViewed;
 }

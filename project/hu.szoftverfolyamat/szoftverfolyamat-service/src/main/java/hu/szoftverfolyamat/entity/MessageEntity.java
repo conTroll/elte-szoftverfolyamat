@@ -15,6 +15,7 @@ public class MessageEntity {
     private UserProfileData userFrom;
     private UserProfileData userTo;
     private MessageStatus status;
+    private boolean isViewed;
 
     @Id
     @GeneratedValue
@@ -73,5 +74,14 @@ public class MessageEntity {
 
     public void setStatus(final MessageStatus status) {
         this.status = status;
+    }
+
+    @Column(name = "is_viewed")
+    public boolean getIsViewed() {
+        return isViewed;
+    }
+
+    public void setIsViewed(Boolean isViewed) {
+        this.isViewed = isViewed;
     }
 }

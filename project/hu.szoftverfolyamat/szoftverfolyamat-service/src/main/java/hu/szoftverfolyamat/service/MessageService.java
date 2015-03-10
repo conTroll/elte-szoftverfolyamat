@@ -61,4 +61,14 @@ public class MessageService {
     public List<MessageDto> getAllChats(final Long senderId) {
         return new ArrayList<MessageDto>();
     }
+
+    // TODO
+    public void markChatViewed(final Long senderId, final Long recipientId) {
+
+    }
+
+    // TODO
+    public int getNumberOfNonViewedMessages(final Long recipientId) {
+        return 53;
+    }
 }
