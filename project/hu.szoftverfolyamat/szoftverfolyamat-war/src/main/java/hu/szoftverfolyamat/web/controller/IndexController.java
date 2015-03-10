@@ -1,5 +1,6 @@
 package hu.szoftverfolyamat.web.controller;
 
+import hu.szoftverfolyamat.service.MessageService;
 import hu.szoftverfolyamat.service.PostService;
 import hu.szoftverfolyamat.web.helper.Role;
 import hu.szoftverfolyamat.web.helper.Template;
@@ -16,15 +17,20 @@ import java.security.Principal;
 @Secured({ Role.USER, Role.ADMIN })
 public class IndexController extends BaseController {
 
-	@Autowired
-	private PostService postService;
+    @Autowired
+    private PostService postService;
 
-	@RequestMapping(URI.INDEX)
-	public ModelAndView handleGet(final Principal principal) {
+    @Autowired
+    private MessageService messageService;
+
+    @RequestMapping(URI.INDEX)
+    public ModelAndView handleGet(final Principal principal) {
+        final Long userId = getCurrentUser(principal);
         final ModelAndView result = new ModelAndView(Template.INDEX);
-		result.addObject("username", principal.getName());
-		result.addObject("currentUserId", getCurrentUser(principal));
-		result.addObject("postList", postService.getPostsForUser(getCurrentUser(principal)));
-		return result;
-	}
+        result.addObject("username", principal.getName());
+        result.addObject("currentUserId", userId);
+        result.addObject("postList", postService.getPostsForUser(userId));
+        result.addObject("numberOfMessages", messageService.getNumberOfNonViewedMessages(userId));
+        return result;
+    }
 }

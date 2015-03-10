@@ -1,9 +1,8 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"  pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <div class="ui special cards">
 	<c:forEach items="${contactList}" var="contact">
-		<div id="contact${contact.credentialId}" class="card">
+		<div id="contact${contact.credentialId}" rel="${contact.credentialId}" class="card">
 			<div class="dimmable image">
 				<div class="ui inverted dimmer">
 					<div class="content">
@@ -19,8 +18,8 @@
 				<div class="meta"></div>
 				<a> ${contact.friendNumber} Friends </a>
 				<c:if test="${contact.friend}">
-					<a class="delete"
-					style="float: right; cursor: pointer;"> Delete </a>
+                    <a class="delete"  style="float: right; cursor: pointer;"> Delete </a>
+                    <a class="messages" style="cursor: pointer;"> Chat </a>
 				</c:if>
 				<c:if test="${not contact.friend}">
 				<a class="addContact"
@@ -35,6 +34,9 @@
 		on : 'hover'
 	});
 
+    $(".messages").click(function() {
+        loadMessagesWithUser($(this).parent().parent().attr('rel'));
+    });
 	$(".delete").click(function() {
 		deleteContact($(this).parent().parent().attr('id'));
 	});

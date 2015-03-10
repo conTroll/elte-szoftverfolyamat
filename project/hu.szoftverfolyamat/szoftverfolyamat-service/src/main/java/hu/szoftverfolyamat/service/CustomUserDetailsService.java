@@ -40,6 +40,6 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     private User getUser(final UserCredential userCredential) {
         return new User(userCredential.getUsername(), userCredential.getPassword(), userCredential.isEnabled(),
-                true, true, true, this.getGrantedAuthorities(userCredential.getUserRole()));
+                true, true, true, getGrantedAuthorities(userCredential.getUserRole()));
     }
 }

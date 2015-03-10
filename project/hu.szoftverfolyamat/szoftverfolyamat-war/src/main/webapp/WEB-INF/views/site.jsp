@@ -22,8 +22,8 @@
 		<div class="item">YASS</div>
 		<div class="right menu">
 			<div class="item">${username}</div>
-			<a class="item"> <i class="mail icon"></i> Messages
-				<div class="ui red label">1</div>
+			<a id="showMessagesLink" class="item"> <i class="mail icon"></i> Messages
+				<div class="ui red label">${numberOfMessages}</div>
 			</a> <a class="item" href="<c:url value="/j_spring_security_logout"/>">
 				<i class="sign out icon"></i> Logout
 			</a>
@@ -53,15 +53,13 @@
 			<div class="ui segment">
 				<p>Advertisement</p>
 				<div class="ui rectangle ad">
-					<img style="width: 100%;"
-						src="http://3.bp.blogspot.com/-f3EtRHQvl6I/UUWF5J9jr9I/AAAAAAAAACs/VR5c9GL4Aa4/s798/your-ad-here.jpg" />
+
 				</div>
 			</div>
 			<div class="ui segment">
 				<p>Advertisement</p>
 				<div class="ui rectangle ad">
-					<img style="width: 100%;"
-						src="http://3.bp.blogspot.com/-f3EtRHQvl6I/UUWF5J9jr9I/AAAAAAAAACs/VR5c9GL4Aa4/s798/your-ad-here.jpg" />
+
 				</div>
 			</div>
 		</div>
@@ -85,6 +83,9 @@
 		$("#settingsLink").click(function() {
 			alert("Not supported yet!");
 		});
+        $("#showMessagesLink").click(function() {
+            loadMessages();
+        });
 	</script>
 </body>
 </html>

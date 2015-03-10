@@ -1,6 +1,7 @@
 package hu.szoftverfolyamat.service;
 
 import hu.szoftverfolyamat.dto.MessageDto;
+import hu.szoftverfolyamat.dto.UserProfileDataDto;
 import hu.szoftverfolyamat.entity.MessageEntity;
 import hu.szoftverfolyamat.enums.MessageStatus;
 import hu.szoftverfolyamat.exception.MessageServiceException;
@@ -10,9 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Service
 @Transactional
@@ -57,18 +56,36 @@ public class MessageService {
         return messageMapper.apply(messageRepository.findForUserPair(senderId, recipientId));
     }
 
-    // TODO
-    public List<MessageDto> getAllChats(final Long senderId) {
-        return new ArrayList<MessageDto>();
+    public Map<UserProfileDataDto, MessageDto> getAllChats(final long userId) {
+        final List<MessageDto> messages = messageMapper.apply(messageRepository.findForUser(userId));
+        final Map<UserProfileDataDto, MessageDto> result = new HashMap<>();
+
+        for (final MessageDto message : messages) {
+            final UserProfileDataDto otherParty = (message.getUserFrom().getCredentialId().equals(userId))
+                    ? message.getUserTo()
+                    : message.getUserFrom();
+
+            if (!result.containsKey(otherParty)) {
+                result.put(otherParty, message);
+            }
+
+        }
+
+        return result;
     }
 
-    // TODO
     public void markChatViewed(final Long senderId, final Long recipientId) {
+        final List<MessageEntity> entities = messageRepository.findForUserPair(senderId, recipientId);
 
+        for (final MessageEntity entity : entities) {
+              if (!entity.getIsViewed()) {
+                  entity.setIsViewed(true);
+                  messageRepository.saveAndFlush(entity);
+              }
+        }
     }
 
-    // TODO
-    public int getNumberOfNonViewedMessages(final Long recipientId) {
-        return 53;
+    public int getNumberOfNonViewedMessages(final long recipientId) {
+        return messageRepository.findUnreadForUser(recipientId).size();
     }
 }

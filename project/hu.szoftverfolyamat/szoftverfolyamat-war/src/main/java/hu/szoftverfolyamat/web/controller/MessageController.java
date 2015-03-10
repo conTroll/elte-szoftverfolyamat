@@ -35,6 +35,7 @@ public class MessageController extends BaseController {
     public ModelAndView showChat(final Principal principal, @PathVariable("id") final Long recipientId) {
         final ModelAndView result = new ModelAndView(Template.MESSAGES_SHOW);
         result.addObject("messages", messageService.getChat(getCurrentUser(principal), recipientId));
+        messageService.markChatViewed(getCurrentUser(principal), recipientId);
         return result;
     }
 

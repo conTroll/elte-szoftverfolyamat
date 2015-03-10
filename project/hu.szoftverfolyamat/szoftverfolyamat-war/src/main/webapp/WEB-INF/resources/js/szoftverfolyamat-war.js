@@ -22,6 +22,18 @@ function loadBrowseChannels() {
 	});
 }
 
+function loadMessages() {
+    $.get("messages/show_all", function( data ) {
+        changeContent(data);
+    });
+}
+
+function loadMessagesWithUser( id ) {
+    $.get("messages/show/" + id, function( data ) {
+        changeContent(data);
+    });
+}
+
 function changeContent( data ) {
 	$('#dynamicContent').fadeOut("fast", function() {
 		$('#dynamicContent').html( data );
