@@ -36,7 +36,7 @@
 			</div>
 			<div class="comments" style="margin: 2% 0% 2% 5%;">
 				<c:forEach items="${post.commentDtos}" var="comm">
-				<div id="comment${comm.commentId}" class="comment">
+				<div id="comment${comm.commentId}" class="comment" rel="${comm.commentId}">
 					<div class="avatar">
 						<img src="/images/avatar/small/joe.jpg">
 					</div>
@@ -47,9 +47,8 @@
 						</div>
 						<div class="text">${comm.text}</div>
 						<div class="actions">
-							<c:if
-								test="${(currentUserId == post.userProfileDataDto.credentialId)}">
-								<a class="deleteComment"> Delete </a>
+							<c:if  test="${(currentUserId == post.userProfileDataDto.credentialId)}">
+                                <a class="deleteComment"> Delete </a>
 							</c:if>
 						</div>
 					</div>
