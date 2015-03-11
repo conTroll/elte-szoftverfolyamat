@@ -15,7 +15,7 @@
 	<div class="ui comments">
 		<h3 class="ui dividing header">News</h3>
 		<c:forEach items="${postList}" var="post">
-			<div id="post${post.postId}" class="comment">
+			<div id="post${post.postId}" class="comment" rel="${post.postId}">
 				<div class="avatar">
 					<img src="/images/avatar/small/joe.jpg">
 				</div>
@@ -60,10 +60,10 @@
 	</div>
 	<script type="text/javascript">
 		$(".deletePost").click(function() {
-			deletePost($(this).parent().parent().parent().attr('id'));
+			deletePost($(this).parent().parent().parent().attr('rel'));
 		});
 		$(".deleteComment").click(function() {
-			deleteComment($(this).parent().parent().parent().attr('id'));
+			deleteComment($(this).parent().parent().parent().attr('rel'));
 		});
 		$(".replyButton").click(function() {
 			if(($(this).parent().parent().parent()).has( ".ui.reply.form" ).length == 0) {
@@ -77,7 +77,7 @@
 					'</div>' +
 					'</div>' ).appendTo($(this).parent().parent().parent()).slideDown("fast");
 					$("#submitComment").click(function () {
-						submitComment($(this).parent().parent().attr('id'));
+						submitComment($(this).parent().parent().attr('rel'));
 					});
 			} else {
 				$(this).parent().parent().parent().find( ".ui.reply.form" ).slideUp("fast", function() { $( this ).remove(); } );

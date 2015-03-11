@@ -51,7 +51,7 @@ public class NewsController extends BaseController {
         return new RedirectView(URI.POSTS_SHOW, true);
 	}
 
-    @RequestMapping(value = URI.COMMENTS_DELETE, method = RequestMethod.POST)
+    @RequestMapping(value = URI.COMMENTS_CREATE, method = RequestMethod.POST)
     public RedirectView createComment(final Principal principal, final @RequestBody CommentRequest request) {
         if (!request.getText().isEmpty()) {
             commentService.createComment(getCurrentUser(principal), request.getPostId(), request.getText());
@@ -60,7 +60,7 @@ public class NewsController extends BaseController {
         return new RedirectView(URI.POSTS_SHOW, true);
     }
 
-    @RequestMapping(value = URI.COMMENTS_CREATE, method = RequestMethod.POST)
+    @RequestMapping(value = URI.COMMENTS_DELETE, method = RequestMethod.POST)
     public RedirectView deleteComment(final @RequestBody IdRequest request) {
         // TODO check if current user is the owner
         commentService.deleteCommentById(request.getId());
