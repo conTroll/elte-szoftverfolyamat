@@ -2,15 +2,14 @@ package hu.szoftverfolyamat.service;
 
 import hu.szoftverfolyamat.dto.PostDto;
 import hu.szoftverfolyamat.entity.PostEntity;
-import hu.szoftverfolyamat.service.mapper.PostMapper;
 import hu.szoftverfolyamat.repository.PostRepository;
-
-import java.util.Date;
-import java.util.List;
-
+import hu.szoftverfolyamat.service.mapper.PostMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Date;
+import java.util.List;
 
 @Service
 @Transactional

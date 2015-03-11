@@ -2,11 +2,10 @@ package hu.szoftverfolyamat.service.mapper;
 
 import hu.szoftverfolyamat.dto.CommentDto;
 import hu.szoftverfolyamat.entity.CommentEntity;
-
-import java.text.SimpleDateFormat;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.text.SimpleDateFormat;
 
 @Service
 public class CommentMapper extends AbstractMapper<CommentEntity, CommentDto> {

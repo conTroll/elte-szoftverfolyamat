@@ -1,6 +1,7 @@
 package hu.szoftverfolyamat.web.requestobject;
 
 import lombok.Data;
+
 import java.io.Serializable;
 
 @Data

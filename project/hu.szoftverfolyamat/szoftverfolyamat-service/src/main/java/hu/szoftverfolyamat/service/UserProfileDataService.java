@@ -3,20 +3,18 @@ package hu.szoftverfolyamat.service;
 import hu.szoftverfolyamat.dto.UserProfileDataDto;
 import hu.szoftverfolyamat.entity.UserProfileData;
 import hu.szoftverfolyamat.exception.UserServiceException;
-
 import hu.szoftverfolyamat.repository.CustomUserProfileDataRepositoryImpl;
 import hu.szoftverfolyamat.repository.UserProfileDataRepository;
+import hu.szoftverfolyamat.service.mapper.UserProfileDataMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-
-import hu.szoftverfolyamat.service.mapper.UserProfileDataMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional

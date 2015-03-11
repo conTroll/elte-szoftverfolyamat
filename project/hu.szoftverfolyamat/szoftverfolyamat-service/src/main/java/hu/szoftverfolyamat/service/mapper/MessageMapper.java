@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 public class MessageMapper extends AbstractMapper<MessageEntity, MessageDto> {
 
     @Autowired
-    private UserProfileDataMapper userProfileDataMapper;
+    UserProfileDataMapper userProfileDataMapper;
 
     @Override
     public MessageDto apply(final MessageEntity entity) {
@@ -19,8 +19,15 @@ public class MessageMapper extends AbstractMapper<MessageEntity, MessageDto> {
         result.setId(entity.getId());
         result.setStatus(entity.getStatus());
         result.setText(entity.getText());
-        result.setUserFrom(userProfileDataMapper.apply(entity.getUserFrom()));
-        result.setUserTo(userProfileDataMapper.apply(entity.getUserTo()));
+
+        if (entity.getUserFrom() != null) {
+            result.setUserFrom(userProfileDataMapper.apply(entity.getUserFrom()));
+        }
+
+        if (entity.getUserTo() != null) {
+            result.setUserTo(userProfileDataMapper.apply(entity.getUserTo()));
+        }
+
         result.setViewed(entity.getIsViewed());
         return result;
     }

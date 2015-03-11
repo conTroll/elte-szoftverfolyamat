@@ -1,7 +1,6 @@
 package hu.szoftverfolyamat.repository;
 
 import hu.szoftverfolyamat.entity.UserCredential;
-
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -32,9 +31,9 @@ public class UserCredentialsRepositoryTest {
 		userCredential.setUserRole(null);
 
         // when
-		this.userCredentialsRepository.saveAndFlush(userCredential);
+        userCredentialsRepository.saveAndFlush(userCredential);
 
         // then
-		Assert.assertNotNull(this.userCredentialsRepository.getUserByUsername("admin"));
+		Assert.assertNotNull(userCredentialsRepository.getUserByUsername("admin"));
 	}
 }

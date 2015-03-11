@@ -5,12 +5,11 @@ import hu.szoftverfolyamat.entity.UserCredential;
 import hu.szoftverfolyamat.enums.Role;
 import hu.szoftverfolyamat.exception.UserServiceException;
 import hu.szoftverfolyamat.repository.UserCredentialsRepository;
-
-import java.text.ParseException;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.text.ParseException;
 
 @Service
 @Transactional

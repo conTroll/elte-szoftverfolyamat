@@ -25,6 +25,7 @@
 		<lombok.version>1.16.2</lombok.version>
 		<fasterxml.jackson.version>2.5.1</fasterxml.jackson.version>
 		<jackson.json.version>1.9.13</jackson.json.version>
+        <mockito.version>1.9.5</mockito.version>
 	</properties>
 
 	<build>
@@ -194,7 +195,11 @@
 				<version>${lombok.version}</version>
 			</dependency>
 
-
-		</dependencies>
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-all</artifactId>
+                <version>${mockito.version}</version>
+            </dependency>
+        </dependencies>
 	</dependencyManagement>
 </project>

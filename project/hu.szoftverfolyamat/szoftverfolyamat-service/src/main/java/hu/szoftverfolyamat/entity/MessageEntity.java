@@ -81,7 +81,7 @@ public class MessageEntity {
         return isViewed;
     }
 
-    public void setIsViewed(Boolean isViewed) {
+    public void setIsViewed(final Boolean isViewed) {
         this.isViewed = isViewed;
     }
 }
