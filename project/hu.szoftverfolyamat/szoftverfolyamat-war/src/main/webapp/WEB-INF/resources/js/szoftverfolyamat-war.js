@@ -22,17 +22,6 @@ function loadBrowseChannels() {
 	});
 }
 
-function loadMessages() {
-    $.get("messages/show_all", function( data ) {
-        changeContent(data);
-    });
-}
-
-function loadMessagesWithUser( id ) {
-    $.get("messages/show/" + id, function( data ) {
-        changeContent(data);
-    });
-}
 
 function changeContent( data ) {
 	$('#dynamicContent').fadeOut("fast", function() {
@@ -53,7 +42,7 @@ function submitPost() {
 	$.ajax({
 		  type: "POST",
 		  url: "createPost",
-          dataType: "json",
+          //dataType: "json",
           contentType: "application/json",
 		  data: JSON.stringify(data),
 		  success: function( data ) {
@@ -70,7 +59,7 @@ function submitComment(id) {
 	$.ajax({
 		  type: "POST",
 		  url: "createComment",
-          dataType: "json",
+          //dataType: "json",
           contentType: "application/json",
 		  data: JSON.stringify(data),
 		  success: function( data ) {
@@ -86,7 +75,9 @@ function deletePost(id) {
 	$.ajax({
 		  type: "POST",
 		  url: "deletePost",
-		  data: data,
+          //dataType: "json",
+          contentType: "application/json",
+		  data: JSON.stringify(data),
 		  success: function( data ) {
 				changeContent(data);
 		  }
@@ -100,7 +91,9 @@ function deleteComment(id) {
 	$.ajax({
 		  type: "POST",
 		  url: "deleteComment",
-		  data: data,
+          //dataType: "json",
+          contentType: "application/json",
+		  data: JSON.stringify(data),
 		  success: function( data ) {
 				changeContent(data);
 		  }
@@ -114,7 +107,9 @@ function addContact(id) {
 	$.ajax({
 		  type: "POST",
 		  url: "addContact",
-		  data: data,
+          //dataType: "json",
+          contentType: "application/json",
+		  data: JSON.stringify(data),
 		  success: function( data ) {
 				changeContent(data);
 		  }
@@ -127,8 +122,10 @@ function deleteContact(id) {
 	};
 	$.ajax({
 		  type: "POST",
+          //dataType: "json",
+          contentType: "application/json",
 		  url: "deleteContact",
-		  data: data,
+		  data: JSON.stringify(data),
 		  success: function( data ) {
 				changeContent(data);
 		  }
@@ -145,11 +142,56 @@ function searchContacts() {
 	$.ajax({
 		  type: "POST",
 		  url: "searchContacts",
-          dataType: "json",
+          //dataType: "json",
           contentType: "application/json",
 		  data: JSON.stringify(data),
 		  success: function( data ) {
 				changeContent(data);
 		  }
 	});
+}
+
+// MESSAGES
+
+function loadMessages() {
+    $.get("messages/show_all", function( data ) {
+        changeContent(data);
+    });
+}
+
+function loadMessagesWithUser( id ) {
+    $.get("messages/show/" + id, function( data ) {
+        changeContent(data);
+    });
+}
+
+function submitMessage(id, text) {
+    var data = {
+        "recipientId" : id,
+        "text" : text
+    };
+    $.ajax({
+        type: "POST",
+        url: "messages/create",
+        contentType: "application/json",
+        data: JSON.stringify(data),
+        success: function( data ) {
+            changeContent(data);
+        }
+    });
+}
+
+function deleteMessage( id ) {
+    var data = {
+        "id" : id
+    };
+    $.ajax({
+        type: "POST",
+        url: "messages/delete",
+        contentType: "application/json",
+        data: JSON.stringify(data),
+        success: function( data ) {
+            changeContent(data);
+        }
+    });
 }

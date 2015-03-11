@@ -18,7 +18,7 @@
                     <div class="text">
 
                         <c:choose>
-                            <c:when test="${chat.value.viewed == false}">
+                            <c:when test="${chat.value.viewed == false && chat.value.userTo.credentialId == currentUserId}">
                                 <b>${chat.value.text}</b>
                             </c:when>
                             <c:otherwise>

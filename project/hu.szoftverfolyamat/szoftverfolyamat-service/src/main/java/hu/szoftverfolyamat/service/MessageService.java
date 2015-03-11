@@ -38,6 +38,7 @@ public class MessageService {
         entity.setCreatedAt(new Date());
         entity.setText(text);
         entity.setStatus(MessageStatus.ACTIVE);
+        entity.setIsViewed(false);
         messageRepository.saveAndFlush(entity);
     }
 
@@ -78,7 +79,7 @@ public class MessageService {
         final List<MessageEntity> entities = messageRepository.findForUserPair(senderId, recipientId);
 
         for (final MessageEntity entity : entities) {
-              if (!entity.getIsViewed()) {
+              if (!entity.getIsViewed() && entity.getUserTo().getCredentialId().equals(senderId)) {
                   entity.setIsViewed(true);
                   messageRepository.saveAndFlush(entity);
               }
