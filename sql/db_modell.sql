@@ -125,7 +125,8 @@ CREATE TABLE messages (
   created_at TIMESTAMP NOT NULL,
   user_from INT(10) NOT NULL,
   user_to INT(10) NOT NULL,
-  status VARCHAR(16)
+  status VARCHAR(16),
+  is_viewed bit(1) DEFAULT 0 NOT NULL,
 );
 
 ALTER TABLE messages ADD CONSTRAINT fk_messages_from FOREIGN KEY (user_from) REFERENCES user_profile_data (credential_id);
