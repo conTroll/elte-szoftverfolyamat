@@ -40,4 +40,8 @@ public final class URI {
 
     // MESSAGES
     public static final String MESSAGES = "/messages";
+    
+    //IMAGES
+    public static final String GET_IMAGE = "/getImage";
+    public static final String UPLOAD_IMAGE = "/uploadImage";
 }

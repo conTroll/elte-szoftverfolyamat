@@ -18,4 +18,5 @@ public class UserProfileDataDto {
 	private String birthday;
 	private Long friendNumber;
 	private boolean friend;
+	private Long avatarId;
 }

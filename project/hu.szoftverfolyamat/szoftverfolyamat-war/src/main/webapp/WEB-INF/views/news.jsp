@@ -17,7 +17,7 @@
 		<c:forEach items="${postList}" var="post">
 			<div id="post${post.postId}" class="comment" rel="${post.postId}">
 				<div class="avatar">
-					<img src="/images/avatar/small/joe.jpg">
+					<img src="<c:url value="/getImage/${post.userProfileDataDto.avatarId}"/>">
 				</div>
 				<div class="content">
 					<a class="author">${post.userProfileDataDto.fullName}</a>
@@ -38,7 +38,7 @@
 				<c:forEach items="${post.commentDtos}" var="comm">
 				<div id="comment${comm.commentId}" class="comment" rel="${comm.commentId}">
 					<div class="avatar">
-						<img src="/images/avatar/small/joe.jpg">
+						<img src="<c:url value="/getImage/${comm.userProfileDataDto.avatarId}"/>">
 					</div>
 					<div class="content">
 						<a class="author">${comm.userProfileDataDto.fullName}</a>
