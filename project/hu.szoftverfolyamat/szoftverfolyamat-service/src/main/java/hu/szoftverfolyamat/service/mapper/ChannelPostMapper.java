@@ -3,12 +3,14 @@ package hu.szoftverfolyamat.service.mapper;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import hu.szoftverfolyamat.dto.ChannelPostCommentDto;
 import hu.szoftverfolyamat.dto.ChannelPostDto;
 import hu.szoftverfolyamat.dto.ChannelProfileDto;
 import hu.szoftverfolyamat.entity.ChannelPostEntity;
 
+@Service
 public class ChannelPostMapper extends AbstractMapper<ChannelPostEntity, ChannelPostDto> {
 
 	@Autowired

@@ -18,11 +18,33 @@
 <title>YASS</title>
 </head>
 <body>
+
+	<!-- Modal dialog: Successful channel creation -->
+	<div class="ui modal" id="successfulChannel">
+		<i class="close icon"></i>
+		<div class="header">Channel Created!</div>
+		<div class="content">
+			<div class="description">Channel successfully created!</div>
+		</div>
+		<div class="actions">
+			<div class="ui button">OK</div>
+		</div>
+	</div>
+
+	<c:if test="${successfulChannelCreation}">
+		<script type="text/javascript">
+		$('#successfulChannel')
+		  .modal()
+		;
+		</script>
+	</c:if>
+
 	<div class="ui center fluid menu">
 		<div class="item">YASS</div>
 		<div class="right menu">
 			<div class="item">${username}</div>
-			<a id="showMessagesLink" class="item"> <i class="mail icon"></i> Messages
+			<a id="showMessagesLink" class="item"> <i class="mail icon"></i>
+				Messages
 				<div class="ui red label">${numberOfMessages}</div>
 			</a> <a class="item" href="<c:url value="/j_spring_security_logout"/>">
 				<i class="sign out icon"></i> Logout
@@ -52,15 +74,11 @@
 		<div class="four wide column">
 			<div class="ui segment">
 				<p>Advertisement</p>
-				<div class="ui rectangle ad">
-
-				</div>
+				<div class="ui rectangle ad"></div>
 			</div>
 			<div class="ui segment">
 				<p>Advertisement</p>
-				<div class="ui rectangle ad">
-
-				</div>
+				<div class="ui rectangle ad"></div>
 			</div>
 		</div>
 	</div>
