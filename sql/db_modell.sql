@@ -131,3 +131,12 @@ CREATE TABLE messages (
 
 ALTER TABLE messages ADD CONSTRAINT fk_messages_from FOREIGN KEY (user_from) REFERENCES user_profile_data (credential_id);
 ALTER TABLE messages ADD CONSTRAINT fk_messages_to   FOREIGN KEY (user_to)   REFERENCES user_profile_data (credential_id);
+
+-- Images
+CREATE TABLE images (
+	id INT(10) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	image LONGBLOB
+);
+
+ALTER TABLE user_profile_data CHANGE avatar avatar_id INT(10);
+ALTER TABLE user_profile_data ADD CONSTRAINT fk_user_profile_data_avatar FOREIGN KEY (avatar_id) REFERENCES images (id);

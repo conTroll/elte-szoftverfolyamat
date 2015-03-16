@@ -7,7 +7,7 @@
           http://www.springframework.org/schema/security/spring-security.xsd">
 
 	<security:http auto-config="true" access-denied-page="/login">
-		<security:form-login login-page="/login"  default-target-url="/fff" authentication-failure-url="/login?error"  username-parameter="username" password-parameter="password" />
+		<security:form-login login-page="/login"  default-target-url="/" authentication-failure-url="/login?error"  username-parameter="username" password-parameter="password" />
 		<security:logout logout-success-url="/login?logout" invalidate-session="true" />
 		<!--<security:session-management>-->
             <!--<security:concurrency-control error-if-maximum-exceeded="true" max-sessions="1"/>-->

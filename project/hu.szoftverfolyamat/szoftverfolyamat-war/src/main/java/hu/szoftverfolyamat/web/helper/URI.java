@@ -9,6 +9,7 @@ public final class URI {
     // GENERAL
     public static final String SHOW_BY_ID = "/show/{id}";
     public static final String SHOW_ALL = "/show_all";
+    public static final String SHOW_OWN = "/show_own";
     public static final String CREATE = "/create";
     public static final String DELETE = "/delete";
 
@@ -25,8 +26,7 @@ public final class URI {
     public static final String COMMENTS_DELETE = "/deleteComment";
 
     // CHANNELS
-    public static final String CHANNELS_BROWSE = "/browseChannels";
-    public static final String CHANNELS_MINE = "/myChannels";
+    public static final String CHANNELS = "/channels";
 
     // CONTACTS
     public static final String CONTACTS_SHOW = "/viewContacts";
