@@ -31,6 +31,28 @@ public class UserProfileDataService {
 
 	@Autowired
 	private CustomUserProfileDataRepositoryImpl customUserProfileDataRepositoryImpl;
+	
+	public UserProfileData updateUserProfileData(final Long userCredentialId, final UserProfileDataDto userProfileDataDto) throws ParseException, UserServiceException {
+		UserProfileData userProfileData;
+		
+		userProfileData = this.userProfileDataRepository.findOne(userCredentialId);
+		if(userProfileData == null) {
+			throw new UserServiceException("Can not update user with userCredentialId: '" + userCredentialId + "', because user doues not exists!");
+		}
+		
+		userProfileData.setBirthday(new SimpleDateFormat("YYYY.MM.dd", Locale.ENGLISH).parse(userProfileDataDto.getBirthday()));
+		userProfileData.setEmail(userProfileDataDto.getEmail());
+		userProfileData.setFullName(userProfileDataDto.getFullName());
+		userProfileData.setHabitat(userProfileDataDto.getHabitat());
+		userProfileData.setJob(userProfileDataDto.getJob());
+		userProfileData.setPublicBirthday(userProfileDataDto.isPublicBirthday());
+		userProfileData.setPublicHabitat(userProfileDataDto.isPublicHabitat());
+		userProfileData.setPublicJobAndWorkplace(userProfileDataDto.isPublicJobAndWorkplace());
+		userProfileData.setShortName(userProfileDataDto.getShortName());
+		userProfileData.setWorkplace(userProfileDataDto.getWorkplace());
+		
+		return userProfileDataRepository.saveAndFlush(userProfileData);
+	}
 
 	public UserProfileData createUserProfileData(final Long userCredentialId, final UserProfileDataDto userProfileDataDto)
             throws UserServiceException, ParseException {
@@ -57,6 +79,16 @@ public class UserProfileDataService {
 
 	public UserProfileData findByUserCredentialId(final long id) {
 		return userProfileDataRepository.findOne(id);
+	}
+	
+	public void updateAvatarId(Long userCredentialId, Long avatarId) {
+		UserProfileData userProfileData;
+		
+		userProfileData = this.userProfileDataRepository.findOne(userCredentialId);
+		if(userProfileData != null) {
+			userProfileData.setAvatarId(avatarId);
+			this.userProfileDataRepository.saveAndFlush(userProfileData);
+		}
 	}
 
 	public List<UserProfileDataDto> getFriendsByUserId(final Long userCredentialId) {

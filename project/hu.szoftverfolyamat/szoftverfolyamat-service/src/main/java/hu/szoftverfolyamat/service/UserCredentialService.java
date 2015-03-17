@@ -28,6 +28,16 @@ public class UserCredentialService {
 
 	@Autowired
 	private UserRoleService userRoleService;
+	
+	public void updateUserCredential(final UserCredentialDto userCredentialDto) throws ParseException, UserServiceException {
+		UserCredential userCredential;
+		userCredential = this.userCredentialsRepository.findOne(userCredentialDto.getCredentialId());
+		
+		if(userCredential != null) {
+			userCredential.setPassword(userCredentialDto.getPassword());
+			userCredential.setUserProfileData(userProfileDataService.updateUserProfileData(userCredentialDto.getCredentialId(), userCredentialDto.getUserProfileDataDto()));
+		}
+	}
 
 	public UserCredential createUserCredential(final UserCredentialDto userCredentialDto) throws UserServiceException, ParseException {
 		if (userCredentialsRepository.getUserByUsername(userCredentialDto.getUsername()) != null) {

@@ -1,13 +1,17 @@
 package hu.szoftverfolyamat.web.controller;
 
 import java.security.Principal;
+import java.text.ParseException;
 
+import hu.szoftverfolyamat.dto.UserCredentialDto;
+import hu.szoftverfolyamat.exception.UserServiceException;
 import hu.szoftverfolyamat.service.UserCredentialService;
 import hu.szoftverfolyamat.web.helper.Template;
 import hu.szoftverfolyamat.web.helper.URI;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -28,6 +32,21 @@ public class SettingsController extends BaseController {
 		modelAndView = new ModelAndView(Template.USER_PROFILE);
 		modelAndView.addObject("userCredentialDto", userCredentialService.getUserCredentialById(credentialId));
 		
+		return modelAndView;
+	}
+	
+	@RequestMapping(method = RequestMethod.POST)
+	public ModelAndView update(@ModelAttribute(value = "userCredentialDto") UserCredentialDto userCredentialDto) {
+		ModelAndView modelAndView;
+		
+		try {
+			this.userCredentialService.updateUserCredential(userCredentialDto);
+		} catch (ParseException | UserServiceException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		modelAndView = new ModelAndView("redirect:" + Template.INDEX);
 		return modelAndView;
 	}
 }

@@ -14,7 +14,7 @@
 	<div class="two fields">
 		<div class="field">
 			<label>Full Name</label>
-			<form:input path="userProfileDataDto.fullName" value="${userProfileDataDto.fullName}"
+			<form:input path="userProfileDataDto.fullName"
 				placeholder="Full Name" type="text" />
 		</div>
 		<div class="field">
@@ -70,6 +70,16 @@
 			<label>Is birthday public?</label>
 		</div>
 	</div>
+	<form:input path="userProfileDataDto.credentialId"
+				type="hidden" />
+	<form:input path="userProfileDataDto.enabled"
+				type="hidden" />
+	<form:input path="userProfileDataDto.userProfileDataDto.credentialId"
+				type="hidden" />
+	<form:input path="userProfileDataDto.userProfileDataDto.friendNumber"
+				type="hidden" />
+	<form:input path="userProfileDataDto.userProfileDataDto.avatarId"
+				type="hidden" />
 	<form:button class="ui blue submit button">Submit</form:button>
 </form:form>
 <script type="text/javascript">
