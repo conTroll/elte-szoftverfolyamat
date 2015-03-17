@@ -33,9 +33,7 @@
 
 	<c:if test="${successfulChannelCreation}">
 		<script type="text/javascript">
-		$('#successfulChannel')
-		  .modal()
-		;
+			$('#successfulChannel').modal('show');
 		</script>
 	</c:if>
 
