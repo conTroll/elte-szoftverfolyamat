@@ -37,6 +37,7 @@ public final class URI {
 	// USER MANAGEMENT
 	public static final String USER_LOGIN = "/login";
 	public static final String USER_REGISTRATION = "/registration";
+	public static final String USER_PROFILE = "/profile";
 
 	// MESSAGES
 	public static final String MESSAGES = "/messages";

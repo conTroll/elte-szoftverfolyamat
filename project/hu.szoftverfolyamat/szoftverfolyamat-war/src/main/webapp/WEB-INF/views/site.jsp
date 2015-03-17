@@ -97,7 +97,7 @@
 			alert("Not supported yet!");
 		});
 		$("#settingsLink").click(function() {
-			alert("Not supported yet!");
+			loadSettings();
 		});
         $("#showMessagesLink").click(function() {
             loadMessages();

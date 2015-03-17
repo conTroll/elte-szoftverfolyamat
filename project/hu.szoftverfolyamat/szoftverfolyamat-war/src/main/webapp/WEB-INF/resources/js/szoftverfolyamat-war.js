@@ -22,6 +22,12 @@ function loadBrowseChannels() {
 	});
 }
 
+function loadSettings() {
+	$.get( "profile", function( data ) {
+		changeContent(data);
+	});
+}
+
 
 function changeContent( data ) {
 	$('#dynamicContent').fadeOut("fast", function() {
