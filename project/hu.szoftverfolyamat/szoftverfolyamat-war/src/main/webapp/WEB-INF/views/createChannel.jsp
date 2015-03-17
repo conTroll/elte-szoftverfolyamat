@@ -10,9 +10,14 @@
 <link rel="stylesheet" type="text/css"
 	href="<c:url value="/css/app.css"/>" />
 <script type="text/javascript"
-	src="<c:url value="/semantic/javascript/semantic.js"/>"></script>
-<script type="text/javascript"
 	src="<c:url value="/js/jquery-1.11.1.min.js"/>"></script>
+<script type="text/javascript"
+	src="<c:url value="/semantic/javascript/semantic.js"/>"></script>
+<script type="text/javascript">
+	$(function() {
+		$('.ui.checkbox').checkbox();
+	});
+</script>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>elte szoftverfolyamat</title>
 </head>
@@ -21,28 +26,40 @@
 		commandName="createChannelRequest"
 		style="width: 80%; margin-left: 10%; margin-top: 10%;"
 		class="ui form pilled segment">
+
 		<c:if test="${not empty error}">
-			<div class="ui error message">
-				<div class="header">Oops! Something went wrong. :(</div>
+			<div class="ui error message visible">
 				<p>${error}</p>
 			</div>
 		</c:if>
 
-		<div class="field">
-			<label>Channel Name</label>
-			<form:input path="name" placeholder="Channel Name" type="text" />
-		</div>
+		<c:choose>
+			<c:when test="${not empty error}">
+				<div class="field error">
+					<label>Channel Name <span style="color: red">*</span></label>
+					<form:input path="name" placeholder="Channel Name" type="text" />
+				</div>
+			</c:when>
+			<c:otherwise>
+				<div class="field">
+					<label>Channel Name <span style="color: red">*</span></label>
+					<form:input path="name" placeholder="Channel Name" type="text" />
+				</div>
+			</c:otherwise>
+		</c:choose>
+
 		<div class="field">
 			<label>Channel Description</label>
 			<form:input path="description" placeholder="Description" type="text" />
 		</div>
 		<div class="inline field">
-			<div class="ui checkbox">
+			<div class="ui toggle checkbox">
 				<form:checkbox path="open" />
-				<label>Can subscribe to?</label>
+				<label>Open for subscriptions?</label>
 			</div>
 		</div>
 		<form:button class="ui blue submit button">Submit</form:button>
 	</form:form>
+	
 </body>
 </html>

@@ -15,4 +15,5 @@ public class BaseController {
     protected Long getCurrentUser(final Principal principal) {
         return userCredentialService.getUser(principal.getName()).getCredentialId();
     }
+    
 }

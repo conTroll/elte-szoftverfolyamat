@@ -53,7 +53,7 @@ public class ChannelService {
 	public Long createChannel(Long leaderId, String name, String description, boolean open) throws ChannelServiceException {
 		
 		if(name == null || "".equals(name.trim())) {
-			throw new ChannelServiceException("name argument is mandatory");
+			throw new ChannelServiceException("name field is mandatory");
 		}
 		
 		if(leaderId == null) {

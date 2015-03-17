@@ -9,8 +9,8 @@ import hu.szoftverfolyamat.web.helper.URI;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.security.Principal;
@@ -26,14 +26,14 @@ public class IndexController extends BaseController {
     private MessageService messageService;
 
     @RequestMapping(value = URI.INDEX)
-    public ModelAndView handleGet(final Principal principal, @RequestParam(value = "successfulChannelCreation", required = false) Boolean successfulChannel) {
+    public ModelAndView handleGet(final Principal principal, final Model model) {
         final Long userId = getCurrentUser(principal);
         final ModelAndView result = new ModelAndView(Template.INDEX);
         result.addObject("username", principal.getName());
         result.addObject("currentUserId", userId);
         result.addObject("postList", postService.getPostsForUser(userId));
         result.addObject("numberOfMessages", messageService.getNumberOfNonViewedMessages(userId));
-        result.addObject("successfulChannelCreation", successfulChannel);
+        result.addObject("successfulChannelCreation", model.containsAttribute("successfulChannelCreation"));
         return result;
     }
 }

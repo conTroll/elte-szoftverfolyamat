@@ -1,16 +1,12 @@
 package hu.szoftverfolyamat.web.controller;
 
-import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.security.Principal;
 
 import javax.servlet.ServletContext;
 
 import hu.szoftverfolyamat.service.ImageResourceService;
-import hu.szoftverfolyamat.service.UserProfileDataService;
 import hu.szoftverfolyamat.web.helper.URI;
-import hu.szoftverfolyamat.web.requestobject.IdRequest;
 
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
