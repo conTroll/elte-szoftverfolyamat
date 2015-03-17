@@ -33,6 +33,7 @@
 
 	<c:if test="${successfulChannelCreation}">
 		<script type="text/javascript">
+			loadOwnChannels();
 			$('#successfulChannel').modal('show');
 		</script>
 	</c:if>
@@ -94,7 +95,7 @@
 			alert("Not supported yet!");
 		});
 		$("#myChannelsLink").click(function() {
-			alert("Not supported yet!");
+			loadOwnChannels();
 		});
 		$("#settingsLink").click(function() {
 			loadSettings();

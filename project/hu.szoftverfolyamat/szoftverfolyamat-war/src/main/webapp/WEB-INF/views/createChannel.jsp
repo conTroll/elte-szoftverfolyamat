@@ -58,7 +58,7 @@
 				<label>Open for subscriptions?</label>
 			</div>
 		</div>
-		<form:button class="ui blue submit button">Submit</form:button>
+		<form:button class="ui blue submit button">Create</form:button>
 	</form:form>
 	
 </body>
