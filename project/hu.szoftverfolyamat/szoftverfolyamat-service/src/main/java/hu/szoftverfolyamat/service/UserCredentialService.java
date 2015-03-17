@@ -5,6 +5,8 @@ import hu.szoftverfolyamat.entity.UserCredential;
 import hu.szoftverfolyamat.enums.Role;
 import hu.szoftverfolyamat.exception.UserServiceException;
 import hu.szoftverfolyamat.repository.UserCredentialsRepository;
+import hu.szoftverfolyamat.service.mapper.UserCredentialMapper;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +22,9 @@ public class UserCredentialService {
 
 	@Autowired
 	private UserProfileDataService userProfileDataService;
+	
+	@Autowired
+	private UserCredentialMapper userCredentialMapper;
 
 	@Autowired
 	private UserRoleService userRoleService;
@@ -39,6 +44,15 @@ public class UserCredentialService {
                 .createUserProfileData(userCredential.getCredentialId(), userCredentialDto.getUserProfileDataDto()));
         userCredential.setUserRole(userRoleService.createRole(userCredential.getCredentialId(), Role.ROLE_USER));
 		return userCredentialsRepository.saveAndFlush(userCredential);
+	}
+	
+	public UserCredentialDto getUserCredentialById(Long id) {
+		UserCredential userCredential;
+		userCredential = this.userCredentialsRepository.getUserById(id);
+		if(userCredential != null) {
+			return userCredentialMapper.apply(userCredential);
+		}
+		return null;
 	}
 
 	public UserCredential getUser(String username) {

@@ -19,6 +19,7 @@ public final class Template {
 
     public static final String USER_LOGIN = "login";
     public static final String USER_REGISTRATION = "registration";
+    public static final String USER_PROFILE = "profile";
 
     public static final String MESSAGES_SHOW = "messagesShow";
     public static final String MESSAGES_SHOW_ALL = "messagesShowAll";

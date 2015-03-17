@@ -10,5 +10,8 @@ public interface UserCredentialsRepository extends
 
 	@Query("select uc from UserCredential uc left join fetch uc.userRole ur where uc.username = (:username)")
 	public UserCredential getUserByUsername(@Param("username") String username);
+	
+	@Query("select uc from UserCredential uc left join fetch uc.userProfileData upd where uc.id = (:id)")
+	public UserCredential getUserById(@Param("id") Long id);
 
 }

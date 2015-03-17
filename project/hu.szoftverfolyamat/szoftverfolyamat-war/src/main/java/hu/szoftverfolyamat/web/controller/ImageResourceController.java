@@ -3,6 +3,7 @@ package hu.szoftverfolyamat.web.controller;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.security.Principal;
 
 import javax.servlet.ServletContext;
 
@@ -26,6 +27,9 @@ public class ImageResourceController {
 
 	@Autowired
 	private ImageResourceService imageResourceService;
+	
+	@Autowired
+	private UserProfileDataService userProfileDataService;
 
 	private final byte[] devaultAvatarInBytes;
 
@@ -57,7 +61,7 @@ public class ImageResourceController {
 	}
 
 	@RequestMapping(value = URI.UPLOAD_IMAGE, method = RequestMethod.POST)
-	public @ResponseBody Long uploadImage(@RequestParam("name") String name,
+	public @ResponseBody Long uploadImage(final Principal principal, @RequestParam("name") String name,
 			@RequestParam("file") MultipartFile file) {
 		if (!file.isEmpty()) {
 			byte[] bytes;
