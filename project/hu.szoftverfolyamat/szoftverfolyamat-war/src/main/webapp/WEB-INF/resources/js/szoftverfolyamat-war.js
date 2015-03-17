@@ -28,6 +28,12 @@ function loadSettings() {
 	});
 }
 
+function loadOwnChannels() {
+	$.get( "channels/show_own", function( data ){
+		changeContent(data);
+	});
+}
+
 
 function changeContent( data ) {
 	$('#dynamicContent').fadeOut("fast", function() {
