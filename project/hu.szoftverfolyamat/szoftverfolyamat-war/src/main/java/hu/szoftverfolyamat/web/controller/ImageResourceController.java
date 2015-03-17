@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
+import javax.servlet.ServletContext;
+
 import hu.szoftverfolyamat.service.ImageResourceService;
 import hu.szoftverfolyamat.service.UserProfileDataService;
 import hu.szoftverfolyamat.web.helper.URI;
@@ -27,13 +29,33 @@ public class ImageResourceController {
 	@Autowired
 	private ImageResourceService imageResourceService;
 
+	private final byte[] devaultAvatarInBytes;
+
+	@Autowired
+	public ImageResourceController(ServletContext context) throws IOException {
+		if (context == null) {
+			throw new IOException("ServletContext is null");
+		}
+		this.devaultAvatarInBytes = IOUtils
+				.toByteArray(context
+						.getResourceAsStream("/WEB-INF/resources/images/defaultProfilePicture.gif"));
+
+	}
+
+	@RequestMapping(value = URI.GET_IMAGE, method = RequestMethod.GET)
+	public @ResponseBody byte[] getDefaultImage() {
+		return this.devaultAvatarInBytes;
+	}
+
 	@RequestMapping(value = URI.GET_IMAGE + "/{id}", method = RequestMethod.GET)
 	public @ResponseBody byte[] getImage(
 			@PathVariable("id") Long id) {
 		InputStream inputStream;
+	public @ResponseBody byte[] getImage(@PathVariable("id") Long id) {
 		byte[] result;
 		String path;
 		
+
 		result = imageResourceService.getImageSource(id);
 		if(result == null) {
 			inputStream = getClass().getClassLoader().getResourceAsStream(
@@ -45,6 +67,8 @@ public class ImageResourceController {
 				e.printStackTrace();
 				return null;
 			}
+		if (result == null) {
+			return this.devaultAvatarInBytes;
 		}
 		return result;
 	}
@@ -60,8 +84,16 @@ public class ImageResourceController {
 				} catch (IOException e) {
 					
 				}
+			byte[] bytes;
+			try {
+				bytes = file.getBytes();
+				return this.imageResourceService.saveImage(bytes);
+			} catch (IOException e) {
 
         }
+			}
+
+		}
 		return null;
 	}
 }
