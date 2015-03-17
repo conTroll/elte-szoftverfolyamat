@@ -74,7 +74,7 @@ public class ImageResourceController extends BaseController {
 				userProfileDataService.updateAvatarId(
 						this.getCurrentUser(principal), avatarId);
 			} catch (IOException e) {
-				// TODO logol·s
+				// TODO logol√°s
 				e.printStackTrace();
 			}
 
