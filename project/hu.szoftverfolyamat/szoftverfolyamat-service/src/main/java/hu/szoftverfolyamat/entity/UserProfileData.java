@@ -19,12 +19,12 @@ public class UserProfileData {
 	private String workplace;
 	private boolean publicBirthday;
 	private Date birthday;
-	private byte[] avatar;
+	private Long avatarId;
 	private List<ChannelProfileEntity> ownedChannels;
 
-	@Column(name = "avatar")
-	public byte[] getAvatar() {
-		return this.avatar;
+	@Column(name = "avatar_id")
+	public Long getAvatarId() {
+		return this.avatarId;
 	}
 
 	@Column(name = "birthday")
@@ -89,8 +89,8 @@ public class UserProfileData {
 		return ownedChannels;
 	}
 
-	public void setAvatar(byte[] avatar) {
-		this.avatar = avatar;
+	public void setAvatarId(Long avatarId) {
+		this.avatarId = avatarId;
 	}
 
 	public void setBirthday(Date birthday) {

@@ -10,7 +10,7 @@
 
 	<dependencies>
 
-        <dependency>
+		<dependency>
 			<groupId>hu.szoftverfolyamat</groupId>
 			<artifactId>szoftverfolyamat-api</artifactId>
 		</dependency>
@@ -19,11 +19,11 @@
 			<artifactId>junit</artifactId>
 			<scope>test</scope>
 		</dependency>
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-all</artifactId>
-            <scope>test</scope>
-        </dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-all</artifactId>
+			<scope>test</scope>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-test</artifactId>
@@ -92,7 +92,7 @@
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 		</dependency>
-    </dependencies>
+	</dependencies>
 
 	<build>
 		<finalName>szoftverfolyamat-service</finalName>

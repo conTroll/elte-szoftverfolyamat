@@ -23,35 +23,6 @@ public class RegistrationController extends BaseController {
 	@Autowired
 	private UserCredentialService userCredentialService;
 
-	// TODO ideiglenes megoldás, mert a spring mvc formja nem tud egymásba
-	// ágyazott objektumot kezelni?? COnverter írással elvileg megoldható
-	// private UserCredentialDto convertRegistrationDtoToUserCredentialDto(
-	// RegistrationFormDto registrationFormDto) {
-	// UserCredentialDto userCredentialDto;
-	// UserProfileDataDto userProfileDataDto;
-	//
-	// userProfileDataDto = new UserProfileDataDto();
-	// userProfileDataDto.setBirthday(registrationFormDto.getBirthday());
-	// userProfileDataDto.setEmail(registrationFormDto.getEmail());
-	// userProfileDataDto.setFullName(registrationFormDto.getFullName());
-	// userProfileDataDto.setHabitat(registrationFormDto.getHabitat());
-	// userProfileDataDto.setJob(registrationFormDto.getJob());
-	// userProfileDataDto.setPublicBirthday(registrationFormDto
-	// .getPublicBirthday());
-	// userProfileDataDto.setPublicHabitat(registrationFormDto
-	// .getPublicHabitat());
-	// userProfileDataDto.setPublicJobAndWorkplace(registrationFormDto
-	// .getPublicJobAndWorkplace());
-	// userProfileDataDto.setShortName(registrationFormDto.getShortName());
-	// userProfileDataDto.setWorkplace(registrationFormDto.getWorkplace());
-	//
-	// userCredentialDto = new UserCredentialDto();
-	// userCredentialDto.setPassword(registrationFormDto.getPassword());
-	// userCredentialDto.setUsername(registrationFormDto.getUsername());
-	// userCredentialDto.setUserProfileDataDto(userProfileDataDto);
-	// return userCredentialDto;
-	// }
-
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView showForm() {
         final UserCredentialDto userCredentialDto = new UserCredentialDto();

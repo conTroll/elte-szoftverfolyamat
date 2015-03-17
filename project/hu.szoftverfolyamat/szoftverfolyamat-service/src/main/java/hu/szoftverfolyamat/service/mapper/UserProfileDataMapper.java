@@ -29,6 +29,7 @@ public class UserProfileDataMapper extends AbstractMapper<UserProfileData, UserP
         result.setShortName(entity.getShortName());
         result.setWorkplace(entity.getWorkplace());
         result.setFriendNumber((long) userConnectionService.getFriendsIdByUserCredentialId(entity.getCredentialId()).size());
+        result.setAvatarId(entity.getAvatarId());
         return result;
     }
 }

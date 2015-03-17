@@ -78,7 +78,6 @@ public class UserProfileDataService {
 
 		for (final UserProfileDataDto dataDto : dataDtoList) {
 			if (dataDto.getCredentialId() != credentialId) {
-				dataDtoList.remove(dataDto);
                 dataDto.setFriend(friendIds.contains(dataDto.getCredentialId()));
 				result.add(dataDto);
 			}
