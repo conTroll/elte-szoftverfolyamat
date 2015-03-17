@@ -6,6 +6,7 @@ import java.security.Principal;
 import javax.servlet.ServletContext;
 
 import hu.szoftverfolyamat.service.ImageResourceService;
+import hu.szoftverfolyamat.service.UserProfileDataService;
 import hu.szoftverfolyamat.web.helper.URI;
 
 import org.apache.commons.io.IOUtils;
