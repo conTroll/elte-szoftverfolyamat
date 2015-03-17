@@ -1,15 +1,11 @@
 package hu.szoftverfolyamat.web.controller;
 
-import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 
 import javax.servlet.ServletContext;
 
 import hu.szoftverfolyamat.service.ImageResourceService;
-import hu.szoftverfolyamat.service.UserProfileDataService;
 import hu.szoftverfolyamat.web.helper.URI;
-import hu.szoftverfolyamat.web.requestobject.IdRequest;
 
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +19,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 public class ImageResourceController {
-	
-	
 
 	@Autowired
 	private ImageResourceService imageResourceService;
@@ -48,25 +42,10 @@ public class ImageResourceController {
 	}
 
 	@RequestMapping(value = URI.GET_IMAGE + "/{id}", method = RequestMethod.GET)
-	public @ResponseBody byte[] getImage(
-			@PathVariable("id") Long id) {
-		InputStream inputStream;
 	public @ResponseBody byte[] getImage(@PathVariable("id") Long id) {
 		byte[] result;
-		String path;
-		
 
 		result = imageResourceService.getImageSource(id);
-		if(result == null) {
-			inputStream = getClass().getClassLoader().getResourceAsStream(
-					"WEB-INF/resources/images/defaultProfilePicture.gif");
-			try {
-				return IOUtils.toByteArray(inputStream);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				return null;
-			}
 		if (result == null) {
 			return this.devaultAvatarInBytes;
 		}
@@ -77,20 +56,12 @@ public class ImageResourceController {
 	public @ResponseBody Long uploadImage(@RequestParam("name") String name,
 			@RequestParam("file") MultipartFile file) {
 		if (!file.isEmpty()) {
-                byte[] bytes;
-				try {
-					bytes = file.getBytes();
-					return this.imageResourceService.saveImage(bytes);
-				} catch (IOException e) {
-					
-				}
 			byte[] bytes;
 			try {
 				bytes = file.getBytes();
 				return this.imageResourceService.saveImage(bytes);
 			} catch (IOException e) {
 
-        }
 			}
 
 		}
