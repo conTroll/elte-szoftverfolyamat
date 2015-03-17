@@ -91,7 +91,7 @@
 			loadShowContacts();
 		});
 		$("#browseChannelsLink").click(function() {
-			loadBrowseChannels();
+			alert("Not supported yet!");
 		});
 		$("#myChannelsLink").click(function() {
 			alert("Not supported yet!");
