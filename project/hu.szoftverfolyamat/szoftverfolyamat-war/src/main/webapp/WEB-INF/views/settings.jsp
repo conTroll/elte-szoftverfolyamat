@@ -72,13 +72,13 @@
 	</div>
 	<form:input path="userProfileDataDto.credentialId"
 				type="hidden" />
-	<form:input path="userProfileDataDto.enabled"
+	<%-- 	<form:input path="userProfileDataDto.enabled" --%>
+	<%-- 				type="hidden" /> --%>
+	<form:input path="userProfileDataDto.credentialId"
 				type="hidden" />
-	<form:input path="userProfileDataDto.userProfileDataDto.credentialId"
+	<form:input path="userProfileDataDto.friendNumber"
 				type="hidden" />
-	<form:input path="userProfileDataDto.userProfileDataDto.friendNumber"
-				type="hidden" />
-	<form:input path="userProfileDataDto.userProfileDataDto.avatarId"
+	<form:input path="userProfileDataDto.avatarId"
 				type="hidden" />
 	<form:button class="ui blue submit button">Submit</form:button>
 </form:form>

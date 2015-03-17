@@ -112,6 +112,22 @@ function deleteComment(id) {
 	});
 }
 
+//function addContact(id) {
+//	var data = {
+//		"id" : id
+//	};
+//	$.ajax({
+//		  type: "POST",
+//		  url: "addContact",
+//          //dataType: "json",
+//          contentType: "application/json",
+//		  data: JSON.stringify(data),
+//		  success: function( data ) {
+//				changeContent(data);
+//		  }
+//	});
+//}
+
 function addContact(id) {
 	var data = {
 		"id" : id
@@ -119,14 +135,28 @@ function addContact(id) {
 	$.ajax({
 		  type: "POST",
 		  url: "addContact",
-          //dataType: "json",
-          contentType: "application/json",
-		  data: JSON.stringify(data),
+		  data: data,
 		  success: function( data ) {
 				changeContent(data);
 		  }
 	});
 }
+
+//function deleteContact(id) {
+//	var data = {
+//		"id" : id
+//	};
+//	$.ajax({
+//		  type: "POST",
+//          //dataType: "json",
+//          contentType: "application/json",
+//		  url: "deleteContact",
+//		  data: JSON.stringify(data),
+//		  success: function( data ) {
+//				changeContent(data);
+//		  }
+//	});
+//}
 
 function deleteContact(id) {
 	var data = {
@@ -134,10 +164,8 @@ function deleteContact(id) {
 	};
 	$.ajax({
 		  type: "POST",
-          //dataType: "json",
-          contentType: "application/json",
 		  url: "deleteContact",
-		  data: JSON.stringify(data),
+		  data: data,
 		  success: function( data ) {
 				changeContent(data);
 		  }
