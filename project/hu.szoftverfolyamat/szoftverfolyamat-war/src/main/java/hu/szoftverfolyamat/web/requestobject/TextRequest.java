@@ -7,5 +7,7 @@ import java.io.Serializable;
 @Data
 public class TextRequest implements Serializable {
 
-    private String text;
+	private static final long serialVersionUID = -2816628695337212873L;
+	
+	private String text;
 }

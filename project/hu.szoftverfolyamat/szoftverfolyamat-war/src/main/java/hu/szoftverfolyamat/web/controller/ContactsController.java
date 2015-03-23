@@ -7,7 +7,6 @@ import hu.szoftverfolyamat.service.UserProfileDataService;
 import hu.szoftverfolyamat.web.helper.Role;
 import hu.szoftverfolyamat.web.helper.Template;
 import hu.szoftverfolyamat.web.helper.URI;
-import hu.szoftverfolyamat.web.requestobject.IdRequest;
 import hu.szoftverfolyamat.web.requestobject.SearchRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;

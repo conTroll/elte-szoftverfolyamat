@@ -7,7 +7,9 @@ import java.io.Serializable;
 @Data
 public class SearchRequest implements Serializable {
 
-    private String email;
+	private static final long serialVersionUID = 6181131764545250397L;
+	
+	private String email;
     private String fullName;
     private String place;
     private String job;

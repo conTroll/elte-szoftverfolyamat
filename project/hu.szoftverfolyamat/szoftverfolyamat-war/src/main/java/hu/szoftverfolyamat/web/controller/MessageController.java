@@ -20,7 +20,6 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 import java.security.Principal;
-import java.util.List;
 
 @Controller
 @RequestMapping(URI.MESSAGES)
@@ -54,7 +53,7 @@ public class MessageController extends BaseController {
 
     @RequestMapping(value = URI.CREATE, method = RequestMethod.POST)
     public RedirectView doCreate(final Principal principal, final @RequestBody MessageRequest request) {
-        final List<Long> friends = userConnectionService.getFriendsIdByUserCredentialId(getCurrentUser(principal));
+        // final List<Long> friends = userConnectionService.getFriendsIdByUserCredentialId(getCurrentUser(principal));
         String targetPage = URI.MESSAGES + URI.SHOW_ALL;
 
         //if (friends.contains(request.getRecipientId())) {
