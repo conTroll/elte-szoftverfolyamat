@@ -5,6 +5,7 @@ import java.util.List;
 
 import hu.szoftverfolyamat.dto.ChannelProfileDto;
 import hu.szoftverfolyamat.dto.UserProfileDataDto;
+import hu.szoftverfolyamat.enums.MatchType;
 import hu.szoftverfolyamat.exception.ChannelServiceException;
 import hu.szoftverfolyamat.service.ChannelService;
 import hu.szoftverfolyamat.service.UserProfileDataService;
@@ -12,6 +13,7 @@ import hu.szoftverfolyamat.service.mapper.UserProfileDataMapper;
 import hu.szoftverfolyamat.web.helper.Role;
 import hu.szoftverfolyamat.web.helper.Template;
 import hu.szoftverfolyamat.web.helper.URI;
+import hu.szoftverfolyamat.web.requestobject.ChannelSearchRequest;
 import hu.szoftverfolyamat.web.requestobject.CreateChannelRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,7 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -39,9 +42,9 @@ public class ChannelsController extends BaseController {
 	@Autowired
 	private UserProfileDataMapper userMapperService;
 
-	@RequestMapping(URI.SHOW_ALL)
-	public String showChannels() {
-		return Template.CHANNELS_BROWSER;
+	@RequestMapping(URI.SEARCH)
+	public String showSearchForm() {
+		return Template.SEARCH_CHANNELS;
 	}
 
 	@RequestMapping(URI.SHOW_OWN)
@@ -68,6 +71,21 @@ public class ChannelsController extends BaseController {
 		result.addObject("createChannelRequest", request);
 		result.addObject("error", error);
 		return result;
+	}
+	
+	@RequestMapping(value = URI.SEARCH, method = RequestMethod.POST)
+	public ModelAndView doSearch(Principal principal, @RequestBody ChannelSearchRequest request) {
+		
+		List<ChannelProfileDto> channels = this.service.searchByName(request.getSearchTerm(), MatchType.SUBSTRING);
+		ModelAndView result = new ModelAndView(Template.SEARCH_CHANNELS);
+		result.addObject("channels", channels);
+		
+		Long userId = this.getCurrentUser(principal);
+		UserProfileDataDto userProfile = this.userMapperService.apply(this.userService.findByUserCredentialId(userId));
+		result.addObject("userProfile", userProfile);
+		
+		return result;
+		
 	}
 
 	@RequestMapping(value = URI.CREATE, method = RequestMethod.POST)

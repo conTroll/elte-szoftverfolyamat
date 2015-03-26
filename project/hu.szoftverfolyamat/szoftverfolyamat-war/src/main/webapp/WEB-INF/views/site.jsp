@@ -60,10 +60,12 @@
 					class="search icon"></i>
 				</a> <a id="showContactsLink" class="item"> Show Contacts <i
 					class="users icon"></i>
-				</a> <a id="browseChannelsLink" class="item"> Browse Channels <i
-					class="feed icon"></i>
+				</a> <a id="browseChannelsLink" class="item"> Search Channels <i
+					class="rss icon"></i>
+				</a> <a id="mySubscriptionsLink" class="item"> My Subscriptions <i
+					class="bookmark icon"></i>
 				</a> <a id="myChannelsLink" class="item"> My Channels <i
-					class="users icon"></i>
+					class="signup icon"></i>
 				</a> <a id="settingsLink" class="item"> Settings <i
 					class="settings icon"></i>
 				</a>
@@ -99,12 +101,15 @@
 		$("#myChannelsLink").click(function() {
 			loadOwnChannels();
 		});
+		$("#mySubscriptionsLink").click(function() {
+			loadSubscribedChannels();
+		});
 		$("#settingsLink").click(function() {
 			loadSettings();
 		});
-        $("#showMessagesLink").click(function() {
-            loadMessages();
-        });
+		$("#showMessagesLink").click(function() {
+			loadMessages();
+		});
 	</script>
 </body>
 </html>

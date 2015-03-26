@@ -52,7 +52,7 @@ public class ChannelProfileEntity implements Serializable {
 		return this.posts;
 	}
 	
-	@OneToMany(mappedBy = "channel", fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "id.channel", fetch = FetchType.LAZY)
 	public Set<ChannelSubscriberEntity> getSubscribers() {
 		return this.subscribers;
 	}

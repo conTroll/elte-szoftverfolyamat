@@ -12,23 +12,13 @@ public class ChannelSubscriberEntity implements Serializable {
 
 	private static final long serialVersionUID = -4992730295050324392L;
 	
-	private ChannelProfileEntity channel;
-	private UserProfileData user;
+	private ChannelSubscriberEntityId id;
 	private SubscriberStatus status;
 	private Date subscriptionDate;
 
-	@Id
-	@ManyToOne(fetch = FetchType.LAZY, optional = false)
-	@JoinColumn(name = "channel_id", nullable = false)
-	public ChannelProfileEntity getChannel() {
-		return channel;
-	}
-	
-	@Id
-	@ManyToOne(fetch = FetchType.LAZY, optional = false)
-	@JoinColumn(name = "subscriber_credential_id", nullable = false)
-	public UserProfileData getUser() {
-		return user;
+	@EmbeddedId
+	public ChannelSubscriberEntityId getId() {
+		return id;
 	}
 
 	@Column(name = "subscriber_status", nullable = false)
@@ -42,12 +32,8 @@ public class ChannelSubscriberEntity implements Serializable {
 		return subscriptionDate;
 	}
 	
-	public void setChannel(ChannelProfileEntity channel) {
-		this.channel = channel;
-	}
-	
-	public void setUser(UserProfileData user) {
-		this.user = user;
+	public void setId(ChannelSubscriberEntityId id) {
+		this.id = id;
 	}
 	
 	public void setStatus(SubscriberStatus status) {

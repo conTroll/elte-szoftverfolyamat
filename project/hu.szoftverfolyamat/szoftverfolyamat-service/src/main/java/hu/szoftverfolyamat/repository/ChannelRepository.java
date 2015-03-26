@@ -11,19 +11,22 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface ChannelRepository extends JpaRepository<ChannelProfileEntity, Long> {
 	
-	@Query("select s.channel from ChannelSubscriberEntity s where s.user = :user and s.status = :status order by s.channel.name")
+	@Query("select s.id.channel from ChannelSubscriberEntity s where s.id.user = ?1 and s.status = ?2 order by s.id.channel.name")
 	List<ChannelProfileEntity> getSubscriptionsByUserAndStatus(UserProfileData user, SubscriberStatus status);
 	
-	@Query("select s.channel from ChannelSubscriberEntity s where s.user = :user order by s.channel.name")
+	@Query("select s.id.channel from ChannelSubscriberEntity s where s.id.user = ?1 order by s.id.channel.name")
 	List<ChannelProfileEntity> getSubscriptionsByUser(UserProfileData user);
 	
-	@Query("select s.user from ChannelSubscriberEntity s where s.channel = :channel order by s.subscriptionDate")
+	@Query("select s.id.user from ChannelSubscriberEntity s where s.id.channel = ?1 order by s.subscriptionDate")
 	List<UserProfileData> getSubscribersByChannel(ChannelProfileEntity channel);
 	
-	@Query("select s.user from ChannelSubscriberEntity s where s.channel = :channel and s.status = :status order by s.subscriptionDate")
+	@Query("select s.id.user from ChannelSubscriberEntity s where s.id.channel = ?1 and s.status = ?2 order by s.subscriptionDate")
 	List<UserProfileData> getSubscribersByChannelAndStatus(ChannelProfileEntity channel, SubscriberStatus status);
 	
-	@Query("select p from ChannelProfileEntity p where p.name LIKE :name order by p.name")
-	List<ChannelProfileEntity> searchChannelsByName(String name);
+	@Query("select p from ChannelProfileEntity p where p.name LIKE ?1 and p.open = true order by p.name")
+	List<ChannelProfileEntity> searchOpenChannelsByName(String name);
+	
+	@Query("select p from ChannelProfileEntity p where (p.name LIKE ?1 or p.description LIKE ?1) and p.open = true order by p.name")
+	List<ChannelProfileEntity> searchOpenChannelsByNameOrDescripton(String searchTerm);
 
 }

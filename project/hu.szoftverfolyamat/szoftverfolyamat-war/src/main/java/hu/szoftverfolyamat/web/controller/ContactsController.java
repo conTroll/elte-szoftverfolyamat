@@ -68,8 +68,7 @@ public class ContactsController extends BaseController {
 
 	@Secured({ "ROLE_USER", "ROLE_ADMIN" })
 	@RequestMapping(value = "/" + URI.CONTACTS_DELETE, method = RequestMethod.POST)
-	public ModelAndView deleteContact(Principal principal,
-			@RequestBody String text) {
+	public ModelAndView deleteContact(Principal principal, @RequestBody String text) {
 		ModelAndView modelAndView;
 		Long userId;
 		String postContent;
