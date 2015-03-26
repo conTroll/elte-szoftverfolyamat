@@ -9,9 +9,11 @@ import hu.szoftverfolyamat.web.helper.Template;
 import hu.szoftverfolyamat.web.helper.URI;
 import hu.szoftverfolyamat.web.requestobject.IdRequest;
 import hu.szoftverfolyamat.web.requestobject.MessageRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,7 +22,10 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 import java.security.Principal;
-import java.util.List;
+
+import javax.validation.Valid;
+
+import lombok.NonNull;
 
 @Controller
 @RequestMapping(URI.MESSAGES)
@@ -53,10 +58,16 @@ public class MessageController extends BaseController {
 
 
     @RequestMapping(value = URI.CREATE, method = RequestMethod.POST)
-    public RedirectView doCreate(final Principal principal, final @RequestBody MessageRequest request) {
-        final List<Long> friends = userConnectionService.getFriendsIdByUserCredentialId(getCurrentUser(principal));
+    public RedirectView doCreate(final Principal principal, final @Valid @RequestBody MessageRequest request,
+    		@NonNull final BindingResult bindingResult) {
+       // final List<Long> friends = userConnectionService.getFriendsIdByUserCredentialId(getCurrentUser(principal));
         String targetPage = URI.MESSAGES + URI.SHOW_ALL;
-
+        
+        if (bindingResult.hasErrors()) {
+			 
+		    return new RedirectView(URI.MESSAGES + URI.CREATE, true);
+        }
+        
         //if (friends.contains(request.getRecipientId())) {
             messageService.create(getCurrentUser(principal), request.getRecipientId(), request.getText());
             targetPage = getShowURI(request.getRecipientId());

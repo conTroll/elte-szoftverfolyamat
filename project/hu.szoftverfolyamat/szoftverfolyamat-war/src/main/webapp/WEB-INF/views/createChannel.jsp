@@ -44,6 +44,7 @@
 				<div class="field">
 					<label>Channel Name <span style="color: red">*</span></label>
 					<form:input path="name" placeholder="Channel Name" type="text" />
+					<form:errors path="name" cssclass="error"></form:errors>
 				</div>
 			</c:otherwise>
 		</c:choose>
@@ -51,6 +52,7 @@
 		<div class="field">
 			<label>Channel Description</label>
 			<form:input path="description" placeholder="Description" type="text" />
+			<form:errors path="description" cssclass="error"></form:errors>
 		</div>
 		<div class="inline field">
 			<div class="ui toggle checkbox">

@@ -8,9 +8,11 @@ import hu.szoftverfolyamat.web.helper.URI;
 import hu.szoftverfolyamat.web.requestobject.CommentRequest;
 import hu.szoftverfolyamat.web.requestobject.IdRequest;
 import hu.szoftverfolyamat.web.requestobject.TextRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -18,6 +20,10 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 import java.security.Principal;
+
+import javax.validation.Valid;
+
+import lombok.NonNull;
 
 @Controller
 @Secured({ Role.USER, Role.ADMIN })
@@ -39,7 +45,14 @@ public class NewsController extends BaseController {
     }
 
 	@RequestMapping(value = URI.POSTS_CREATE, method = RequestMethod.POST)
-	public RedirectView createPost(final Principal principal, final @RequestBody TextRequest request) {
+	public RedirectView createPost(final Principal principal,
+			@Valid final @RequestBody TextRequest request,
+			@NonNull final BindingResult bindingResult) {
+		
+		if (bindingResult.hasErrors()) {
+    		return new RedirectView(URI.POSTS_SHOW, true);
+        }
+		
         postService.createNewPost(request.getText(), getCurrentUser(principal));
         return new RedirectView(URI.POSTS_SHOW, true);
 	}
@@ -52,7 +65,13 @@ public class NewsController extends BaseController {
 	}
 
     @RequestMapping(value = URI.COMMENTS_CREATE, method = RequestMethod.POST)
-    public RedirectView createComment(final Principal principal, final @RequestBody CommentRequest request) {
+    public RedirectView createComment(final Principal principal,
+    		@Valid final @RequestBody CommentRequest request,
+    		@NonNull final BindingResult bindingResult) {
+    	if (bindingResult.hasErrors()) {
+    		return new RedirectView(URI.COMMENTS_CREATE, true);
+        }
+    	
         if (!request.getText().isEmpty()) {
             commentService.createComment(getCurrentUser(principal), request.getPostId(), request.getText());
         }
