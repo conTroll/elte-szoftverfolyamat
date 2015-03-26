@@ -23,9 +23,11 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import java.security.Principal;
 
+
 import javax.validation.Valid;
 
 import lombok.NonNull;
+
 
 @Controller
 @RequestMapping(URI.MESSAGES)
@@ -61,7 +63,7 @@ public class MessageController extends BaseController {
     public RedirectView doCreate(final Principal principal, final @Valid @RequestBody MessageRequest request,
     		@NonNull final BindingResult bindingResult) {
        // final List<Long> friends = userConnectionService.getFriendsIdByUserCredentialId(getCurrentUser(principal));
-        String targetPage = URI.MESSAGES + URI.SHOW_ALL;
+       String targetPage = URI.MESSAGES + URI.SHOW_ALL;
         
         if (bindingResult.hasErrors()) {
 			 

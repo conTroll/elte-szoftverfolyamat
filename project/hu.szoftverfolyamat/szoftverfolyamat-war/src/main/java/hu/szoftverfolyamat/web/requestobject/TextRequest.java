@@ -14,4 +14,5 @@ public class TextRequest implements Serializable {
 
 	@Size(min=1, max=21000) @NotNull
     private String text;
+   
 }

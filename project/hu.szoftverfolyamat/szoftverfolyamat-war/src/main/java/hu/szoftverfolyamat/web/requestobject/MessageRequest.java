@@ -12,7 +12,7 @@ import javax.validation.constraints.Size;
 public class MessageRequest implements Serializable {
 	
 	private static final long serialVersionUID = 5635216315012866471L;
-
+ 
     private Long recipientId;
     
     @Size(min=1, max=21000) @NotNull

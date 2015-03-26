@@ -9,11 +9,15 @@ import org.springframework.transaction.annotation.Transactional;
 
 import hu.szoftverfolyamat.dto.ChannelProfileDto;
 import hu.szoftverfolyamat.entity.ChannelProfileEntity;
+import hu.szoftverfolyamat.entity.ChannelSubscriberEntity;
+import hu.szoftverfolyamat.entity.ChannelSubscriberEntityId;
 import hu.szoftverfolyamat.entity.UserProfileData;
 import hu.szoftverfolyamat.enums.MatchType;
+import hu.szoftverfolyamat.enums.SubscriberStatus;
 import hu.szoftverfolyamat.exception.ChannelServiceException;
 import hu.szoftverfolyamat.repository.ChannelPostRepository;
 import hu.szoftverfolyamat.repository.ChannelRepository;
+import hu.szoftverfolyamat.repository.ChannelSubscriberRepository;
 import hu.szoftverfolyamat.service.mapper.ChannelProfileMapper;
 
 @Service
@@ -25,6 +29,9 @@ public class ChannelService {
 	
 	@Autowired
 	private ChannelPostRepository channelPostRepo;
+	
+	@Autowired
+	private ChannelSubscriberRepository channelSubscriberRepository;
 	
 	@Autowired
 	private UserProfileDataService userService;
@@ -112,19 +119,9 @@ public class ChannelService {
 	 * 		a mintaillesztés típusa 
 	 * @return
 	 * 		a találatok listáját, lexikografikusan rendezve
-	 * @throws ChannelServiceException
-	 * 		ha a keresési kifejezés nincs megadva, vagy üres, vagy a mintaillesztés típusa nincs megadva
 	 * @see MatchType
 	 */
-	public List<ChannelProfileDto> searchByName(String searchTerm, MatchType matchType) throws ChannelServiceException {
-		
-		if(searchTerm == null || "".equals(searchTerm.trim())) {
-			throw new ChannelServiceException("searchTerm argument is mandatory");
-		}
-		
-		if(matchType == null) {
-			throw new ChannelServiceException("matchType argument is mandatory");
-		}
+	public List<ChannelProfileDto> searchByName(String searchTerm, MatchType matchType) {
 		
 		searchTerm = searchTerm.trim();
 		
@@ -134,7 +131,7 @@ public class ChannelService {
 			searchTerm = "%" + searchTerm + "%";
 		}
 		
-		List<ChannelProfileEntity> entities = this.channelRepo.searchChannelsByName(searchTerm);
+		List<ChannelProfileEntity> entities = this.channelRepo.searchOpenChannelsByNameOrDescripton(searchTerm);
 		return this.channelMapper.apply(entities);
 		
 	}
@@ -191,6 +188,29 @@ public class ChannelService {
 		}
 		
 		channel.setOpen(open);
+		
+	}
+	
+	/**
+	 * Felhasználó feliratkozását végzi el egy tetszőleges csatornára.
+	 * 
+	 * @param userId
+	 * 		felhasználó azonosítója
+	 * @param channelId
+	 * 		csatorna azonosítója
+	 */
+	public void subscribeToChannel(Long userId, Long channelId) {
+		
+		UserProfileData user = this.userService.findByUserCredentialId(userId);
+		ChannelProfileEntity channel = this.channelRepo.findOne(channelId);
+		ChannelSubscriberEntityId id = new ChannelSubscriberEntityId();
+		id.setChannel(channel);
+		id.setUser(user);
+		ChannelSubscriberEntity subscriberEntity = new ChannelSubscriberEntity();
+		subscriberEntity.setId(id);
+		subscriberEntity.setStatus(channel.isOpen() ? SubscriberStatus.ACTIVE : SubscriberStatus.PENDING);
+		subscriberEntity.setSubscriptionDate(new Date());
+		this.channelSubscriberRepository.save(subscriberEntity);
 		
 	}
 

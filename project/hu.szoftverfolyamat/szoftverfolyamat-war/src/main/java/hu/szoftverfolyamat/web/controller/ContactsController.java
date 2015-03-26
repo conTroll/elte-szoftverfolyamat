@@ -7,7 +7,6 @@ import hu.szoftverfolyamat.service.UserProfileDataService;
 import hu.szoftverfolyamat.web.helper.Role;
 import hu.szoftverfolyamat.web.helper.Template;
 import hu.szoftverfolyamat.web.helper.URI;
-import hu.szoftverfolyamat.web.requestobject.IdRequest;
 import hu.szoftverfolyamat.web.requestobject.SearchRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,8 +68,7 @@ public class ContactsController extends BaseController {
 
 	@Secured({ "ROLE_USER", "ROLE_ADMIN" })
 	@RequestMapping(value = "/" + URI.CONTACTS_DELETE, method = RequestMethod.POST)
-	public ModelAndView deleteContact(Principal principal,
-			@RequestBody String text) {
+	public ModelAndView deleteContact(Principal principal, @RequestBody String text) {
 		ModelAndView modelAndView;
 		Long userId;
 		String postContent;

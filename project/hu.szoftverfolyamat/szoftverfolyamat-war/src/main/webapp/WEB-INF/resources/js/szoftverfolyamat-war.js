@@ -17,9 +17,13 @@ function loadSearchUsers() {
 }
 
 function loadBrowseChannels() {
-	$.get( "browseChannels", function( data ) {
+	$.get( "channels/search", function( data ) {
 		changeContent(data);
 	});
+}
+
+function loadSubscribedChannels() {
+	window.alert("Not yet implemented!");
 }
 
 function loadSettings() {
@@ -190,6 +194,23 @@ function searchContacts() {
 		  }
 	});
 }
+
+function searchChannels() {
+	var data = {
+		"searchTerm" : $( "#searchTerm" ).val()
+	};
+	$.ajax({
+		  type: "POST",
+		  url: "channels/search",
+          //dataType: "json",
+          contentType: "application/json",
+		  data: JSON.stringify(data),
+		  success: function( data ) {
+				changeContent(data);
+		  }
+	});
+}
+
 
 // MESSAGES
 

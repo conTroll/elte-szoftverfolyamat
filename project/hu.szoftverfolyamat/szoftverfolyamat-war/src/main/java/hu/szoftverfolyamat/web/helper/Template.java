@@ -11,7 +11,8 @@ public final class Template {
     public static final String POSTS_SHOW = "news";
 
     public static final String CREATE_CHANNEL = "createChannel";
-    public static final String CHANNELS_BROWSER = "browseChannels";
+    public static final String SEARCH_CHANNELS = "searchChannels";
+    public static final String CHANNEL_SEARCH_RESULTS = "channelSearchResults";
     public static final String CHANNELS_MINE = "myChannels";
 
     public static final String CONTACTS_SHOW = "viewContacts";

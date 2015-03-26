@@ -12,6 +12,7 @@ public final class URI {
 	public static final String SHOW_OWN = "/show_own";
 	public static final String CREATE = "/create";
 	public static final String DELETE = "/delete";
+	public static final String SEARCH = "/search";
 
 	// INDEX
 	public static final String INDEX = "/";
