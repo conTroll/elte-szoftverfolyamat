@@ -17,4 +17,12 @@
 	</div>
 	<div class="ui submit button" onClick="searchContacts();">Search</div>
 </div>
+<script type="text/javascript">
+	$('input[type=text]').keypress(function (e) {
+	  if (e.which == 13) {
+	    searchContacts();
+	    return false; 
+	  }
+	});
+</script>
 <jsp:include page="viewContacts.jsp" />

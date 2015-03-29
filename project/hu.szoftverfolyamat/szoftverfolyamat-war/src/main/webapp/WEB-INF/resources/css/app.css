@@ -18,3 +18,7 @@ body {
 	margin: 1%;
 	float: left;
 }
+
+.linkitem {
+	cursor: pointer;
+}

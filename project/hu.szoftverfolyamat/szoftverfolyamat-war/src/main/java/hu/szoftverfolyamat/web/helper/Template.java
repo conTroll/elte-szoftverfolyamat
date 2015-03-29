@@ -14,6 +14,7 @@ public final class Template {
     public static final String SEARCH_CHANNELS = "searchChannels";
     public static final String CHANNEL_SEARCH_RESULTS = "channelSearchResults";
     public static final String CHANNELS_MINE = "myChannels";
+    public static final String CHANNELS_SUBSCRIPTIONS = "subscriptions";
 
     public static final String CONTACTS_SHOW = "viewContacts";
     public static final String CONTACTS_SEARCH = "searchContacts";

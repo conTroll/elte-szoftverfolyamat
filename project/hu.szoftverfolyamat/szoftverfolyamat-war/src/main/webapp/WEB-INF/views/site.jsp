@@ -55,20 +55,13 @@
 	<div class="ui grid">
 		<div class="four wide column">
 			<div class="ui vertical fluid menu">
-				<a id="newsLink" class="item"> News <i class="home icon"></i>
-				</a> <a id="searchUsersLink" class="item"> Search Users <i
-					class="search icon"></i>
-				</a> <a id="showContactsLink" class="item"> Show Contacts <i
-					class="users icon"></i>
-				</a> <a id="browseChannelsLink" class="item"> Search Channels <i
-					class="rss icon"></i>
-				</a> <a id="mySubscriptionsLink" class="item"> My Subscriptions <i
-					class="bookmark icon"></i>
-				</a> <a id="myChannelsLink" class="item"> My Channels <i
-					class="signup icon"></i>
-				</a> <a id="settingsLink" class="item"> Settings <i
-					class="settings icon"></i>
-				</a>
+				<a id="newsLink" class="active teal item"> News <i class="home icon"></i></a>
+				<a id="searchUsersLink" class="teal item"> Search Users <i class="search icon"></i></a>
+				<a id="showContactsLink" class="teal item"> Show Contacts <i class="users icon"></i></a>
+				<a id="browseChannelsLink" class="teal item"> Search Channels <i	class="rss icon"></i></a>
+				<a id="mySubscriptionsLink" class="teal item"> My Subscriptions <i class="bookmark icon"></i></a>
+				<a id="myChannelsLink" class="teal item"> My Channels <i	class="signup icon"></i></a>
+				<a id="settingsLink" class="teal item"> Settings <i class="settings icon"></i></a>
 			</div>
 		</div>
 		<div id="dynamicContent" class="eight wide column">
@@ -86,6 +79,10 @@
 		</div>
 	</div>
 	<script type="text/javascript">
+		$("a.teal").click(function(event){
+			$("a.teal").removeClass("active");
+			$(event.target).addClass("active");
+		});
 		$("#newsLink").click(function() {
 			loadNews();
 		});

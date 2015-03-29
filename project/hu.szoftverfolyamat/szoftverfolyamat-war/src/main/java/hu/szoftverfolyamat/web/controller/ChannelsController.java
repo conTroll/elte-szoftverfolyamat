@@ -63,6 +63,25 @@ public class ChannelsController extends BaseController {
 			return new ModelAndView(Template.INDEX);
 		}
 	}
+	
+	@RequestMapping(value = URI.SHOW_SUBSCRIPTIONS, method = RequestMethod.GET)
+	public ModelAndView showSubscriptions(final Principal principal) {
+		ModelAndView result;
+		try {
+			Long userId = this.getCurrentUser(principal);
+			List<ChannelProfileDto> activeSubs = this.service.getActiveSubscriptionsByUser(userId);
+			List<ChannelProfileDto> pendingSubs = this.service.getPendingSubscriptionsByUser(userId);
+			UserProfileDataDto userProfile = this.userMapperService.apply(this.userService.findByUserCredentialId(userId));
+			result = new ModelAndView(Template.CHANNELS_SUBSCRIPTIONS);
+			result.addObject("activeSubs", activeSubs);
+			result.addObject("pendingSubs", pendingSubs);
+			result.addObject("userProfile", userProfile);
+			return result;
+		} catch (ChannelServiceException e) {
+			// TODO error handling
+			return new ModelAndView(Template.INDEX);
+		}
+	}
 
 	@RequestMapping(value = URI.CREATE, method = RequestMethod.GET)
 	public ModelAndView showCreateForm(final Model model, @ModelAttribute("error") String error) {

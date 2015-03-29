@@ -23,7 +23,9 @@ function loadBrowseChannels() {
 }
 
 function loadSubscribedChannels() {
-	window.alert("Not yet implemented!");
+	$.get( "channels/show_subscriptions", function( data ) {
+		changeContent(data);
+	});
 }
 
 function loadSettings() {

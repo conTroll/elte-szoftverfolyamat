@@ -4,15 +4,21 @@
 
 <div class="ui segment">
 	<div class="ui comments">
-		<h3 class="ui dividing header">My Channels</h3>
+		<div id="headSection">
+			<h1 class="ui dividing header">My Channels</h1>
+			<div class="ui dividing blue labeled submit icon button"
+				onclick="document.location.href = '/szoftverfolyamat-war/channels/create';">
+				<i class="icon edit"></i> Create new...
+			</div>
+		</div>
 		<c:choose>
 			<c:when test="${empty channels}">
 				<p>You don't have any channels, yet. Go ahead, and make one! :)</p>
 			</c:when>
 			<c:otherwise>
-				<div class="ui list">
+				<div class="ui divided relaxed animated list">
 					<c:forEach items="${channels}" var="channel">
-						<div class="item">
+						<div class="item linkitem">
 							<img class="ui top aligned avatar image"
 								src="<c:url value="/getImage/${userProfile.avatarId}"/>">
 							<div class="content">
@@ -24,12 +30,5 @@
 				</div>
 			</c:otherwise>
 		</c:choose>
-	</div>
-</div>
-
-<div class="ui segment">
-	<div class="ui blue labeled submit icon button"
-		onclick="document.location.href = '/szoftverfolyamat-war/channels/create';">
-		<i class="icon edit"></i> Create new...
 	</div>
 </div>

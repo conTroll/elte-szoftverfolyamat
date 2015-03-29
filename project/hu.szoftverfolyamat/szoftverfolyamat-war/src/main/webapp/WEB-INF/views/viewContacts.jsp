@@ -11,7 +11,7 @@
 						</div>
 					</div>
 				</div>
-				<img src="http://semantic-ui.com/images/avatar/large/elliot.jpg">
+				<img src="<c:url value="/images/elliot.jpg"/>">
 			</div>
 			<div class="ui bottom attached content segment">
 				<a class="ui header">${contact.fullName}</a>

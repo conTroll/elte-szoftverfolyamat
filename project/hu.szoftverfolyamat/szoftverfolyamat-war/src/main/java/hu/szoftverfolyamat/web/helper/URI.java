@@ -28,6 +28,7 @@ public final class URI {
 
 	// CHANNELS
 	public static final String CHANNELS = "/channels";
+	public static final String SHOW_SUBSCRIPTIONS = "/show_subscriptions";
 
 	// CONTACTS
 	public static final String CONTACTS_SHOW = "/viewContacts";

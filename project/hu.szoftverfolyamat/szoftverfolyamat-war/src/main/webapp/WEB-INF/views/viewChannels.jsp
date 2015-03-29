@@ -7,9 +7,9 @@
 			<p>No results. :(</p>
 		</c:when>
 		<c:otherwise>
-			<div class="ui list">
+			<div class="ui divided relaxed animated list">
 				<c:forEach items="${channels}" var="channel">
-					<div class="item">
+					<div class="item linkitem">
 						<img class="ui top aligned avatar image"
 							src="<c:url value="/getImage/${userProfile.avatarId}"/>">
 						<div class="content">
