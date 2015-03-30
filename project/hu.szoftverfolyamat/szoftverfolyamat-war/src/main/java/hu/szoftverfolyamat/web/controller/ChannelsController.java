@@ -1,8 +1,10 @@
 package hu.szoftverfolyamat.web.controller;
 
+import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
 
+import javax.servlet.ServletContext;
 import javax.validation.Valid;
 
 import lombok.NonNull;
@@ -19,15 +21,18 @@ import hu.szoftverfolyamat.web.helper.URI;
 import hu.szoftverfolyamat.web.requestobject.ChannelSearchRequest;
 import hu.szoftverfolyamat.web.requestobject.CreateChannelRequest;
 
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
@@ -66,6 +71,23 @@ public class ChannelsController extends BaseController {
 			// TODO error handling
 			return new ModelAndView(Template.INDEX);
 		}
+	}
+	
+	@RequestMapping(value = URI.GET_IMAGE + "/{id}", method = RequestMethod.GET)
+	public @ResponseBody byte[] getImage(@PathVariable("id") Long id, ServletContext context) {
+		byte[] result = null;
+
+		// TODO service csatornákhoz is
+		// result = imageResourceService.getImageSource(id);
+		try {
+			if (result == null) {
+				result = IOUtils.toByteArray(context.getResourceAsStream("/WEB-INF/resources/images/defaultChannelPicture.png"));
+			}
+		} catch (IOException e) {
+			// TODO error handling
+		}
+			
+		return result;
 	}
 	
 	@RequestMapping(value = URI.SHOW_SUBSCRIPTIONS, method = RequestMethod.GET)
