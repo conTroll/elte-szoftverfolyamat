@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <div class="ui form segment">
-	<h1 class="ui dividing header">My Channels</h1>
+	<h1 class="ui dividing header">My Subscriptions</h1>
 	<c:choose>
 		<c:when test="${empty activeSubs}">
 			<p>You don't have any subscriptions.</p>
@@ -13,10 +13,10 @@
 				<c:forEach items="${activeSubs}" var="channel">
 					<div class="item linkitem">
 						<img class="ui top aligned avatar image"
-							src="<c:url value="/getImage/${userProfile.avatarId}"/>">
+							src="<c:url value="/channels/getImage/${channel.id}"/>">
 						<div class="content">
-							<div class="header">${activeSubs.name}</div>
-							${activeSubs.description}
+							<div class="header">${channel.name}</div>
+							${channel.description}
 						</div>
 					</div>
 				</c:forEach>
@@ -28,15 +28,15 @@
 
 		</c:when>
 		<c:otherwise>
-			<h1 class="ui dividing header">Pending Subscriptions</h1>
+			<h3 class="ui dividing header">Pending Subscriptions</h3>
 			<div class="ui divided relaxed animated list">
 				<c:forEach items="${pendingSubs}" var="channel">
 					<div class="item linkitem">
 						<img class="ui top aligned avatar image"
-							src="<c:url value="/getImage/${userProfile.avatarId}"/>">
+							src="<c:url value="/channels/getImage/${channel.id}"/>">
 						<div class="content">
-							<div class="header">${pendingSubs.name}</div>
-							${pendingSubs.description}
+							<div class="header">${channel.name}</div>
+							${channel.description}
 						</div>
 					</div>
 				</c:forEach>

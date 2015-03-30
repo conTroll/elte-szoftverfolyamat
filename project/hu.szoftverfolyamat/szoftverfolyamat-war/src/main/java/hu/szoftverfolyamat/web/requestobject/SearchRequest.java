@@ -14,15 +14,11 @@ public class SearchRequest implements Serializable {
 
 	private static final long serialVersionUID = 6181131764545250397L;
 	
-	@Size(min=1, max=128) @NotNull @Email
 	private String email;
 	
-	@NotNull @Size(min=1, max=128)
     private String fullName;
 	
-	@NotNull @Size(min=1, max=128)
     private String place;
 	
-	@NotNull @Size(min=1, max=128)
     private String job;
 }

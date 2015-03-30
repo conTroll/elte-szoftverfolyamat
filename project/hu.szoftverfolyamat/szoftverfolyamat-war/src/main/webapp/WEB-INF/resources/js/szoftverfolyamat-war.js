@@ -59,12 +59,6 @@ function changeContent( data ) {
 
     refreshMessageCounter();
 
-	//Find all inline script tags in the new content and loop through them
-	data.find("script").each(function() {
-        var scriptContent = $('#dynamicContent').html(); //Grab the content of this tag
-        eval(scriptContent); //Execute the content
-    });
-
 }
 
 function submitPost() {

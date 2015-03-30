@@ -23,6 +23,8 @@ import hu.szoftverfolyamat.web.requestobject.CreateChannelRequest;
 
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -41,6 +43,9 @@ import org.springframework.web.servlet.view.RedirectView;
 @Secured({ Role.USER, Role.ADMIN })
 @RequestMapping(URI.CHANNELS)
 public class ChannelsController extends BaseController {
+	
+	@Value("/WEB-INF/resources/images/defaultChannelPicture.png")
+	private Resource defaultPicture;
 
 	@Autowired
 	private ChannelService service;
@@ -74,14 +79,14 @@ public class ChannelsController extends BaseController {
 	}
 	
 	@RequestMapping(value = URI.GET_IMAGE + "/{id}", method = RequestMethod.GET)
-	public @ResponseBody byte[] getImage(@PathVariable("id") Long id, ServletContext context) {
+	public @ResponseBody byte[] getImage(@PathVariable("id") Long id) throws IOException {
 		byte[] result = null;
 
 		// TODO service csatornákhoz is
 		// result = imageResourceService.getImageSource(id);
 		try {
 			if (result == null) {
-				result = IOUtils.toByteArray(context.getResourceAsStream("/WEB-INF/resources/images/defaultChannelPicture.png"));
+				result = IOUtils.toByteArray(defaultPicture.getInputStream());
 			}
 		} catch (IOException e) {
 			// TODO error handling
