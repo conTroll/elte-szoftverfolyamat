@@ -20,7 +20,7 @@
 					<c:forEach items="${channels}" var="channel">
 						<div class="item linkitem">
 							<img class="ui top aligned avatar image"
-								src="<c:url value="/getImage/${userProfile.avatarId}"/>">
+								src="<c:url value="/channels/getImage/${channel.id}"/>">
 							<div class="content">
 								<div class="header">${channel.name}</div>
 								${channel.description}

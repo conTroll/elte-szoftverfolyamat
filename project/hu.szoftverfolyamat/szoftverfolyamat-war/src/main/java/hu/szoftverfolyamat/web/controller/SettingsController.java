@@ -3,6 +3,9 @@ package hu.szoftverfolyamat.web.controller;
 import java.security.Principal;
 import java.text.ParseException;
 
+import javax.validation.Valid;
+
+import lombok.NonNull;
 import hu.szoftverfolyamat.dto.UserCredentialDto;
 import hu.szoftverfolyamat.exception.UserServiceException;
 import hu.szoftverfolyamat.service.UserCredentialService;
@@ -13,6 +16,7 @@ import hu.szoftverfolyamat.web.requestobject.ProfileFormRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -47,6 +51,11 @@ public class SettingsController extends BaseController {
 	public ModelAndView update(Principal principal, @ModelAttribute(value = "profileFormRequest") ProfileFormRequest profileFormRequest) {
 		ModelAndView modelAndView;
 		Long credentialId;
+		
+		if (bindingResult.hasErrors()) {
+			 
+		    return new ModelAndView("redirect:" + Template.INDEX);
+        }
 		
 		try {
 			this.userCredentialService.updateUserCredential(profileRequestMapper.decode(profileFormRequest));

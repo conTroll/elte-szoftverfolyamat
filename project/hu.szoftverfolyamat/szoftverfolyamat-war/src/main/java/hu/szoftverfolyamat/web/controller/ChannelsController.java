@@ -1,8 +1,13 @@
 package hu.szoftverfolyamat.web.controller;
 
+import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
 
+import javax.servlet.ServletContext;
+import javax.validation.Valid;
+
+import lombok.NonNull;
 import hu.szoftverfolyamat.dto.ChannelProfileDto;
 import hu.szoftverfolyamat.dto.UserProfileDataDto;
 import hu.szoftverfolyamat.enums.MatchType;
@@ -16,14 +21,20 @@ import hu.szoftverfolyamat.web.helper.URI;
 import hu.szoftverfolyamat.web.requestobject.ChannelSearchRequest;
 import hu.szoftverfolyamat.web.requestobject.CreateChannelRequest;
 
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
@@ -32,6 +43,9 @@ import org.springframework.web.servlet.view.RedirectView;
 @Secured({ Role.USER, Role.ADMIN })
 @RequestMapping(URI.CHANNELS)
 public class ChannelsController extends BaseController {
+	
+	@Value("/WEB-INF/resources/images/defaultChannelPicture.png")
+	private Resource defaultPicture;
 
 	@Autowired
 	private ChannelService service;
@@ -64,6 +78,23 @@ public class ChannelsController extends BaseController {
 		}
 	}
 	
+	@RequestMapping(value = URI.GET_IMAGE + "/{id}", method = RequestMethod.GET)
+	public @ResponseBody byte[] getImage(@PathVariable("id") Long id) throws IOException {
+		byte[] result = null;
+
+		// TODO service csatornákhoz is
+		// result = imageResourceService.getImageSource(id);
+		try {
+			if (result == null) {
+				result = IOUtils.toByteArray(defaultPicture.getInputStream());
+			}
+		} catch (IOException e) {
+			// TODO error handling
+		}
+			
+		return result;
+	}
+	
 	@RequestMapping(value = URI.SHOW_SUBSCRIPTIONS, method = RequestMethod.GET)
 	public ModelAndView showSubscriptions(final Principal principal) {
 		ModelAndView result;
@@ -93,7 +124,13 @@ public class ChannelsController extends BaseController {
 	}
 	
 	@RequestMapping(value = URI.SEARCH, method = RequestMethod.POST)
-	public ModelAndView doSearch(Principal principal, @RequestBody ChannelSearchRequest request) {
+	public ModelAndView doSearch(Principal principal,@Valid @RequestBody ChannelSearchRequest request,
+			@NonNull final BindingResult bindingResult) {
+		
+		if (bindingResult.hasErrors()) {
+			 
+		    return new ModelAndView(Template.SEARCH_CHANNELS);
+        }
 		
 		List<ChannelProfileDto> channels = this.service.searchByName(request.getSearchTerm(), MatchType.SUBSTRING);
 		ModelAndView result = new ModelAndView(Template.SEARCH_CHANNELS);

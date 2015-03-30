@@ -18,7 +18,7 @@
         <c:forEach var="message" items="${messages}">
             <div id="message${message.id}" class="comment" rel="${message.id}">
                 <div class="avatar">
-                    <img src="/images/avatar/small/joe.jpg">
+                    <img src="<c:url value="/getImage/${message.userFrom.avatarId}"/>">
                 </div>
                 <div class="content">
                     <a class="author">${message.userFrom.fullName}</a>
