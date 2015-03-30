@@ -42,7 +42,7 @@ public class RegistrationController extends BaseController {
 
 	@RequestMapping(method = RequestMethod.POST)
 	public ModelAndView doRegistration(@Valid @ModelAttribute(value = "userCredentialDto") UserCredentialDto userCredentialDto,
-			@NonNull final BindingResult bindingResult)  throws ParseException {
+			@NonNull final BindingResult bindingResult)   {
 		ModelAndView modelAndView;
 
 		
@@ -55,7 +55,7 @@ public class RegistrationController extends BaseController {
 			userCredentialService.createUserCredential(userCredentialDto);
             // TODO RedirectView instead
 			modelAndView = new ModelAndView("redirect:" + URI.USER_LOGIN);
-		} catch (UserServiceException e) {
+		} catch (ParseException | UserServiceException e) {
 			modelAndView = new ModelAndView(Template.USER_REGISTRATION);
 			// TODO hibakódok és hibaüzenetek bevezetése
 			modelAndView.addObject("error", "error");
