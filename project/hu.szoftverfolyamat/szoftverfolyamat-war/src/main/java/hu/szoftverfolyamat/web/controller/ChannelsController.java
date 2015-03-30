@@ -3,6 +3,9 @@ package hu.szoftverfolyamat.web.controller;
 import java.security.Principal;
 import java.util.List;
 
+import javax.validation.Valid;
+
+import lombok.NonNull;
 import hu.szoftverfolyamat.dto.ChannelProfileDto;
 import hu.szoftverfolyamat.dto.UserProfileDataDto;
 import hu.szoftverfolyamat.enums.MatchType;
@@ -20,6 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -93,7 +97,13 @@ public class ChannelsController extends BaseController {
 	}
 	
 	@RequestMapping(value = URI.SEARCH, method = RequestMethod.POST)
-	public ModelAndView doSearch(Principal principal, @RequestBody ChannelSearchRequest request) {
+	public ModelAndView doSearch(Principal principal,@Valid @RequestBody ChannelSearchRequest request,
+			@NonNull final BindingResult bindingResult) {
+		
+		if (bindingResult.hasErrors()) {
+			 
+		    return new ModelAndView(Template.SEARCH_CHANNELS);
+        }
 		
 		List<ChannelProfileDto> channels = this.service.searchByName(request.getSearchTerm(), MatchType.SUBSTRING);
 		ModelAndView result = new ModelAndView(Template.SEARCH_CHANNELS);

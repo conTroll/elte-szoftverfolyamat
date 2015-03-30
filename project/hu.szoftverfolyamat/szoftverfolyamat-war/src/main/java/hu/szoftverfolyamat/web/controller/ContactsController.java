@@ -12,6 +12,7 @@ import hu.szoftverfolyamat.web.requestobject.SearchRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -20,6 +21,10 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import java.security.Principal;
 import java.util.List;
+
+import javax.validation.Valid;
+
+import lombok.NonNull;
 
 @Controller
 @Secured({ Role.USER, Role.ADMIN })
@@ -96,7 +101,13 @@ public class ContactsController extends BaseController {
 	}
 
 	@RequestMapping(value = URI.CONTACTS_SEARCH, method = RequestMethod.POST)
-	public ModelAndView doSearch(final Principal principal, final @RequestBody SearchRequest request) {
+	public ModelAndView doSearch(final Principal principal, final @Valid @RequestBody SearchRequest request, @NonNull final BindingResult bindingResult) {
+		
+		if (bindingResult.hasErrors()) {
+			 
+		    return new ModelAndView(Template.CONTACTS_SEARCH);
+        }
+		
 		final List<UserProfileDataDto> profiles = userProfileDataService.searchUserProfileDataDtos(
 				getCurrentUser(principal), request.getEmail(), request.getFullName(), request.getPlace(), request.getJob()
 				);
