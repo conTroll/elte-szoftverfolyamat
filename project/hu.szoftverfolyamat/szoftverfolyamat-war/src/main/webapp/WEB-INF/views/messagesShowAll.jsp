@@ -11,7 +11,7 @@
                 <c:forEach var="chat" items="${chats}">
                     <div id="chat${chat.key.credentialId}" rel="${chat.key.credentialId}" class="comment">
                         <div class="avatar">
-                            <img src="/images/avatar/small/joe.jpg">
+                            <img src="<c:url value="/getImage/${chat.key.avatarId}"/>">
                         </div>
                         <div class="content">
                             <a class="author">${chat.key.fullName}</a>
