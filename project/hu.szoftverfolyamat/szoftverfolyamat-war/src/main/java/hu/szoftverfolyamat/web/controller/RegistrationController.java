@@ -49,10 +49,10 @@ public class RegistrationController extends BaseController {
 		ModelAndView modelAndView;
 
 		
-		if (bindingResult.hasErrors()) {
-			 
-		    return new ModelAndView(Template.USER_REGISTRATION);
-        }
+//		if (bindingResult.hasErrors()) {
+//			 
+//		    return new ModelAndView(Template.USER_REGISTRATION);
+//        }
 		
 		try {
 			userCredentialService.createUserCredential(profileRequestMapper.decode(profileFormRequest));

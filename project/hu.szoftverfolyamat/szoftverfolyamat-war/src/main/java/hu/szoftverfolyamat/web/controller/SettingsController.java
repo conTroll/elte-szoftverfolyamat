@@ -52,10 +52,10 @@ public class SettingsController extends BaseController {
 		ModelAndView modelAndView;
 		Long credentialId;
 		
-		if (bindingResult.hasErrors()) {
-			 
-		    return new ModelAndView("redirect:" + Template.INDEX);
-        }
+//		if (bindingResult.hasErrors()) {
+//			 
+//		    return new ModelAndView("redirect:" + Template.INDEX);
+//        }
 		
 		try {
 			this.userCredentialService.updateUserCredential(profileRequestMapper.decode(profileFormRequest));
