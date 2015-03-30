@@ -37,7 +37,7 @@ public class UserProfileDataService {
 		
 		userProfileData = this.userProfileDataRepository.findOne(userCredentialId);
 		if(userProfileData == null) {
-			throw new UserServiceException("Can not update user with userCredentialId: '" + userCredentialId + "', because user doues not exists!");
+			throw new UserServiceException("Can not update user with userCredentialId: '" + userCredentialId + "', because user does not exists!");
 		}
 		
 		userProfileData.setBirthday(new SimpleDateFormat("YYYY.MM.dd", Locale.ENGLISH).parse(userProfileDataDto.getBirthday()));

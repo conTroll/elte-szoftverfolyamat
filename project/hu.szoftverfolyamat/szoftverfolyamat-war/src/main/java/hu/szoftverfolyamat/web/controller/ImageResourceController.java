@@ -61,7 +61,6 @@ public class ImageResourceController extends BaseController {
 
 	@RequestMapping(value = URI.UPLOAD_IMAGE, method = RequestMethod.POST)
 	public @ResponseBody ModelAndView uploadImage(final Principal principal,
-			@RequestParam("name") String name,
 			@RequestParam("file") MultipartFile file) {
 		ModelAndView modelAndView;
 		Long avatarId;
@@ -79,7 +78,7 @@ public class ImageResourceController extends BaseController {
 			}
 
 		}
-		modelAndView = new ModelAndView("redirect:" + Template.INDEX);
+		modelAndView = new ModelAndView("redirect:/");
 		return modelAndView;
 	}
 }

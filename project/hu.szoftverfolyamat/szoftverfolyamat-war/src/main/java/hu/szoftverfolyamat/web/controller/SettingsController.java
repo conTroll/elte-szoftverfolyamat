@@ -8,6 +8,8 @@ import hu.szoftverfolyamat.exception.UserServiceException;
 import hu.szoftverfolyamat.service.UserCredentialService;
 import hu.szoftverfolyamat.web.helper.Template;
 import hu.szoftverfolyamat.web.helper.URI;
+import hu.szoftverfolyamat.web.parser.ProfileRequestMapper;
+import hu.szoftverfolyamat.web.requestobject.ProfileFormRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,31 +24,39 @@ public class SettingsController extends BaseController {
 	
 	@Autowired
 	private UserCredentialService userCredentialService;
+	
+	@Autowired
+	private ProfileRequestMapper profileRequestMapper;
 
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView show(Principal principal) {
 		Long credentialId;
 		ModelAndView modelAndView;
+		UserCredentialDto credentialDto;
 		
 		credentialId = this.getCurrentUser(principal);
+		credentialDto = userCredentialService.getUserCredentialById(credentialId);
 		modelAndView = new ModelAndView(Template.USER_PROFILE);
-		modelAndView.addObject("userCredentialDto", userCredentialService.getUserCredentialById(credentialId));
+		modelAndView.addObject("imageId", credentialDto.getUserProfileDataDto().getAvatarId());
+		modelAndView.addObject("profileFormRequest", profileRequestMapper.encode(credentialDto));
 		
 		return modelAndView;
 	}
 	
 	@RequestMapping(method = RequestMethod.POST)
-	public ModelAndView update(@ModelAttribute(value = "userCredentialDto") UserCredentialDto userCredentialDto) {
+	public ModelAndView update(Principal principal, @ModelAttribute(value = "profileFormRequest") ProfileFormRequest profileFormRequest) {
 		ModelAndView modelAndView;
+		Long credentialId;
 		
 		try {
-			this.userCredentialService.updateUserCredential(userCredentialDto);
+			this.userCredentialService.updateUserCredential(profileRequestMapper.decode(profileFormRequest));
 		} catch (ParseException | UserServiceException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			credentialId = this.getCurrentUser(principal);
+			modelAndView = new ModelAndView(Template.USER_PROFILE);
+			modelAndView.addObject("profileFormRequest", profileRequestMapper.encode(userCredentialService.getUserCredentialById(credentialId)));
 		}
 		
-		modelAndView = new ModelAndView("redirect:" + Template.INDEX);
+		modelAndView = new ModelAndView("redirect:/");
 		return modelAndView;
 	}
 }

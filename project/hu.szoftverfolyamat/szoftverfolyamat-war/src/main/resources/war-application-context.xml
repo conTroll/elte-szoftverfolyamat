@@ -35,4 +35,6 @@
 		class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
 		<property name="supportedMediaTypes" value="application/json" />
 	</bean>
+	
+	<bean id="profileRequestMapper" class="hu.szoftverfolyamat.web.parser.ProfileRequestMapper" />
 </beans>

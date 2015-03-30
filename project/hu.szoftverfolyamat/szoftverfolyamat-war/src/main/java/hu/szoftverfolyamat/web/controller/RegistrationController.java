@@ -6,6 +6,9 @@ import hu.szoftverfolyamat.exception.UserServiceException;
 import hu.szoftverfolyamat.service.UserCredentialService;
 import hu.szoftverfolyamat.web.helper.Template;
 import hu.szoftverfolyamat.web.helper.URI;
+import hu.szoftverfolyamat.web.parser.ProfileRequestMapper;
+import hu.szoftverfolyamat.web.requestobject.ProfileFormRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -22,26 +25,28 @@ public class RegistrationController extends BaseController {
 
 	@Autowired
 	private UserCredentialService userCredentialService;
+	
+	@Autowired
+	private ProfileRequestMapper profileRequestMapper;
 
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView showForm() {
-        final UserCredentialDto userCredentialDto = new UserCredentialDto();
-		userCredentialDto.setUserProfileDataDto(new UserProfileDataDto());
+		ProfileFormRequest profileFormRequest = new ProfileFormRequest();
 
         final  ModelAndView result = new ModelAndView(Template.USER_REGISTRATION);
-		result.addObject("userCredentialDto", userCredentialDto);
+		result.addObject("profileFormRequest", profileFormRequest);
 		return result;
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
-	public ModelAndView doRegistration(@ModelAttribute(value = "userCredentialDto") UserCredentialDto userCredentialDto)  throws ParseException {
+	public ModelAndView doRegistration(@ModelAttribute(value = "profileFormRequest") ProfileFormRequest profileFormRequest) {
 		ModelAndView modelAndView;
 
 		try {
-			userCredentialService.createUserCredential(userCredentialDto);
+			userCredentialService.createUserCredential(profileRequestMapper.decode(profileFormRequest));
             // TODO RedirectView instead
 			modelAndView = new ModelAndView("redirect:" + URI.USER_LOGIN);
-		} catch (UserServiceException e) {
+		} catch (UserServiceException | ParseException e) {
 			modelAndView = new ModelAndView(Template.USER_REGISTRATION);
 			// TODO hibakódok és hibaüzenetek bevezetése
 			modelAndView.addObject("error", "error");

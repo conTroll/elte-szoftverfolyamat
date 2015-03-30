@@ -12,8 +12,6 @@
 <script type="text/javascript"
 	src="<c:url value="/js/jquery-1.11.1.min.js"/>"></script>
 <script type="text/javascript"
-	src="<c:url value="/js/jquery.address-1.5.js"/>"></script>
-<script type="text/javascript"
 	src="<c:url value="/semantic/javascript/semantic.js"/>"></script>
 <script type="text/javascript"
 	src="<c:url value="/js/szoftverfolyamat-war.js"/>"></script>

@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,79 +16,152 @@
 <title>elte szoftverfolyamat</title>
 </head>
 <body>
-	<form:form action="registration" method="post"
-		commandName="userCredentialDto"
+	<form id="registrationForm" action="registration" method="post"
 		style="width: 80%; margin-left: 10%; margin-top: 10%;"
 		class="ui form pilled segment">
 		<div class="ui error message">
-			<div class="header">Action Forbidden</div>
-			<p>You can only sign up for an account once with a given e-mail
-				address.</p>
+			<div class="header">Some error occured</div>
 		</div>
 		<div class="two fields">
 			<div class="field">
-				<label>Full Name</label>
-				<form:input path="userProfileDataDto.fullName"
-					placeholder="Full Name" type="text" />
+				<label>Full Name</label> <input name="fullName"
+					value="${profileFormRequest.fullName}" placeholder="Full Name"
+					type="text" />
 			</div>
 			<div class="field">
-				<label>Short Name</label>
-				<form:input path="userProfileDataDto.shortName"
-					placeholder="Short Name" type="text" />
+				<label>Short Name</label> <input name="shortName"
+					value="${profileFormRequest.shortName}" placeholder="Short Name"
+					type="text" />
 			</div>
 		</div>
 		<div class="two fields">
-			<label>Username</label>
-			<form:input path="username" placeholder="Userame" type="text" />
-			<label>Password</label>
-			<form:input path="password" placeholder="Password" type="password" />
+			<div class="field">
+				<label>Username</label> <input name="username"
+					value="${profileFormRequest.username}" placeholder="Userame"
+					type="text" />
+			</div>
+			<div class="field">
+				<label>Password</label> <input name="password"
+					value="${profileFormRequest.password}" placeholder="Password"
+					type="password" />
+			</div>
 		</div>
 		<div class="field">
-			<label>Email</label>
-			<form:input path="userProfileDataDto.email" placeholder="Email"
-				type="text" />
+			<label>Email</label> <input name="email"
+				value="${profileFormRequest.email}" placeholder="Email" type="text" />
 		</div>
 		<div class="field">
-			<label>Habitat</label>
-			<form:input path="userProfileDataDto.habitat" placeholder="Habitat"
+			<label>Habitat</label> <input name="habitat"
+				value="${profileFormRequest.habitat}" placeholder="Habitat"
 				type="text" />
 		</div>
 		<div class="inline field">
 			<div class="ui toggle checkbox">
-				<form:checkbox path="userProfileDataDto.publicHabitat" />
+				<input  name="publicHabitat" type="checkbox"
+					value="${profileFormRequest.publicHabitat}" />
 				<label>Is habitat public?</label>
 			</div>
 		</div>
 		<div class="two fields">
-			<label>Job</label>
-			<form:input path="userProfileDataDto.job" placeholder="Job"
-				type="text" />
-			<label>Workplace</label>
-			<form:input path="userProfileDataDto.workplace"
-				placeholder="Workplace" type="text" />
+			<div class="field">
+				<label>Job</label> <input name="job"
+					value="${profileFormRequest.job}" placeholder="Job" type="text" />
+			</div>
+			<div class="field">
+				<label>Workplace</label> <input name="workplace"
+					value="${profileFormRequest.workplace}" placeholder="Workplace"
+					type="text" />
+			</div>
 		</div>
 		<div class="inline field">
 			<div class="ui toggle checkbox">
-				<form:checkbox path="userProfileDataDto.publicJobAndWorkplace" />
+				<input  name="publicJobAndWorkplace" type="checkbox"
+					value="${profileFormRequest.publicJobAndWorkplace}" />
 				<label>Is job and workplace public?</label>
 			</div>
 		</div>
 		<div class="field">
-			<label>Birthday</label>
-			<form:input path="userProfileDataDto.birthday"
-				placeholder="YYYY.MM.dd" type="text" />
+			<label>Birthday</label> <input name="birthday"
+				value="${profileFormRequest.birthday}" placeholder="YYYY.MM.dd"
+				type="text" />
 		</div>
 		<div class="inline field">
 			<div class="ui toggle checkbox">
-				<form:checkbox path="userProfileDataDto.publicBirthday" />
+				<input  name="publicBirthday" type="checkbox"
+					value="${profileFormRequest.publicBirthday}" />
 				<label>Is birthday public?</label>
 			</div>
 		</div>
-		<form:button class="ui blue submit button">Submit</form:button>
-	</form:form>
+		<input name="credentialId" value="${profileFormRequest.credentialId}"
+			type="hidden" /> <input type="submit"
+			class="ui blue submit button" value="Save" />
+	</form>
 	<script type="text/javascript">
 		$(document).ready(function() {
 			$('.ui.checkbox').checkbox();
+
+			$('#registrationForm').form({
+				fullName : {
+					identifier : 'fullName',
+					rules : [ {
+						type : 'empty',
+						prompt : 'Full Name is required!'
+					}, ]
+				},
+				shortName : {
+					identifier : 'shortName',
+					rules : [ {
+						type : 'empty',
+						prompt : 'Short Name is required!'
+					}, ]
+				},
+				password : {
+					identifier : 'password',
+					rules : [ {
+						type : 'empty',
+						prompt : 'Password is required!'
+					}, ]
+				},
+				email : {
+					identifier : 'email',
+					rules : [ {
+						type : 'email',
+						prompt : 'Not valid email address!'
+					}, ]
+				},
+				habitat : {
+					identifier : 'habitat',
+					rules : [ {
+						type : 'empty',
+						prompt : 'Habitat is required!'
+					}, ]
+				},
+				job : {
+					identifier : 'job',
+					rules : [ {
+						type : 'empty',
+						prompt : 'Job is required!'
+					}, ]
+				},
+				workplace : {
+					identifier : 'workplace',
+					rules : [ {
+						type : 'empty',
+						prompt : 'Workplace is required!'
+					}, ]
+				},
+				birthday : {
+					identifier : 'birthday',
+					rules : [ {
+						type : 'empty',
+						prompt : 'Birthday is required!'
+					}, ]
+				}
+			}, {
+				inline : true,
+				on : 'blur',
+				transition : 'fade down',
+			});
 		});
 	</script>
 </body>
