@@ -13,6 +13,7 @@ public final class URI {
 	public static final String CREATE = "/create";
 	public static final String DELETE = "/delete";
 	public static final String SEARCH = "/search";
+    public static final String COUNTER = "/counter";
 
 	// INDEX
 	public static final String INDEX = "/";

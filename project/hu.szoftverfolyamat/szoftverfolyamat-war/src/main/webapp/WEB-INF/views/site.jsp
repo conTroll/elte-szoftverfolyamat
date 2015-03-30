@@ -46,7 +46,7 @@
 			<div class="item">${username}</div>
 			<a id="showMessagesLink" class="item"> <i class="mail icon"></i>
 				Messages
-				<div class="ui red label">${numberOfMessages}</div>
+				<div class="ui red label"><span id="unreadMessageCounter">${numberOfMessages}</span></div>
 			</a> <a class="item" href="<c:url value="/j_spring_security_logout"/>">
 				<i class="sign out icon"></i> Logout
 			</a>

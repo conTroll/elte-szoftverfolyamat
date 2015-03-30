@@ -14,10 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -58,6 +55,11 @@ public class MessageController extends BaseController {
         return result;
     }
 
+    @RequestMapping(URI.COUNTER)
+    @ResponseBody
+    public Integer showCounter(final Principal principal) {
+        return messageService.getNumberOfNonViewedMessages(getCurrentUser(principal));
+    }
 
     @RequestMapping(value = URI.CREATE, method = RequestMethod.POST)
     public RedirectView doCreate(final Principal principal, final @Valid @RequestBody MessageRequest request,

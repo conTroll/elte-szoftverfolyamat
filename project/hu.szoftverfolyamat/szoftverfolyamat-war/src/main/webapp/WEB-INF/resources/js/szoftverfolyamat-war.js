@@ -40,17 +40,31 @@ function loadOwnChannels() {
 	});
 }
 
+function refreshMessageCounter() {
+    $.ajax({
+        type: "POST",
+        url: "messages/counter",
+        contentType: "text/plain",
+        success: function( data ) {
+            $('#unreadMessageCounter').replaceWith('<span id="unreadMessageCounter">' + data + '</span>');
+        }
+    });
+}
 
 function changeContent( data ) {
 	$('#dynamicContent').fadeOut("fast", function() {
 		$('#dynamicContent').html( data );
 		$('#dynamicContent').fadeIn("fast");
 	});
+
+    refreshMessageCounter();
+
 	//Find all inline script tags in the new content and loop through them
 	data.find("script").each(function() {
         var scriptContent = $('#dynamicContent').html(); //Grab the content of this tag
         eval(scriptContent); //Execute the content
     });
+
 }
 
 function submitPost() {
@@ -212,7 +226,6 @@ function searchChannels() {
 		  }
 	});
 }
-
 
 // MESSAGES
 
