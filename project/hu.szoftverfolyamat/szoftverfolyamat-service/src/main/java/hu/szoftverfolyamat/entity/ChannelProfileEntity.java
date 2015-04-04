@@ -14,6 +14,7 @@ public class ChannelProfileEntity implements Serializable {
 	private static final long serialVersionUID = -3771475272950984076L;
 	
 	private Long id;
+	private ImageResourceEntity avatar;
 	private UserProfileData leader;
 	private String name;
 	private String description;
@@ -30,6 +31,12 @@ public class ChannelProfileEntity implements Serializable {
 		return this.id;
 	}
 	
+	@OneToOne(fetch = FetchType.LAZY, optional = true)
+	@JoinColumn(name = "avatar_id", nullable = true)
+	public ImageResourceEntity getAvatar() {
+		return avatar;
+	}
+
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "leader_credential_id", nullable = false)
 	public UserProfileData getLeader() {
@@ -69,6 +76,10 @@ public class ChannelProfileEntity implements Serializable {
 	
 	public void setId(Long id) {
 		this.id = id;
+	}
+	
+	public void setAvatarId(ImageResourceEntity avatar) {
+		this.avatar = avatar;
 	}
 	
 	public void setLeader(UserProfileData leader) {

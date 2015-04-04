@@ -10,8 +10,10 @@ import javax.validation.Valid;
 import lombok.NonNull;
 import hu.szoftverfolyamat.dto.ChannelProfileDto;
 import hu.szoftverfolyamat.dto.UserProfileDataDto;
+import hu.szoftverfolyamat.entity.ChannelProfileEntity;
 import hu.szoftverfolyamat.enums.MatchType;
 import hu.szoftverfolyamat.exception.ChannelServiceException;
+import hu.szoftverfolyamat.repository.ChannelRepository;
 import hu.szoftverfolyamat.service.ChannelService;
 import hu.szoftverfolyamat.service.UserProfileDataService;
 import hu.szoftverfolyamat.service.mapper.UserProfileDataMapper;
@@ -51,6 +53,9 @@ public class ChannelsController extends BaseController {
 	private ChannelService service;
 	
 	@Autowired
+	private ChannelRepository repository;
+	
+	@Autowired
 	private UserProfileDataService userService;
 	
 	@Autowired
@@ -82,8 +87,8 @@ public class ChannelsController extends BaseController {
 	public @ResponseBody byte[] getImage(@PathVariable("id") Long id) throws IOException {
 		byte[] result = null;
 
-		// TODO service csatornákhoz is
-		// result = imageResourceService.getImageSource(id);
+		ChannelProfileEntity channel = this.repository.findOne(id);
+		result = channel.getAvatar() == null ? null : channel.getAvatar().getImage();
 		try {
 			if (result == null) {
 				result = IOUtils.toByteArray(defaultPicture.getInputStream());

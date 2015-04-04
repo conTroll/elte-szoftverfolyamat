@@ -69,7 +69,13 @@ public class ImageResourceController extends BaseController {
 			byte[] bytes;
 			try {
 				bytes = file.getBytes();
-				avatarId = this.imageResourceService.saveImage(bytes);
+				String extension = this.getExtension(file.getOriginalFilename());
+				extension = extension != null ? extension.toLowerCase() : null;
+				if(!"png".equals(extension) && !"jpg".equals(extension) && !"jpeg".equals(extension) && !"gif".equals(extension)) {
+					// TODO hibakezelés (nem támogatott fájlformátum)
+					return new ModelAndView("redirect:/");
+				}
+				avatarId = this.imageResourceService.saveImage(bytes, extension);
 				userProfileDataService.updateAvatarId(
 						this.getCurrentUser(principal), avatarId);
 			} catch (IOException e) {
@@ -78,7 +84,12 @@ public class ImageResourceController extends BaseController {
 			}
 
 		}
-		modelAndView = new ModelAndView("redirect:/");
-		return modelAndView;
+		return new ModelAndView("redirect:/");
+	}
+	
+	private String getExtension(String filenameFromBrowser) {
+		if(filenameFromBrowser == null) return null;
+		String[] filenameParts = filenameFromBrowser.split("\\.");
+		return filenameParts[filenameParts.length - 1];
 	}
 }

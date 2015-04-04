@@ -1,3 +1,9 @@
+-- Images
+CREATE TABLE images (
+	id INT(10) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	image LONGBLOB
+);
+
 -- Users
 CREATE TABLE user_credentials (
  credential_id INT(10) NOT NULL PRIMARY KEY AUTO_INCREMENT,
@@ -18,11 +24,12 @@ CREATE TABLE user_profile_data (
  workplace VARCHAR(128),
  public_birthday BIT(1) DEFAULT 1 NOT NULL,
  birthday DATE NOT NULL,
- avatar LONGBLOB
+ avatar_id INT(10)
 );
 
 ALTER TABLE user_profile_data ADD CONSTRAINT PK_user_profile_data PRIMARY KEY (credential_id);
 ALTER TABLE user_profile_data ADD CONSTRAINT FK_user_profile_data_0 FOREIGN KEY (credential_id) REFERENCES user_credentials (credential_id);
+ALTER TABLE user_profile_data ADD CONSTRAINT fk_user_profile_data_avatar FOREIGN KEY (avatar_id) REFERENCES images (id);
 
 CREATE TABLE user_roles (
  user_role_id INT(10) NOT NULL PRIMARY KEY AUTO_INCREMENT,
@@ -48,6 +55,7 @@ ALTER TABLE advertisements ADD CONSTRAINT FK_advertisements_0 FOREIGN KEY (autho
 -- Channels
 CREATE TABLE channel_profile_data (
  channel_id INT(10) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+ avatar_id INT(10),
  leader_credential_id INT(10) NOT NULL,
  name VARCHAR(128) NOT NULL,
  description VARCHAR(256) NOT NULL,
@@ -56,6 +64,7 @@ CREATE TABLE channel_profile_data (
 );
 
 ALTER TABLE channel_profile_data ADD CONSTRAINT FK_channel_profile_data_leader FOREIGN KEY (leader_credential_id) REFERENCES user_credentials (credential_id);
+ALTER TABLE channel_profile_data ADD CONSTRAINT FK_channel_profile_data_avatar FOREIGN KEY (avatar_id) REFERENCES images (id);
 
 CREATE TABLE channel_subscribers (
  channel_id INT(10) NOT NULL,
@@ -131,12 +140,3 @@ CREATE TABLE messages (
 
 ALTER TABLE messages ADD CONSTRAINT fk_messages_from FOREIGN KEY (user_from) REFERENCES user_profile_data (credential_id);
 ALTER TABLE messages ADD CONSTRAINT fk_messages_to   FOREIGN KEY (user_to)   REFERENCES user_profile_data (credential_id);
-
--- Images
-CREATE TABLE images (
-	id INT(10) NOT NULL PRIMARY KEY AUTO_INCREMENT,
-	image LONGBLOB
-);
-
-ALTER TABLE user_profile_data CHANGE avatar avatar_id INT(10);
-ALTER TABLE user_profile_data ADD CONSTRAINT fk_user_profile_data_avatar FOREIGN KEY (avatar_id) REFERENCES images (id);
