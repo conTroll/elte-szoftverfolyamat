@@ -52,6 +52,8 @@ function refreshMessageCounter() {
 }
 
 function changeContent( data ) {
+	$("i.loader").removeClass("active");
+		
 	$('#dynamicContent').fadeOut("fast", function() {
 		$('#dynamicContent').html( data );
 		$('#dynamicContent').fadeIn("fast");

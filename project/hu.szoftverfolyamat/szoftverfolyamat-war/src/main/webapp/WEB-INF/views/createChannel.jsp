@@ -22,6 +22,7 @@
 <title>elte szoftverfolyamat</title>
 </head>
 <body>
+
 	<form:form action="create" method="post"
 		commandName="createChannelRequest"
 		style="width: 80%; margin-left: 10%; margin-top: 10%;"
@@ -57,11 +58,19 @@
 		<div class="inline field">
 			<div class="ui toggle checkbox">
 				<form:checkbox path="open" />
-				<label>Open for subscriptions?</label>
+				<label>Open channel?</label>
 			</div>
 		</div>
-		<form:button class="ui blue submit button">Create</form:button>
+		<p>Posts in open channels are visible to anyone, and anyone can join automatically.</p>
+		<p>Posts in closed channels are visible only to members, and new members can join only with approval of the channel leader.</p>
+		<form:button class="ui blue labeled submit icon button">
+			<i class="icon edit"></i> Create
+		</form:button>
+		<div class="ui blue submit button"
+			onclick="document.location.href = '/szoftverfolyamat-war/';">
+			Return to site
+		</div>
 	</form:form>
-	
+
 </body>
 </html>

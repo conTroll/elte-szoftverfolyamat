@@ -78,7 +78,7 @@ public class ChannelProfileEntity implements Serializable {
 		this.id = id;
 	}
 	
-	public void setAvatarId(ImageResourceEntity avatar) {
+	public void setAvatar(ImageResourceEntity avatar) {
 		this.avatar = avatar;
 	}
 	

@@ -115,6 +115,13 @@
 						prompt : 'Short Name is required!'
 					}, ]
 				},
+				username : {
+					identifier : 'username',
+					rules : [ {
+						type : 'empty',
+						prompt : 'Username is required!'
+					}, ]
+				},
 				password : {
 					identifier : 'password',
 					rules : [ {
@@ -141,13 +148,6 @@
 					rules : [ {
 						type : 'empty',
 						prompt : 'Job is required!'
-					}, ]
-				},
-				workplace : {
-					identifier : 'workplace',
-					rules : [ {
-						type : 'empty',
-						prompt : 'Workplace is required!'
 					}, ]
 				},
 				birthday : {

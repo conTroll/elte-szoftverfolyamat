@@ -55,6 +55,12 @@ public class RegistrationController extends BaseController {
 //        }
 		
 		try {
+			// felhasználónevet már regisztálták-e
+			if(userCredentialService.getUser(profileFormRequest.getUsername()) != null){
+				modelAndView = new ModelAndView(Template.USER_REGISTRATION);
+				modelAndView.addObject("error", "Username already taken. Please choose a different one.");
+				return modelAndView;
+			}
 			userCredentialService.createUserCredential(profileRequestMapper.decode(profileFormRequest));
             // TODO RedirectView instead
 			modelAndView = new ModelAndView("redirect:" + URI.USER_LOGIN);

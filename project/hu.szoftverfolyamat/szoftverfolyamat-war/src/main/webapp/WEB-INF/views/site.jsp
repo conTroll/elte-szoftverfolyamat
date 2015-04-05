@@ -53,13 +53,13 @@
 	<div class="ui grid">
 		<div class="four wide column">
 			<div class="ui vertical fluid menu">
-				<a id="newsLink" class="active teal item"> News <i class="home icon"></i></a>
-				<a id="searchUsersLink" class="teal item"> Search Users <i class="search icon"></i></a>
-				<a id="showContactsLink" class="teal item"> Show Contacts <i class="users icon"></i></a>
-				<a id="browseChannelsLink" class="teal item"> Search Channels <i	class="rss icon"></i></a>
-				<a id="mySubscriptionsLink" class="teal item"> My Subscriptions <i class="bookmark icon"></i></a>
-				<a id="myChannelsLink" class="teal item"> My Channels <i	class="signup icon"></i></a>
-				<a id="settingsLink" class="teal item"> Settings <i class="settings icon"></i></a>
+				<a id="newsLink" class="active teal item"> News <i class="ui inline mini loader"></i><i class="home icon"></i></a>
+				<a id="searchUsersLink" class="teal item"> Search Users <i class="ui inline mini loader"></i><i class="search icon"></i></a>
+				<a id="showContactsLink" class="teal item"> Show Contacts <i class="ui inline mini loader"></i><i class="users icon"></i></a>
+				<a id="browseChannelsLink" class="teal item"> Search Channels <i class="ui inline mini loader"></i><i class="rss icon"></i></a>
+				<a id="mySubscriptionsLink" class="teal item"> My Subscriptions <i class="ui inline mini loader"></i><i class="bookmark icon"></i></a>
+				<a id="myChannelsLink" class="teal item"> My Channels <i class="ui inline mini loader"></i><i class="signup icon"></i></a>
+				<a id="settingsLink" class="teal item"> Settings <i class="ui inline mini loader"></i><i class="settings icon"></i></a>
 			</div>
 		</div>
 		<div id="dynamicContent" class="eight wide column">
@@ -80,6 +80,7 @@
 		$("a.teal").click(function(event){
 			$("a.teal").removeClass("active");
 			$(event.target).addClass("active");
+			$(event.target).children("i.loader").addClass("active");
 		});
 		$("#newsLink").click(function() {
 			loadNews();

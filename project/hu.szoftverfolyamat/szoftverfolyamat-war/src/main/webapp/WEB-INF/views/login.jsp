@@ -69,14 +69,14 @@
 				identifier : 'username',
 				rules : [ {
 					type : 'empty',
-					prompt : 'Felhasználónév megadása kötelező'
+					prompt : 'Username is required'
 				}, ]
 			},
 			password : {
 				identifier : 'password',
 				rules : [ {
 					type : 'empty',
-					prompt : 'Jelszó megadása kötelező'
+					prompt : 'Password is required'
 				}, ]
 			}
 		}, {
