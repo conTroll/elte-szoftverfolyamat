@@ -1,19 +1,58 @@
 package hu.szoftverfolyamat.web.requestobject;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.Email;
+import org.springframework.format.annotation.DateTimeFormat;
+
 public class ProfileFormRequest {
 
 	private Long credentialId;
+	
+	@Size(max=32)
+	@NotNull
 	private String username;
+	
+	@Size(max=32)
+	@NotNull
 	private String password;
+	
+	@Size(max=128)
+	@NotNull
+	@Email
 	private String email;
+	
+	@NotNull
+	@Size(max=128)
 	private String fullName;
+	
+	@NotNull
+	@Size(max=32)
 	private String shortName;
+	
+	@NotNull
 	private String publicHabitat;
+	
+	@NotNull
+	@Size(max=128)
 	private String habitat;
+	
+	@NotNull 
 	private String publicJobAndWorkplace;
+	
+	@NotNull
+	@Size(max=128)
 	private String job;
+	
+	@Size(max=128)
 	private String workplace;
+	
+	@NotNull
 	private String publicBirthday;
+	
+	@NotNull
+	@DateTimeFormat(pattern="YYYY.MM.DD.")
 	private String birthday;
 
 	public Long getCredentialId() {

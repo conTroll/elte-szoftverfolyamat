@@ -48,14 +48,17 @@ public class SettingsController extends BaseController {
 	}
 	
 	@RequestMapping(method = RequestMethod.POST)
-	public ModelAndView update(Principal principal, @ModelAttribute(value = "profileFormRequest") ProfileFormRequest profileFormRequest) {
+	public ModelAndView update(Principal principal, @Valid @ModelAttribute(value = "profileFormRequest") ProfileFormRequest profileFormRequest,
+			@NonNull final BindingResult bindingResult) {
 		ModelAndView modelAndView;
 		Long credentialId;
 		
-//		if (bindingResult.hasErrors()) {
-//			 
-//		    return new ModelAndView("redirect:" + Template.INDEX);
-//        }
+		if (bindingResult.hasErrors()) {
+			
+			modelAndView = new ModelAndView(Template.USER_PROFILE);
+			modelAndView.addObject("error", bindingResult.getFieldErrors().toString());
+			return modelAndView;
+		}
 		
 		try {
 			this.userCredentialService.updateUserCredential(profileRequestMapper.decode(profileFormRequest));
