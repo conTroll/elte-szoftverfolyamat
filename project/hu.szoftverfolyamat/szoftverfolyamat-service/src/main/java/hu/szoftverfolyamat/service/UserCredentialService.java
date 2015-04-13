@@ -65,10 +65,14 @@ public class UserCredentialService {
 		return null;
 	}
 
-	public UserCredential getUser(String username) {
-		final UserCredential userCredential  = userCredentialsRepository.getUserByUsername(username);
-		userCredential.setUserRole(userRoleService.getRoleByCredentialId(userCredential.getCredentialId()));
-		return userCredential;
+	public UserCredential getUser(final String username) {
+        try {
+            final UserCredential userCredential  = userCredentialsRepository.getUserByUsername(username);
+            userCredential.setUserRole(userRoleService.getRoleByCredentialId(userCredential.getCredentialId()));
+            return userCredential;
+        } catch (NullPointerException e) {
+            return null;
+        }
 	}
 
 	// TODO userrole fetchelese, hogy egy selectel menjen!
