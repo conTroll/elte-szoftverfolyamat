@@ -31,14 +31,14 @@ public class ProfileFormRequest {
 	@Size(max=32)
 	private String shortName;
 	
-	@NotNull
+	
 	private String publicHabitat;
 	
 	@NotNull
 	@Size(max=128)
 	private String habitat;
 	
-	@NotNull 
+	 
 	private String publicJobAndWorkplace;
 	
 	@NotNull
@@ -48,7 +48,7 @@ public class ProfileFormRequest {
 	@Size(max=128)
 	private String workplace;
 	
-	@NotNull
+	
 	private String publicBirthday;
 	
 	@NotNull
