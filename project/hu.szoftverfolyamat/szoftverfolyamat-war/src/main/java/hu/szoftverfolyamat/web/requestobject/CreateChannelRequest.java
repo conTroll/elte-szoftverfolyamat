@@ -11,7 +11,7 @@ public class CreateChannelRequest {
 	@Size(min=1, max=128) @NotNull	
 	private String name;
 	
-	@Size(min=1, max=256, message = "Please enter at least 1 character") @NotNull	
+	@Size(min=1, max=256) @NotNull	
 	private String description;
 	
 	private boolean open;

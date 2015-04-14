@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+ 
 <form id="profileForm" action="profile" method="post"
 	class="ui form">
 	<div class="ui error message">
@@ -77,6 +78,21 @@
 				type="hidden" />
 	<input name="" type="submit" class="ui blue submit button" value="Save" />
 </form>
+
+<link rel="stylesheet" type="text/css"
+	href="<c:url value="/semantic/css/semantic.css"/>" />
+<link rel="stylesheet" type="text/css"
+	href="<c:url value="/css/app.css"/>" />
+<script type="text/javascript"
+	src="<c:url value="/js/jquery-1.11.1.min.js"/>"></script>
+<script type="text/javascript"
+	src="<c:url value="/semantic/javascript/semantic.js"/>"></script>
+<script type="text/javascript">
+	$(function() {
+		$('.ui.checkbox').checkbox();
+	});
+</script>
+
 <script type="text/javascript">
 	$('.ui.checkbox').checkbox();
 	

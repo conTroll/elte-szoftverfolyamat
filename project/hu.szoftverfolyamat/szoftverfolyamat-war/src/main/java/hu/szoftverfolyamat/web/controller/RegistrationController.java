@@ -45,14 +45,16 @@ public class RegistrationController extends BaseController {
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
-	public ModelAndView doRegistration(@ModelAttribute(value = "profileFormRequest") ProfileFormRequest profileFormRequest) {
+	public ModelAndView doRegistration(@Valid @ModelAttribute(value = "profileFormRequest") ProfileFormRequest profileFormRequest,
+			@NonNull final BindingResult bindingResult) {
 		ModelAndView modelAndView;
 
-		
-//		if (bindingResult.hasErrors()) {
-//			 
-//		    return new ModelAndView(Template.USER_REGISTRATION);
-//        }
+		if (bindingResult.hasErrors()) {
+			 
+			modelAndView = new ModelAndView(Template.USER_REGISTRATION);
+		    modelAndView.addObject("error", bindingResult.getFieldErrors().toString());
+		    return modelAndView;
+        }
 		
 		try {
 			// felhasználónevet már regisztálták-e

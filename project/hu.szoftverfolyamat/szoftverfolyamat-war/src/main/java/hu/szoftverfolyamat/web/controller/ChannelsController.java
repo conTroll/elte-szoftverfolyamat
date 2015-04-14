@@ -150,9 +150,17 @@ public class ChannelsController extends BaseController {
 	}
 
 	@RequestMapping(value = URI.CREATE, method = RequestMethod.POST)
-	public RedirectView doCreateChannel(final Principal principal, @ModelAttribute("createChannelRequest") CreateChannelRequest request, final RedirectAttributes attributes) {
+	public RedirectView doCreateChannel(final Principal principal,@Valid @ModelAttribute("createChannelRequest") CreateChannelRequest request,
+			@NonNull final BindingResult bindingResult, final RedirectAttributes attributes) {
 		Long userId = this.getCurrentUser(principal);
 		RedirectView result;
+		
+		if (bindingResult.hasErrors()) {
+			 
+			attributes.addFlashAttribute("error", bindingResult.getFieldErrors().toString());
+			return new RedirectView(URI.CHANNELS + URI.CREATE, true);
+		}
+		
 		try {
 			this.service.createChannel(userId, request.getName(), request.getDescription(), request.isOpen());
 			attributes.addFlashAttribute("successfulChannelCreation", true);

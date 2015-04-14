@@ -103,16 +103,20 @@ public class ContactsController extends BaseController {
 	@RequestMapping(value = URI.CONTACTS_SEARCH, method = RequestMethod.POST)
 	public ModelAndView doSearch(final Principal principal, final @Valid @RequestBody SearchRequest request, @NonNull final BindingResult bindingResult) {
 		
+		final ModelAndView result = new ModelAndView(Template.CONTACTS_SEARCH);
+		
+		
 		if (bindingResult.hasErrors()) {
 			 
-		    return new ModelAndView(Template.CONTACTS_SEARCH);
+		    result.addObject("error", bindingResult.getFieldErrors().toString());
+		    return result;
+		    
         }
 		
 		final List<UserProfileDataDto> profiles = userProfileDataService.searchUserProfileDataDtos(
 				getCurrentUser(principal), request.getEmail(), request.getFullName(), request.getPlace(), request.getJob()
 				);
 
-		final ModelAndView result = new ModelAndView(Template.CONTACTS_SEARCH);
 		result.addObject("contactList", profiles);
 		return result;
 	}
