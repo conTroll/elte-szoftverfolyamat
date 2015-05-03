@@ -29,8 +29,8 @@ public class CustomUserProfileDataRepositoryImpl {
 			firstElement = false;
 		}
 		if ((place != null) && !place.isEmpty()) {
-			query += (firstElement ? " where upd.place like '%"
-					: " and upd.place like '%") + place + "%'";
+			query += (firstElement ? " where upd.habitat like '%"
+					: " and upd.habitat like '%") + place + "%'";
 			firstElement = false;
 		}
 		if ((job != null) && !job.isEmpty()) {
