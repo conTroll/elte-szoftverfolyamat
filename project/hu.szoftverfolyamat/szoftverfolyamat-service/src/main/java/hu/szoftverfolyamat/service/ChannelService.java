@@ -7,7 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import hu.szoftverfolyamat.dto.ChannelPostDto;
 import hu.szoftverfolyamat.dto.ChannelProfileDto;
+import hu.szoftverfolyamat.entity.ChannelPostCommentEntity;
+import hu.szoftverfolyamat.entity.ChannelPostEntity;
 import hu.szoftverfolyamat.entity.ChannelProfileEntity;
 import hu.szoftverfolyamat.entity.ChannelSubscriberEntity;
 import hu.szoftverfolyamat.entity.ChannelSubscriberEntityId;
@@ -15,9 +18,12 @@ import hu.szoftverfolyamat.entity.UserProfileData;
 import hu.szoftverfolyamat.enums.MatchType;
 import hu.szoftverfolyamat.enums.SubscriberStatus;
 import hu.szoftverfolyamat.exception.ChannelServiceException;
+import hu.szoftverfolyamat.repository.ChannelPostCommentRepository;
 import hu.szoftverfolyamat.repository.ChannelPostRepository;
 import hu.szoftverfolyamat.repository.ChannelRepository;
 import hu.szoftverfolyamat.repository.ChannelSubscriberRepository;
+import hu.szoftverfolyamat.service.mapper.ChannelPostCommentMapper;
+import hu.szoftverfolyamat.service.mapper.ChannelPostMapper;
 import hu.szoftverfolyamat.service.mapper.ChannelProfileMapper;
 
 @Service
@@ -29,6 +35,9 @@ public class ChannelService {
 
 	@Autowired
 	private ChannelPostRepository channelPostRepo;
+	
+	@Autowired
+	private ChannelPostCommentRepository channelCommentRepo;
 
 	@Autowired
 	private ChannelSubscriberRepository channelSubscriberRepository;
@@ -38,6 +47,12 @@ public class ChannelService {
 
 	@Autowired
 	private ChannelProfileMapper channelMapper;
+	
+	@Autowired
+	private ChannelPostMapper channelPostMapper;
+	
+	@Autowired
+	private ChannelPostCommentMapper channelCommentMapper;
 
 
 	/**
@@ -110,6 +125,33 @@ public class ChannelService {
 
 	}
 
+	/**
+	 * Egy csatorna adatainak lekérdezése az azonosítója alapján.
+	 * 
+	 * @param channelId
+	 * 		a csatorna azonosítója
+	 * @return
+	 * 		a csatorna adatlapján megjelenítendő adatok
+	 * @throws ChannelServiceException
+	 * 		ha a csatorna azonosítója nincs megadva, vagy érvénytelen
+	 */
+	public ChannelProfileDto getChannel(Long channelId) throws ChannelServiceException {
+		
+		if(channelId == null) {
+			throw new ChannelServiceException("Invalid channelId: cannot be null.");
+		}
+		
+		ChannelProfileEntity entity = this.channelRepo.findOne(channelId);
+		
+		if(entity == null) {
+			throw new ChannelServiceException("Invalid channelId: no such channel.");
+		}
+		
+		return this.channelMapper.apply(entity);
+		
+	}
+	
+	
 	/**
 	 * Csatornák keresése.
 	 * 
@@ -252,11 +294,32 @@ public class ChannelService {
 	 * 		felhasználó azonosítója
 	 * @param channelId
 	 * 		csatorna azonosítója
+	 * @throws ChannelServiceException
+	 * 		ha bármelyik azonosító nincs megadva, vagy érvénytelen
 	 */
-	public void subscribeToChannel(Long userId, Long channelId) {
+	public void subscribeToChannel(Long userId, Long channelId) throws ChannelServiceException {
 
+		
+		if(userId == null) {
+			throw new ChannelServiceException("Invalid userId: cannot be null.");
+		}
+		
+		if(channelId == null) {
+			throw new ChannelServiceException("Invalid channelId: cannot be null.");
+		}
+		
 		UserProfileData user = this.userService.findByUserCredentialId(userId);
+		
+		if(user == null) {
+			throw new ChannelServiceException("Invalid userId: no such user.");
+		}
+		
 		ChannelProfileEntity channel = this.channelRepo.findOne(channelId);
+		
+		if(channel == null) {
+			throw new ChannelServiceException("Invalid channelId: no such channel.");
+		}
+		
 		ChannelSubscriberEntityId id = new ChannelSubscriberEntityId();
 		id.setChannel(channel);
 		id.setUser(user);
@@ -266,6 +329,112 @@ public class ChannelService {
 		subscriberEntity.setSubscriptionDate(new Date());
 		this.channelSubscriberRepository.save(subscriberEntity);
 
+	}
+	
+	/**
+	 * Poszt közzététele a csatornán.
+	 * 
+	 * @param channelId
+	 * 		csatorna azonosítója
+	 * @param content
+	 * 		poszt tartalma
+	 * @throws ChannelServiceException
+	 * 		ha a channelId nincs megadva, vagy érvénytelen, vagy a poszt tartalma üres
+	 */
+	public void publishPost(Long channelId, String content) throws ChannelServiceException {
+		
+		if(channelId == null) {
+			throw new ChannelServiceException("Invalid channelId: cannot be null.");
+		}
+		
+		if(content == null || "".equals(content.trim())) {
+			throw new ChannelServiceException("Invalid content: cannot be null or empty.");
+		}
+		
+		ChannelProfileEntity channel = this.channelRepo.findOne(channelId);
+		
+		if(channel == null) {
+			throw new ChannelServiceException("Invalid channelId: no such channel.");
+		}
+		
+		ChannelPostEntity post = new ChannelPostEntity();
+		post.setChannel(channel);
+		post.setCreationDate(new Date());
+		post.setText(content);
+		this.channelPostRepo.save(post);
+		
+	}
+	
+	/**
+	 * A csatornán közzétett posztok lekérdezése.
+	 * @param channelId
+	 * 		a csatornához tartozó azonosító
+	 * @return
+	 * 		a csatornához tartozó posztok listája
+	 * @throws ChannelServiceException
+	 * 		ha a channelId nincs megadva, vagy érvénytelen
+	 */
+	public List<ChannelPostDto> getChannelPosts(Long channelId) throws ChannelServiceException{
+		
+		if(channelId == null) {
+			throw new ChannelServiceException("Invalid channelId: cannot be null.");
+		}
+		
+		ChannelProfileEntity channel = this.channelRepo.findOne(channelId);
+		
+		if(channel == null) {
+			throw new ChannelServiceException("Invalid channelId: no such channel.");
+		}
+		
+		List<ChannelPostEntity> postEntities = channel.getPosts();
+		return this.channelPostMapper.apply(postEntities);
+		
+	}
+	
+	/**
+	 * Megjegyzés (komment) hozzáfűzése csatorna által kiírt bejegyzéshez (poszt). 
+	 * @param userCredentialId
+	 * 		a felhasználó azonosítója, aki a hozzászólást írja
+	 * @param postId
+	 * 		a bejegyzés azonosítója, amelyhez a hozzászólást írják
+	 * @param content
+	 * 		a komment tartalma
+	 * @throws ChannelServiceException 
+	 * 		ha bármely azonosító nincs megadva, vagy érvénytelen, vagy a komment tartalma üres
+	 */
+	public void addCommentToChannelPost(Long userCredentialId, Long postId, String content) throws ChannelServiceException {
+		
+		if(userCredentialId == null) {
+			throw new ChannelServiceException("Invalid userCredentialId: cannot be null.");
+		}
+		
+		if(postId == null) {
+			throw new ChannelServiceException("Invalid postId: cannot be null.");
+		}
+		
+		if(content == null || "".equals(content.trim())) {
+			throw new ChannelServiceException("Invalid content: cannot be null or empty.");
+		}
+		
+		UserProfileData user = this.userService.findByUserCredentialId(userCredentialId);
+		
+		if(user == null) {
+			throw new ChannelServiceException("Invalid userCredentialId: no such user.");
+		}
+		
+		ChannelPostEntity post = this.channelPostRepo.findOne(postId);
+		
+		if(post == null) {
+			throw new ChannelServiceException("Invalid postId: no such post.");
+		}
+		
+		ChannelPostCommentEntity comment = new ChannelPostCommentEntity();
+		comment.setAuthor(user);
+		comment.setCreationDate(new Date());
+		comment.setPost(post);
+		comment.setText(content);
+		this.channelCommentRepo.save(comment);
+		
 	}
 
 }
