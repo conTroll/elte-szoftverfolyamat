@@ -271,3 +271,9 @@ function deleteMessage( id ) {
         }
     });
 }
+    
+function loadProfileView( id ) {
+	$.get( "profileView?userId=" + id, function( data ) {
+		changeContent(data);
+	});
+}

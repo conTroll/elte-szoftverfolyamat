@@ -7,11 +7,11 @@
 				<div class="ui inverted dimmer">
 					<div class="content">
 						<div class="center">
-							<div class="ui blue button">View Profile</div>
+							<div onClick="loadProfileView( ${contact.credentialId} );" class="ui blue button">View Profile</div>
 						</div>
 					</div>
 				</div>
-				<img src="<c:url value="/images/elliot.jpg"/>">
+				<img src="<c:url value="/getImage/${contact.avatarId}"/>">
 			</div>
 			<div class="ui bottom attached content segment">
 				<a class="ui header">${contact.fullName}</a>

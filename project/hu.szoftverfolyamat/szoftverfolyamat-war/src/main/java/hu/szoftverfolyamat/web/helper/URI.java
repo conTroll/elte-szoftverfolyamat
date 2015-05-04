@@ -48,4 +48,7 @@ public final class URI {
 	// IMAGES
 	public static final String GET_IMAGE = "/getImage";
 	public static final String UPLOAD_IMAGE = "/uploadImage";
+	
+	//PROFILE
+	public static final String PROFILE_VIEW = "/profileView";
 }
