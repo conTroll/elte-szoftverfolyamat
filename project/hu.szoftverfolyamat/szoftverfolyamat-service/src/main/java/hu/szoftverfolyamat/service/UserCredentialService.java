@@ -6,7 +6,6 @@ import hu.szoftverfolyamat.enums.Role;
 import hu.szoftverfolyamat.exception.UserServiceException;
 import hu.szoftverfolyamat.repository.UserCredentialsRepository;
 import hu.szoftverfolyamat.service.mapper.UserCredentialMapper;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

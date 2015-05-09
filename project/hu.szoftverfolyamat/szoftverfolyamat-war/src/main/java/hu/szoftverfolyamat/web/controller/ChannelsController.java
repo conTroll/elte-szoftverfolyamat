@@ -1,13 +1,5 @@
 package hu.szoftverfolyamat.web.controller;
 
-import java.io.IOException;
-import java.security.Principal;
-import java.util.List;
-
-import javax.servlet.ServletContext;
-import javax.validation.Valid;
-
-import lombok.NonNull;
 import hu.szoftverfolyamat.dto.ChannelProfileDto;
 import hu.szoftverfolyamat.dto.UserProfileDataDto;
 import hu.szoftverfolyamat.entity.ChannelProfileEntity;
@@ -22,7 +14,7 @@ import hu.szoftverfolyamat.web.helper.Template;
 import hu.szoftverfolyamat.web.helper.URI;
 import hu.szoftverfolyamat.web.requestobject.ChannelSearchRequest;
 import hu.szoftverfolyamat.web.requestobject.CreateChannelRequest;
-
+import lombok.NonNull;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -31,15 +23,15 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
+
+import javax.validation.Valid;
+import java.io.IOException;
+import java.security.Principal;
+import java.util.List;
 
 @Controller
 @Secured({ Role.USER, Role.ADMIN })

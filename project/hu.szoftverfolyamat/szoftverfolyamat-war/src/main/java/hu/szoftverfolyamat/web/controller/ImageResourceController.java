@@ -1,25 +1,18 @@
 package hu.szoftverfolyamat.web.controller;
 
-import java.io.IOException;
-import java.security.Principal;
-
-import javax.servlet.ServletContext;
-
 import hu.szoftverfolyamat.service.ImageResourceService;
 import hu.szoftverfolyamat.service.UserProfileDataService;
-import hu.szoftverfolyamat.web.helper.Template;
 import hu.szoftverfolyamat.web.helper.URI;
-
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.ServletContext;
+import java.io.IOException;
+import java.security.Principal;
 
 @Controller
 public class ImageResourceController extends BaseController {

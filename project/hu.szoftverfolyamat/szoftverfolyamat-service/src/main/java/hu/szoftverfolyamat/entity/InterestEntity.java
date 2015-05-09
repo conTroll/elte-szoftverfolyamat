@@ -74,4 +74,26 @@ public class InterestEntity {
     public void setChannels(List<ChannelProfileEntity> channels) {
         this.channels = channels;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        InterestEntity entity = (InterestEntity) o;
+
+        if (id != entity.id) return false;
+        if (createdAt != null ? !createdAt.equals(entity.createdAt) : entity.createdAt != null) return false;
+        if (name != null ? !name.equals(entity.name) : entity.name != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = (int) (id ^ (id >>> 32));
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (createdAt != null ? createdAt.hashCode() : 0);
+        return result;
+    }
 }

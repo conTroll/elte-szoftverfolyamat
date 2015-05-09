@@ -1,14 +1,12 @@
 package hu.szoftverfolyamat.web.controller;
 
-import hu.szoftverfolyamat.dto.UserCredentialDto;
-import hu.szoftverfolyamat.dto.UserProfileDataDto;
 import hu.szoftverfolyamat.exception.UserServiceException;
 import hu.szoftverfolyamat.service.UserCredentialService;
 import hu.szoftverfolyamat.web.helper.Template;
 import hu.szoftverfolyamat.web.helper.URI;
 import hu.szoftverfolyamat.web.parser.ProfileRequestMapper;
 import hu.szoftverfolyamat.web.requestobject.ProfileFormRequest;
-
+import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -16,13 +14,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.view.RedirectView;
-
-import java.text.ParseException;
 
 import javax.validation.Valid;
-
-import lombok.NonNull;
+import java.text.ParseException;
 
 @Controller
 @RequestMapping(value = URI.USER_REGISTRATION)

@@ -1,10 +1,9 @@
 package hu.szoftverfolyamat.service.mapper;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import hu.szoftverfolyamat.dto.UserCredentialDto;
 import hu.szoftverfolyamat.entity.UserCredential;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 @Service
 public class UserCredentialMapper extends AbstractMapper<UserCredential, UserCredentialDto> {

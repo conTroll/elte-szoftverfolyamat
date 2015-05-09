@@ -1,10 +1,10 @@
 package hu.szoftverfolyamat.web.requestobject;
 
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-
 import org.hibernate.validator.constraints.Email;
 import org.springframework.format.annotation.DateTimeFormat;
+
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 public class ProfileFormRequest {
 

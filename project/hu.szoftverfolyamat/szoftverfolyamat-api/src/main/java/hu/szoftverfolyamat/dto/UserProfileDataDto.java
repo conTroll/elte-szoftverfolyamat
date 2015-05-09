@@ -1,11 +1,5 @@
 package hu.szoftverfolyamat.dto;
 
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-
-import org.hibernate.validator.constraints.Email;
-import org.springframework.format.annotation.DateTimeFormat;
-
 import lombok.Data;
 
 @Data

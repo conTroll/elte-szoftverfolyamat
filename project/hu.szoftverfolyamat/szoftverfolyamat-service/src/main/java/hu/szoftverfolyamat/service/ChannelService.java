@@ -1,20 +1,8 @@
 package hu.szoftverfolyamat.service;
 
-import java.util.Date;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import hu.szoftverfolyamat.dto.ChannelPostDto;
 import hu.szoftverfolyamat.dto.ChannelProfileDto;
-import hu.szoftverfolyamat.entity.ChannelPostCommentEntity;
-import hu.szoftverfolyamat.entity.ChannelPostEntity;
-import hu.szoftverfolyamat.entity.ChannelProfileEntity;
-import hu.szoftverfolyamat.entity.ChannelSubscriberEntity;
-import hu.szoftverfolyamat.entity.ChannelSubscriberEntityId;
-import hu.szoftverfolyamat.entity.UserProfileData;
+import hu.szoftverfolyamat.entity.*;
 import hu.szoftverfolyamat.enums.MatchType;
 import hu.szoftverfolyamat.enums.SubscriberStatus;
 import hu.szoftverfolyamat.exception.ChannelServiceException;
@@ -25,6 +13,12 @@ import hu.szoftverfolyamat.repository.ChannelSubscriberRepository;
 import hu.szoftverfolyamat.service.mapper.ChannelPostCommentMapper;
 import hu.szoftverfolyamat.service.mapper.ChannelPostMapper;
 import hu.szoftverfolyamat.service.mapper.ChannelProfileMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Date;
+import java.util.List;
 
 @Service
 @Transactional

@@ -1,7 +1,6 @@
 package hu.szoftverfolyamat.repository;
 
 import hu.szoftverfolyamat.entity.MessageEntity;
-import hu.szoftverfolyamat.entity.UserCredential;
 import hu.szoftverfolyamat.entity.UserProfileData;
 import hu.szoftverfolyamat.enums.MessageStatus;
 import org.junit.Assert;
@@ -33,7 +32,7 @@ public class MessageRepositoryTest {
     @Test
     public void testCreateAndFindScenarios() {
         // given
-        final UserProfileData user = setUp();
+        final UserProfileData user = RepositoryTestHelper.createTestUser(userCredentialsRepository, userProfileDataRepository);
         final MessageEntity entity = createMessageEntity(user);
 
         // when
@@ -44,34 +43,6 @@ public class MessageRepositoryTest {
         Assert.assertTrue(testSubject.findForUser(user.getCredentialId()).contains(entity));
         Assert.assertTrue(testSubject.findForUserPair(user.getCredentialId(), user.getCredentialId()).contains(entity));
         Assert.assertTrue(testSubject.findUnreadForUser(user.getCredentialId()).contains(entity));
-    }
-
-    private UserProfileData setUp() {
-        final UserCredential credential;
-        credential = new UserCredential();
-        credential.setEnabled(true);
-        credential.setPassword("123");
-        credential.setUsername("admin");
-        credential.setUserProfileData(null);
-        credential.setUserRole(null);
-        userCredentialsRepository.saveAndFlush(credential);
-
-
-        final UserProfileData result = new UserProfileData();
-        result.setBirthday(new Date());
-        result.setCredentialId(credential.getCredentialId());
-        result.setEmail("email@domain.tld");
-        result.setFullName("full");
-        result.setHabitat("habitat");
-        result.setJob("job");
-        result.setPublicBirthday(false);
-        result.setPublicHabitat(false);
-        result.setPublicJobAndWorkplace(false);
-        result.setShortName("short");
-        result.setWorkplace("workplace");
-        userProfileDataRepository.saveAndFlush(result);
-
-        return result;
     }
 
     private static MessageEntity createMessageEntity(final UserProfileData user) {

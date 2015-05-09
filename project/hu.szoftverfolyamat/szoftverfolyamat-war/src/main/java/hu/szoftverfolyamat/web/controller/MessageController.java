@@ -3,13 +3,12 @@ package hu.szoftverfolyamat.web.controller;
 import hu.szoftverfolyamat.dto.MessageDto;
 import hu.szoftverfolyamat.exception.MessageServiceException;
 import hu.szoftverfolyamat.service.MessageService;
-import hu.szoftverfolyamat.service.UserConnectionService;
 import hu.szoftverfolyamat.web.helper.Role;
 import hu.szoftverfolyamat.web.helper.Template;
 import hu.szoftverfolyamat.web.helper.URI;
 import hu.szoftverfolyamat.web.requestobject.IdRequest;
 import hu.szoftverfolyamat.web.requestobject.MessageRequest;
-
+import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
@@ -18,12 +17,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
-import java.security.Principal;
-
-
 import javax.validation.Valid;
-
-import lombok.NonNull;
+import java.security.Principal;
 
 
 @Controller

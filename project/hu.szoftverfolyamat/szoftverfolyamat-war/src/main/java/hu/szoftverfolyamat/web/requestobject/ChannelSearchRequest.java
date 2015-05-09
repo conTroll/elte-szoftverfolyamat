@@ -1,11 +1,8 @@
 package hu.szoftverfolyamat.web.requestobject;
 
-import java.io.Serializable;
-
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-
 import lombok.Data;
+
+import java.io.Serializable;
 
 @Data
 public class ChannelSearchRequest implements Serializable {

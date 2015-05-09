@@ -1,19 +1,17 @@
 package hu.szoftverfolyamat.service;
 
-import java.awt.Graphics2D;
+import hu.szoftverfolyamat.entity.ImageResourceEntity;
+import hu.szoftverfolyamat.repository.ImageResourceRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-
-import javax.imageio.ImageIO;
-
-import hu.szoftverfolyamat.entity.ImageResourceEntity;
-import hu.szoftverfolyamat.repository.ImageResourceRepository;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional

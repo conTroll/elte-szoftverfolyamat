@@ -2,7 +2,6 @@ package hu.szoftverfolyamat.service.mapper;
 
 import hu.szoftverfolyamat.dto.ChannelProfileDto;
 import hu.szoftverfolyamat.entity.ChannelProfileEntity;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
