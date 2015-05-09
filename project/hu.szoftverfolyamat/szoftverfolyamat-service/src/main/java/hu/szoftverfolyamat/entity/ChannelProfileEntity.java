@@ -1,5 +1,8 @@
 package hu.szoftverfolyamat.entity;
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
@@ -23,6 +26,7 @@ public class ChannelProfileEntity implements Serializable {
 
 	private Set<ChannelSubscriberEntity> subscribers;
 	private List<ChannelPostEntity> posts;
+    private List<InterestEntity> interests;
 	
 	@Id
 	@GeneratedValue
@@ -73,7 +77,18 @@ public class ChannelProfileEntity implements Serializable {
 	public Date getCreationDate() {
 		return creationDate;
 	}
-	
+
+    @ManyToMany
+    @LazyCollection(LazyCollectionOption.TRUE)
+    @JoinTable(
+            name = "interests_to_user",
+            joinColumns = {@JoinColumn(name="channel_id", referencedColumnName = "channel_id")},
+            inverseJoinColumns = {@JoinColumn(name="interest_id", referencedColumnName = "id")}
+    )
+    public List<InterestEntity> getInterests() {
+        return interests;
+    }
+
 	public void setId(Long id) {
 		this.id = id;
 	}
@@ -109,8 +124,12 @@ public class ChannelProfileEntity implements Serializable {
 	public void setCreationDate(Date creationDate) {
 		this.creationDate = creationDate;
 	}
-	
-	@Override
+
+    public void setInterests(List<InterestEntity> interests) {
+        this.interests = interests;
+    }
+
+    @Override
 	public boolean equals(Object obj) {
 		
 		if (this == obj) return true;

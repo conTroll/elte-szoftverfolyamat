@@ -140,3 +140,28 @@ CREATE TABLE messages (
 
 ALTER TABLE messages ADD CONSTRAINT fk_messages_from FOREIGN KEY (user_from) REFERENCES user_profile_data (credential_id);
 ALTER TABLE messages ADD CONSTRAINT fk_messages_to   FOREIGN KEY (user_to)   REFERENCES user_profile_data (credential_id);
+
+-- Interests
+CREATE TABLE interests (
+  id INT(10) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  name TEXT NOT NULL,
+  created_at TIMESTAMP NOT NULL
+);
+
+CREATE TABLE interests_to_user (
+  interest_id INT(10) NOT NULL,
+  user_credentials_id INT(10) NOT NULL
+);
+
+ALTER TABLE interests_to_user ADD CONSTRAINT PK_interests_to_user PRIMARY KEY (interest_id,user_credentials_id);
+ALTER TABLE interests_to_user ADD CONSTRAINT FK_interests_to_user_0 FOREIGN KEY (interest_id) REFERENCES interests (id);
+ALTER TABLE interests_to_user ADD CONSTRAINT FK_interests_to_user_1 FOREIGN KEY (user_credentials_id) REFERENCES user_credentials (credential_id);
+
+CREATE TABLE interest_to_channel (
+	interest_id INT(10) NOT NULL,
+	channel_id INT(10) NOT NULL
+);
+
+ALTER TABLE interest_to_channel ADD CONSTRAINT PK_interest_to_channel PRIMARY KEY (interest_id,channel_id);
+ALTER TABLE interest_to_channel ADD CONSTRAINT FK_interest_to_channel_0 FOREIGN KEY (interest_id) REFERENCES interests (id);
+ALTER TABLE interest_to_channel ADD CONSTRAINT FK_interest_to_channel_1 FOREIGN KEY (channel_id) REFERENCES channel_profile_data (channel_id);

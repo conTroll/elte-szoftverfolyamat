@@ -8,6 +8,7 @@ import hu.szoftverfolyamat.enums.SubscriberStatus;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 public interface ChannelRepository extends JpaRepository<ChannelProfileEntity, Long> {
 	
@@ -29,4 +30,6 @@ public interface ChannelRepository extends JpaRepository<ChannelProfileEntity, L
 	@Query("select p from ChannelProfileEntity p where (p.name LIKE ?1 or p.description LIKE ?1) and p.open = true order by p.name")
 	List<ChannelProfileEntity> searchOpenChannelsByNameOrDescripton(String searchTerm);
 
+    @Query("SELECT cpe FROM ChannelProfileEntity cpe WHERE :interestId IN cpe.interests")
+    List<ChannelProfileEntity> findByInterest(final @Param("interestId") String interest);
 }

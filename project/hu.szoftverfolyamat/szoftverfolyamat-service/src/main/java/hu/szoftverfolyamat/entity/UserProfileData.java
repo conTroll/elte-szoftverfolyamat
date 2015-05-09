@@ -1,5 +1,8 @@
 package hu.szoftverfolyamat.entity;
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
@@ -21,6 +24,7 @@ public class UserProfileData {
 	private Date birthday;
 	private Long avatarId;
 	private List<ChannelProfileEntity> ownedChannels;
+    private List<InterestEntity> interests;
 
 	@Column(name = "avatar_id")
 	public Long getAvatarId() {
@@ -89,6 +93,17 @@ public class UserProfileData {
 		return ownedChannels;
 	}
 
+    @ManyToMany
+    @LazyCollection(LazyCollectionOption.TRUE)
+    @JoinTable(
+            name = "interests_to_user",
+            joinColumns = {@JoinColumn(name="user_credentials_id", referencedColumnName = "credential_id")},
+            inverseJoinColumns = {@JoinColumn(name="interest_id", referencedColumnName = "id")}
+    )
+    public List<InterestEntity> getInterests() {
+        return interests;
+    }
+
 	public void setAvatarId(Long avatarId) {
 		this.avatarId = avatarId;
 	}
@@ -140,5 +155,8 @@ public class UserProfileData {
 	public void setOwnedChannels(List<ChannelProfileEntity> ownedChannels) {
 		this.ownedChannels = ownedChannels;
 	}
-	
+
+    public void setInterests(List<InterestEntity> interests) {
+        this.interests = interests;
+    }
 }

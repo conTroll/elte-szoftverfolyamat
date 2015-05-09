@@ -15,6 +15,7 @@ public class MessageRequest implements Serializable {
  
     private Long recipientId;
     
-    @Size(min=1, max=21000) @NotNull
+    @Size(min=1, max=21000)
+    @NotNull
     private String text;
 }

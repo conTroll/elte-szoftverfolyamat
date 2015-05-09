@@ -51,4 +51,7 @@ public final class URI {
 	
 	//PROFILE
 	public static final String PROFILE_VIEW = "/profileView";
+
+    // INTEREST
+    public static final String INTEREST = "/interest";
 }

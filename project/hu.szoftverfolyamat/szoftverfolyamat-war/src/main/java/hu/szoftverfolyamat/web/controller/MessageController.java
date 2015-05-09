@@ -31,8 +31,8 @@ import lombok.NonNull;
 @Secured({ Role.USER, Role.ADMIN })
 public class MessageController extends BaseController {
 
-    @Autowired
-    private UserConnectionService userConnectionService;
+//    @Autowired
+//    private UserConnectionService userConnectionService;
 
     @Autowired
     private MessageService messageService;
