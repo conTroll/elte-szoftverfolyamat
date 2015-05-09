@@ -12,6 +12,7 @@
 	<div class="ui bottom attached tab segment" data-tab="imageUpload">
 		<jsp:include page="imageUpload.jsp" />
 	</div>
+
 	<script type="text/javascript">
 		$('.tabular.menu .item').tab({history:false});
 	</script>

@@ -2,6 +2,7 @@ package hu.szoftverfolyamat.web.controller;
 
 import hu.szoftverfolyamat.dto.UserCredentialDto;
 import hu.szoftverfolyamat.exception.UserServiceException;
+import hu.szoftverfolyamat.service.InterestService;
 import hu.szoftverfolyamat.service.UserCredentialService;
 import hu.szoftverfolyamat.web.helper.Template;
 import hu.szoftverfolyamat.web.helper.URI;
@@ -30,17 +31,17 @@ public class SettingsController extends BaseController {
 	@Autowired
 	private ProfileRequestMapper profileRequestMapper;
 
+    @Autowired
+    private InterestService interestService;
+
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView show(Principal principal) {
-		Long credentialId;
-		ModelAndView modelAndView;
-		UserCredentialDto credentialDto;
-		
-		credentialId = this.getCurrentUser(principal);
-		credentialDto = userCredentialService.getUserCredentialById(credentialId);
-		modelAndView = new ModelAndView(Template.USER_PROFILE);
+		final Long credentialId = this.getCurrentUser(principal);
+		final UserCredentialDto credentialDto = userCredentialService.getUserCredentialById(credentialId);
+		final ModelAndView modelAndView = new ModelAndView(Template.USER_PROFILE);
 		modelAndView.addObject("imageId", credentialDto.getUserProfileDataDto().getAvatarId());
 		modelAndView.addObject("profileFormRequest", profileRequestMapper.encode(credentialDto));
+        modelAndView.addObject("interests", interestService.getUserInterests(credentialId));
 		
 		return modelAndView;
 	}

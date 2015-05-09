@@ -14,6 +14,7 @@ public final class URI {
 	public static final String DELETE = "/delete";
 	public static final String SEARCH = "/search";
     public static final String COUNTER = "/counter";
+    public static final String ADD = "/add";
 
 	// INDEX
 	public static final String INDEX = "/";
@@ -53,5 +54,5 @@ public final class URI {
 	public static final String PROFILE_VIEW = "/profileView";
 
     // INTEREST
-    public static final String INTEREST = "/interest";
+    public static final String INTEREST = "/interests";
 }

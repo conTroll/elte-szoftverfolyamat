@@ -28,6 +28,19 @@ function loadSubscribedChannels() {
 	});
 }
 
+function loadInterests() {
+    $.get( "interests", function( data ) {
+        changeContent(data);
+    });
+}
+
+
+function loadInterestPage(id) {
+    $.get( "interests/show/" + id, function( data ) {
+        changeContent(data);
+    });
+}
+
 function loadSettings() {
 	$.get( "profile", function( data ) {
 		changeContent(data);

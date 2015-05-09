@@ -27,4 +27,7 @@ public final class Template {
     public static final String MESSAGES_SHOW_ALL = "messagesShowAll";
     
     public static final String PROFILE_VIEW = "profileView";
+
+    public static final String INTEREST_DASHBOARD = "interestDashboard";
+    public static final String INTEREST_PAGE = "interestPage";
 }

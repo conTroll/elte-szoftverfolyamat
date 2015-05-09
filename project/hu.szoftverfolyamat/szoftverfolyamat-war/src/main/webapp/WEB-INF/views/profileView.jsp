@@ -52,7 +52,7 @@
 						</div>
 					</div>
 				</c:if>
-				<c:if test="${userProfileDataDto.publicBirthday}">
+				<c:if test="${userProfFileDataDto.publicBirthday}">
 					<div class="field">
 						<label>Birthday</label> <input disabled name="birthday"
 							value="${userProfileDataDto.birthday}" type="text" />

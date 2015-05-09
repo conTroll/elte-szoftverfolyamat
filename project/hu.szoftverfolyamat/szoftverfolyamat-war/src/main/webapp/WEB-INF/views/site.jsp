@@ -59,6 +59,7 @@
 				<a id="browseChannelsLink" class="teal item"> Search Channels <i class="ui inline mini loader"></i><i class="rss icon"></i></a>
 				<a id="mySubscriptionsLink" class="teal item"> My Subscriptions <i class="ui inline mini loader"></i><i class="bookmark icon"></i></a>
 				<a id="myChannelsLink" class="teal item"> My Channels <i class="ui inline mini loader"></i><i class="signup icon"></i></a>
+                <a id="interestsLink" class="teal item"> Interests <i class="ui inline mini loader"></i><i class="smile icon"></i></a>
 				<a id="settingsLink" class="teal item"> Settings <i class="ui inline mini loader"></i><i class="settings icon"></i></a>
 			</div>
 		</div>
@@ -100,6 +101,9 @@
 		$("#mySubscriptionsLink").click(function() {
 			loadSubscribedChannels();
 		});
+        $("#interestsLink").click(function() {
+            loadInterests();
+        });
 		$("#settingsLink").click(function() {
 			loadSettings();
 		});
