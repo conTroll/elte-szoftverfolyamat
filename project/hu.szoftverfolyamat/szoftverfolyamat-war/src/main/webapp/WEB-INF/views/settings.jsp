@@ -79,17 +79,6 @@
 	<input name="" type="submit" class="ui blue submit button" value="Save" />
 </form>
 
-<%--<div id="interests">--%>
-    <%--<c:if test="${fn:length(interests) gt 0}">--%>
-        <%--<c:forEach var="interest" items="${interests}">--%>
-            <%--<a href="#"><span>${interest.name}</span></a>--%>
-        <%--</c:forEach>--%>
-    <%--</c:if>--%>
-    <%--<div>--%>
-        <%--<a href="#">Add new interest</a>--%>
-    <%--</div>--%>
-<%--</div>--%>
-
 <link rel="stylesheet" type="text/css"
 	href="<c:url value="/semantic/css/semantic.css"/>" />
 <link rel="stylesheet" type="text/css"

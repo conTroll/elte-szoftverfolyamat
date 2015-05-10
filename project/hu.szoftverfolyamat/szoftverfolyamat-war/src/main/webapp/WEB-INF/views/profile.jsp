@@ -4,11 +4,15 @@
 <div class="ui">
 	<div class="ui top attached tabular menu">
 		<div class="active item" data-tab="settings">Profile</div>
+        <div class="item" data-tab="interests">Interests</div>
 		<div class="item" data-tab="imageUpload">Profile picture</div>
 	</div>
 	<div class="ui bottom attached active tab segment" data-tab="settings">
 		<jsp:include page="settings.jsp" />
 	</div>
+    <div class="ui bottom attached active tab segment" data-tab="interests">
+        <jsp:include page="interests.jsp" />
+    </div>
 	<div class="ui bottom attached tab segment" data-tab="imageUpload">
 		<jsp:include page="imageUpload.jsp" />
 	</div>
