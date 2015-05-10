@@ -1,13 +1,17 @@
 package hu.szoftverfolyamat.service;
 
+import hu.szoftverfolyamat.dto.ChannelProfileDto;
 import hu.szoftverfolyamat.dto.InterestDto;
+import hu.szoftverfolyamat.dto.UserProfileDataDto;
 import hu.szoftverfolyamat.entity.ChannelProfileEntity;
 import hu.szoftverfolyamat.entity.InterestEntity;
 import hu.szoftverfolyamat.entity.UserProfileData;
 import hu.szoftverfolyamat.repository.ChannelRepository;
 import hu.szoftverfolyamat.repository.InterestRepository;
 import hu.szoftverfolyamat.repository.UserProfileDataRepository;
+import hu.szoftverfolyamat.service.mapper.ChannelProfileMapper;
 import hu.szoftverfolyamat.service.mapper.InterestMapper;
+import hu.szoftverfolyamat.service.mapper.UserProfileDataMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +26,12 @@ public class InterestService {
 
     @Autowired
     InterestMapper interestMapper;
+
+    @Autowired
+    UserProfileDataMapper userProfileDataMapper;
+
+    @Autowired
+    ChannelProfileMapper channelProfileMapper;
 
     @Autowired
     InterestRepository interestRepository;
@@ -40,6 +50,26 @@ public class InterestService {
         }
 
         return interestMapper.apply(entity);
+    }
+
+    public List<UserProfileDataDto> getUsersForInterest(long id) {
+        final InterestEntity entity = interestRepository.findOne(id);
+
+        if (entity == null) {
+            return new ArrayList<>();
+        }
+
+        return userProfileDataMapper.apply(entity.getUsers());
+    }
+
+    public List<ChannelProfileDto> getChannelsForInterest(long id) {
+        final InterestEntity entity = interestRepository.findOne(id);
+
+        if (entity == null) {
+            return new ArrayList<>();
+        }
+
+        return channelProfileMapper.apply(entity.getChannels());
     }
 
     public List<InterestDto> getAll() {
