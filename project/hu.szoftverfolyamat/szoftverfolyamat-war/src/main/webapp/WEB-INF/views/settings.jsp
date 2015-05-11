@@ -79,14 +79,6 @@
 	<input name="" type="submit" class="ui blue submit button" value="Save" />
 </form>
 
-<link rel="stylesheet" type="text/css"
-	href="<c:url value="/semantic/css/semantic.css"/>" />
-<link rel="stylesheet" type="text/css"
-	href="<c:url value="/css/app.css"/>" />
-<script type="text/javascript"
-	src="<c:url value="/js/jquery-1.11.1.min.js"/>"></script>
-<script type="text/javascript"
-	src="<c:url value="/semantic/javascript/semantic.js"/>"></script>
 <script type="text/javascript">
 	$(function() {
 		$('.ui.checkbox').checkbox();
