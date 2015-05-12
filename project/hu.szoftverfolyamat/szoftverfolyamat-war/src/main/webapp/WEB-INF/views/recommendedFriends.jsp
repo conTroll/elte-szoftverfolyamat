@@ -6,32 +6,30 @@
 	class="ui form pilled segment">
 	<div class="inline field">
 		<div class="ui toggle checkbox">
-			<input name="publicHabitat" type="checkbox"
-				value="${recommendedFriendsRequest.publicHabitat}" /> <label>Recommend by your habitat?</label>
+			<input name="recommendByHabitat" type="checkbox"
+				value="${recommendedFriendsRequest.recommendByHabitat}" /> <label>Recommend by your habitat?</label>
 		</div>
 	</div>
 	<div class="inline field">
 		<div class="ui toggle checkbox">
-			<input name="publicJobAndWorkplace" type="checkbox"
-				value="${recommendedFriendsRequest.publicJobAndWorkplace}" /> <label>Recommend by your job?</label>
+			<input name="recommendByJob" type="checkbox"
+				value="${recommendedFriendsRequest.recommendByJob}" /> <label>Recommend by your job?</label>
 		</div>
 	</div>
 	<div class="inline field">
 		<div class="ui toggle checkbox">
-			<input name="publicBirthday" type="checkbox"
-				value="${recommendedFriendsRequest.publicBirthday}" /> <label>Recommend by your birthday?</label>
+			<input name="recommendByWorkplace" type="checkbox"
+				value="${recommendedFriendsRequest.recommendByWorkplace}" /> <label>Recommend by your workplace?</label>
+		</div>
+	</div>
+	<div class="inline field">
+		<div class="ui toggle checkbox">
+			<input name="recommendByInterests" type="checkbox"
+				value="${recommendedFriendsRequest.recommendByInterests}" /> <label>Recommend by your interests?</label>
 		</div>
 	</div>
 	
-	<div class="inline field">
-		<div class="ui toggle checkbox">
-			<input name="publicBirthday" type="checkbox"
-				value="${recommendedFriendsRequest.publicBirthday}" /> <label>Recommend by your birthday?</label>
-		</div>
-	</div>
-	<input name="credentialId" value="${profileFormRequest.credentialId}"
-		type="hidden" /> <input type="submit" class="ui blue submit button"
-		value="Save" />
+	<div class="ui blue submit button" onClick="submitRecommendPeople($('#recommendedFriendsForm'));">Recommend friends</div>
 </form>
 <script type="text/javascript">
 		$('.ui.checkbox').checkbox();

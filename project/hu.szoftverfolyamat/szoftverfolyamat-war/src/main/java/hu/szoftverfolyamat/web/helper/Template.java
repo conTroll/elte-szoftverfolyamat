@@ -32,4 +32,5 @@ public final class Template {
     public static final String INTEREST_PAGE = "interestPage";
     
     public static final String RECOMMENDED_FRIENDS = "recommendedFriends";
+    public static final String RECOMMENDED_FRIENDS_PAGE = "recommendedFriendsPage";
 }

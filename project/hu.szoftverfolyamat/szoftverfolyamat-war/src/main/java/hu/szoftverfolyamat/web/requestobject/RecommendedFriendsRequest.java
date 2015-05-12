@@ -6,6 +6,7 @@ import lombok.Data;
 public class RecommendedFriendsRequest {
 
 	private String recommendByHabitat;
-	private String recommendByJobAndWorkplace;
-	private String recommendByBirthday;
+	private String recommendByJob;
+	private String recommendByWorkplace;
+	private String recommendByInterests;
 }

@@ -55,6 +55,7 @@
 			<div class="ui vertical fluid menu">
 				<a id="newsLink" class="active teal item"> News <i class="ui inline mini loader"></i><i class="home icon"></i></a>
 				<a id="searchUsersLink" class="teal item"> Search Users <i class="ui inline mini loader"></i><i class="search icon"></i></a>
+				<a id="recommendedFriends" class="teal item"> Recommended People <i class="ui inline mini loader"></i><i class="search icon"></i></a>
 				<a id="showContactsLink" class="teal item"> Show Contacts <i class="ui inline mini loader"></i><i class="users icon"></i></a>
 				<a id="browseChannelsLink" class="teal item"> Search Channels <i class="ui inline mini loader"></i><i class="rss icon"></i></a>
 				<a id="mySubscriptionsLink" class="teal item"> My Subscriptions <i class="ui inline mini loader"></i><i class="bookmark icon"></i></a>
@@ -89,8 +90,11 @@
 		$("#searchUsersLink").click(function() {
 			loadSearchUsers();
 		});
-		$("#showContactsLink").click(function() {
-			loadShowContacts();
+		$("#showMessagesLink").click(function() {
+			loadMessages();
+		});
+		$("#recommendedFriends").click(function() {
+			loadRecommendedFriends();
 		});
 		$("#browseChannelsLink").click(function() {
 			loadBrowseChannels();

@@ -39,7 +39,7 @@ public class RecommendService {
 	 * @return
 	 * 		egy <code>Map</code>-et, amelyben az egyes (kért) szempontok szerint csoportosítva találhatók meg az ajánlott ismerősök
 	 */
-	public Map<RecommendBase, List<UserProfileDataDto>> recommendFriends(Long userId, Set<RecommendBase> basedOn){
+	public Map<String, List<UserProfileDataDto>> recommendFriends(Long userId, Set<RecommendBase> basedOn){
 		
 		if (userId == null) {
 			throw new IllegalArgumentException("userId is mandatory");
@@ -55,31 +55,31 @@ public class RecommendService {
 			throw new IllegalArgumentException("invalid userId: no such user");
 		}
 		
-		Map<RecommendBase, List<UserProfileDataDto>> result = new HashMap<>();
+		Map<String, List<UserProfileDataDto>> result = new HashMap<>();
 		
 		if(basedOn.contains(RecommendBase.COMMON_INTERESTS)) {
 			List<UserProfileDataDto> usersWithCommonInterests = new ArrayList<>(this.getUsersWithInterests(profile.getCredentialId(), profile.getInterests()));
-			result.put(RecommendBase.COMMON_INTERESTS, usersWithCommonInterests);
+			result.put(RecommendBase.COMMON_INTERESTS.name(), usersWithCommonInterests);
 		}
 		
 		if(basedOn.contains(RecommendBase.COMMON_HABITAT) && profile.getHabitat() != null && !("".equals(profile.getHabitat().trim()))) {
 			List<UserProfileDataDto> usersWithCommonHabitat = this.userService.findByHabitat(profile.getHabitat());
 			if(!usersWithCommonHabitat.isEmpty()) {
-				result.put(RecommendBase.COMMON_HABITAT, usersWithCommonHabitat);
+				result.put(RecommendBase.COMMON_HABITAT.name(), usersWithCommonHabitat);
 			}
 		}
 		
 		if(basedOn.contains(RecommendBase.COMMON_JOB) && profile.getJob() != null && !("".equals(profile.getJob().trim()))) {
 			List<UserProfileDataDto> usersWithCommonJob = this.userService.findByJob(profile.getJob());
 			if(!usersWithCommonJob.isEmpty()) {
-				result.put(RecommendBase.COMMON_JOB, usersWithCommonJob);
+				result.put(RecommendBase.COMMON_JOB.name(), usersWithCommonJob);
 			}
 		}
 		
 		if(basedOn.contains(RecommendBase.COMMON_WORKPLACE) && profile.getWorkplace() != null && !("".equals(profile.getWorkplace().trim()))) {
 			List<UserProfileDataDto> usersWithCommonWorkplace = this.userService.findByWorkplace(profile.getWorkplace());
 			if(!usersWithCommonWorkplace.isEmpty()) {
-				result.put(RecommendBase.COMMON_WORKPLACE, usersWithCommonWorkplace);
+				result.put(RecommendBase.COMMON_WORKPLACE.name(), usersWithCommonWorkplace);
 			}
 		}
 		
