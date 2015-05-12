@@ -45,13 +45,7 @@ public class InterestEntity {
         this.createdAt = createdAt;
     }
 
-    @ManyToMany
-    @LazyCollection(LazyCollectionOption.TRUE)
-    @JoinTable(
-        name = "interests_to_user",
-        joinColumns = {@JoinColumn(name="interest_id", referencedColumnName = "id")},
-        inverseJoinColumns = {@JoinColumn(name="user_credentials_id", referencedColumnName = "credential_id")}
-    )
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "interests")
     public List<UserProfileData> getUsers() {
         return users;
     }
@@ -60,13 +54,7 @@ public class InterestEntity {
         this.users = users;
     }
 
-    @ManyToMany
-    @LazyCollection(LazyCollectionOption.TRUE)
-    @JoinTable(
-        name = "interest_to_channel",
-        joinColumns = {@JoinColumn(name="interest_id", referencedColumnName = "id")},
-        inverseJoinColumns = {@JoinColumn(name="channel_id", referencedColumnName = "channel_id")}
-    )
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "interests")
     public List<ChannelProfileEntity> getChannels() {
         return channels;
     }

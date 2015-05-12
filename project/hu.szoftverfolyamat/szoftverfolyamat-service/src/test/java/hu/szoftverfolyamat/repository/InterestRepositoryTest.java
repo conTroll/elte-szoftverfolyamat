@@ -35,11 +35,10 @@ public class InterestRepositoryTest {
 
     @Test
     public void testListAll() {
-        // when
+    	
+    	// initial count of entities
         final List<InterestEntity> result1 = testSubject.findAll();
-
-        // then
-        Assert.assertEquals(0, result1.size());
+        int initialSize = result1.size();
 
         // given
         final InterestEntity interest1 = createInterest("a");
@@ -49,7 +48,7 @@ public class InterestRepositoryTest {
         final List<InterestEntity> result2 = testSubject.findAll();
 
         // then
-        Assert.assertEquals(2, result2.size());
+        Assert.assertEquals(initialSize + 2, result2.size());
         Assert.assertTrue(result2.contains(interest1));
         Assert.assertTrue(result2.contains(interest2));
     }

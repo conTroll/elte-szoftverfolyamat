@@ -1,21 +1,32 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
-<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd" >
+<log4j:configuration debug="false">
 
-    <appender name="consoleAppender" class="org.apache.log4j.ConsoleAppender">
+    <appender name="default.console" class="org.apache.log4j.ConsoleAppender">
+        <param name="target" value="System.out" />
+        <param name="threshold" value="debug" />
         <layout class="org.apache.log4j.PatternLayout">
-            <param name="ConversionPattern" value="%d{dd MMM yyyy HH:mm:ss} %5p %c{1} - %m%n"/>
+            <param name="ConversionPattern" value="%d{ISO8601} %-5p [%c{1}] - %m%n" />
         </layout>
     </appender>
 
+    <appender name="default.file" class="org.apache.log4j.FileAppender">
+        <param name="file" value="/log/szoftver-folyamat.log" />
+        <param name="append" value="false" />
+        <param name="threshold" value="debug" />
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d{ISO8601} %-5p [%c{1}] - %m%n" />
+        </layout>
+    </appender>
+
+    <logger name="hu.szoftverfolyamat" additivity="false">
+        <level value="info" />
+        <appender-ref ref="default.file" />
+    </logger>
+
     <root>
-        <level value="INFO"/>
-        <appender-ref ref="consoleAppender"/>
-
+        <priority value="info" />
+        <appender-ref ref="default.console" />
+        <appender-ref ref="default.file" />
     </root>
-    <category name="org.hibernate.SQL">
-        <level value="DEBUG" />
-        <appender-ref ref="consoleAppender"/>
-    </category>
-
 </log4j:configuration>

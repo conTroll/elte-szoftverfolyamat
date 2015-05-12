@@ -18,13 +18,18 @@ public class RepositoryTestHelper {
         channelRepository.saveAndFlush(result);
         return result;
     }
-
+    
     public static UserProfileData createTestUser(final UserCredentialsRepository userCredentialsRepository, final UserProfileDataRepository userProfileDataRepository) {
+    	return RepositoryTestHelper.createTestUser(userCredentialsRepository, userProfileDataRepository, "admin");
+    }
+    
+
+    public static UserProfileData createTestUser(final UserCredentialsRepository userCredentialsRepository, final UserProfileDataRepository userProfileDataRepository, String username) {
         final UserCredential credential;
         credential = new UserCredential();
         credential.setEnabled(true);
         credential.setPassword("123");
-        credential.setUsername("admin");
+        credential.setUsername(username);
         credential.setUserProfileData(null);
         credential.setUserRole(null);
         userCredentialsRepository.saveAndFlush(credential);

@@ -290,3 +290,19 @@ function loadProfileView( id ) {
 		changeContent(data);
 	});
 }
+
+function addInterestToCurrentUser( interest ) {
+	if(interest.length != 0) {
+		$.get( "interests/add?interest=" + interest, function( data ) {
+			loadInterests();
+		});
+	}
+}
+
+function deleteInterestFromCurrentUser( interest ) {
+	if(interest.length != 0) {
+		$.get( "interests/delete?interest=" + interest, function( data ) {
+			loadInterests();
+		});
+	}
+}

@@ -5,11 +5,16 @@
     <div class="ui comments">
         <h3 class="ui dividing header">Interests</h3>
 
-        <ul>
-            <c:forEach var="interest" items="${interests}">
-                <li><a class="show" rel="${interest.id}"><span class="label">${interest.name}</span></a></li>
-            </c:forEach>
-        </ul>
+		<div class="ui list">
+			<c:forEach var="interest" items="${interests}">
+				<div class="item">
+					<img class="ui avatar image" src="<c:url value="/images/interest.png"/>">
+					<div class="content">
+					  <a class="header show" rel="${interest.id}">${interest.name}</a>
+					</div>
+				</div>
+			</c:forEach>
+		</div>
     </div>
 </div>
 
