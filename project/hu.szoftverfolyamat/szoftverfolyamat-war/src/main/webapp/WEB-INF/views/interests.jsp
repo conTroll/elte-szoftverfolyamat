@@ -9,7 +9,7 @@
 		<div class="eight wide right aligned column">
 			<div class="ui search">
 				<div class="ui icon input">
-					<input id="interestInput" class="prompt" type="text" placeholder="Search countries...">
+					<input id="interestInput" class="prompt" type="text" placeholder="Type an interest...">
 					<i class="smile icon"></i>
 				</div>
 				<div class="results"></div>
