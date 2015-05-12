@@ -298,3 +298,11 @@ function addInterestToCurrentUser( interest ) {
 		});
 	}
 }
+
+function deleteInterestFromCurrentUser( interest ) {
+	if(interest.length != 0) {
+		$.get( "interests/delete?interest=" + interest, function( data ) {
+			loadInterests();
+		});
+	}
+}
