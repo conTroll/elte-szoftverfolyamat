@@ -6,6 +6,7 @@ import hu.szoftverfolyamat.exception.UserServiceException;
 import hu.szoftverfolyamat.repository.CustomUserProfileDataRepositoryImpl;
 import hu.szoftverfolyamat.repository.UserProfileDataRepository;
 import hu.szoftverfolyamat.service.mapper.UserProfileDataMapper;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,8 +21,8 @@ import java.util.Locale;
 @Transactional
 public class UserProfileDataService {
 
-    @Autowired
-    private UserProfileDataMapper userProfileDataMapper;
+	@Autowired
+	private UserProfileDataMapper userProfileDataMapper;
 
 	@Autowired
 	private UserProfileDataRepository userProfileDataRepository;
@@ -31,15 +32,15 @@ public class UserProfileDataService {
 
 	@Autowired
 	private CustomUserProfileDataRepositoryImpl customUserProfileDataRepositoryImpl;
-	
+
 	public UserProfileData updateUserProfileData(final Long userCredentialId, final UserProfileDataDto userProfileDataDto) throws ParseException, UserServiceException {
 		UserProfileData userProfileData;
-		
+
 		userProfileData = this.userProfileDataRepository.findOne(userCredentialId);
 		if(userProfileData == null) {
 			throw new UserServiceException("Can not update user with userCredentialId: '" + userCredentialId + "', because user does not exists!");
 		}
-		
+
 		userProfileData.setBirthday(new SimpleDateFormat("YYYY.MM.dd", Locale.ENGLISH).parse(userProfileDataDto.getBirthday()));
 		userProfileData.setEmail(userProfileDataDto.getEmail());
 		userProfileData.setFullName(userProfileDataDto.getFullName());
@@ -50,12 +51,12 @@ public class UserProfileDataService {
 		userProfileData.setPublicJobAndWorkplace(userProfileDataDto.isPublicJobAndWorkplace());
 		userProfileData.setShortName(userProfileDataDto.getShortName());
 		userProfileData.setWorkplace(userProfileDataDto.getWorkplace());
-		
+
 		return userProfileDataRepository.saveAndFlush(userProfileData);
 	}
 
 	public UserProfileData createUserProfileData(final Long userCredentialId, final UserProfileDataDto userProfileDataDto)
-            throws UserServiceException, ParseException {
+			throws UserServiceException, ParseException {
 
 		if (userProfileDataRepository.findOne(userCredentialId) != null) {
 			throw new UserServiceException("Can not create user with userCredentialId: '" + userCredentialId + "', because user already exists!");
@@ -80,10 +81,10 @@ public class UserProfileDataService {
 	public UserProfileData findByUserCredentialId(final long id) {
 		return userProfileDataRepository.findOne(id);
 	}
-	
+
 	public void updateAvatarId(Long userCredentialId, Long avatarId) {
 		UserProfileData userProfileData;
-		
+
 		userProfileData = this.userProfileDataRepository.findOne(userCredentialId);
 		if(userProfileData != null) {
 			userProfileData.setAvatarId(avatarId);
@@ -92,8 +93,8 @@ public class UserProfileDataService {
 	}
 
 	public List<UserProfileDataDto> getFriendsByUserId(final Long userCredentialId) {
-        final List<Long> friendsId = userConnectionService.getFriendsIdByUserCredentialId(userCredentialId);
-        final List<UserProfileDataDto> result = userProfileDataMapper.apply(userProfileDataRepository.findAll(friendsId));
+		final List<Long> friendsId = userConnectionService.getFriendsIdByUserCredentialId(userCredentialId);
+		final List<UserProfileDataDto> result = userProfileDataMapper.apply(userProfileDataRepository.findAll(friendsId));
 
 		for (final UserProfileDataDto dataDto : result) {
 			dataDto.setFriend(true);
@@ -103,18 +104,51 @@ public class UserProfileDataService {
 	}
 
 	public List<UserProfileDataDto> searchUserProfileDataDtos(final Long credentialId, final String emailAddress,
-            final String fullName, final String place, final String job) {
-        final List<Long> friendIds = userConnectionService.getFriendsIdByUserCredentialId(credentialId);
-        final List<UserProfileDataDto> dataDtoList = userProfileDataMapper.apply(customUserProfileDataRepositoryImpl.searchUserProfileData(emailAddress, fullName, place, job));
-        final List<UserProfileDataDto> result = new ArrayList<UserProfileDataDto>();
+			final String fullName, final String place, final String job) {
+		final List<Long> friendIds = userConnectionService.getFriendsIdByUserCredentialId(credentialId);
+		final List<UserProfileDataDto> dataDtoList = userProfileDataMapper.apply(customUserProfileDataRepositoryImpl.searchUserProfileData(emailAddress, fullName, place, job));
+		final List<UserProfileDataDto> result = new ArrayList<UserProfileDataDto>();
 
 		for (final UserProfileDataDto dataDto : dataDtoList) {
 			if (dataDto.getCredentialId() != credentialId) {
-                dataDto.setFriend(friendIds.contains(dataDto.getCredentialId()));
+				dataDto.setFriend(friendIds.contains(dataDto.getCredentialId()));
 				result.add(dataDto);
 			}
 		}
 
 		return result;
+	}
+
+	public List<UserProfileDataDto> findByWorkplace(String workplace){
+
+		if(workplace == null || "".equals(workplace.trim())) {
+			throw new IllegalArgumentException("workplace is mandatory");
+		}
+
+		List<UserProfileData> entities = this.userProfileDataRepository.findByWorkplace(workplace);
+		return this.userProfileDataMapper.apply(entities);
+
+	}
+
+	public List<UserProfileDataDto> findByJob(String job){
+
+		if(job == null || "".equals(job.trim())) {
+			throw new IllegalArgumentException("job is mandatory");
+		}
+
+		List<UserProfileData> entities = this.userProfileDataRepository.findByJob(job);
+		return this.userProfileDataMapper.apply(entities);
+
+	}
+	
+	public List<UserProfileDataDto> findByHabitat(String habitat){
+
+		if(habitat == null || "".equals(habitat.trim())) {
+			throw new IllegalArgumentException("habitat is mandatory");
+		}
+
+		List<UserProfileData> entities = this.userProfileDataRepository.findByHabitat(habitat);
+		return this.userProfileDataMapper.apply(entities);
+
 	}
 }

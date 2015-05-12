@@ -81,7 +81,7 @@ public class InterestService {
             return new ArrayList<>();
         }
 
-        return channelProfileMapper.apply(entity.getChannels());
+        return entity.getChannels() == null ? null : channelProfileMapper.apply(entity.getChannels());
     }
 
     public List<InterestDto> getAll() {

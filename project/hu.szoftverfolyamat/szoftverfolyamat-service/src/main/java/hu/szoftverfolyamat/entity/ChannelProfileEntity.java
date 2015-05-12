@@ -78,8 +78,7 @@ public class ChannelProfileEntity implements Serializable {
 		return creationDate;
 	}
 
-    @ManyToMany
-    @LazyCollection(LazyCollectionOption.TRUE)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "interest_to_channel",
             joinColumns = {@JoinColumn(name="channel_id", referencedColumnName = "channel_id")},

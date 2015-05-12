@@ -93,8 +93,7 @@ public class UserProfileData {
 		return ownedChannels;
 	}
 
-    @ManyToMany
-    @LazyCollection(LazyCollectionOption.TRUE)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "interests_to_user",
             joinColumns = {@JoinColumn(name="user_credentials_id", referencedColumnName = "credential_id")},
