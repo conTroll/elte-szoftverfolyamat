@@ -55,4 +55,6 @@ public final class URI {
 
     // INTEREST
     public static final String INTEREST = "/interests";
+    
+    public static final String RECOMMENDED_FRIENDS = "/recommendedFriends";
 }

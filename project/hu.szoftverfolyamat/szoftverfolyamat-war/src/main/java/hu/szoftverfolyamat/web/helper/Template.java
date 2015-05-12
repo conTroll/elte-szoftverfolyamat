@@ -30,4 +30,6 @@ public final class Template {
 
     public static final String INTEREST_DASHBOARD = "interestDashboard";
     public static final String INTEREST_PAGE = "interestPage";
+    
+    public static final String RECOMMENDED_FRIENDS = "recommendedFriends";
 }
