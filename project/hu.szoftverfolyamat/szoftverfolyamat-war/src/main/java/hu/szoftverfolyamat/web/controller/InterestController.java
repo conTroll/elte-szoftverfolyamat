@@ -7,6 +7,7 @@ import hu.szoftverfolyamat.dto.InterestsQueryResultsDto;
 import hu.szoftverfolyamat.dto.UserProfileDataDto;
 import hu.szoftverfolyamat.entity.UserProfileData;
 import hu.szoftverfolyamat.service.InterestService;
+import hu.szoftverfolyamat.service.UserConnectionService;
 import hu.szoftverfolyamat.web.helper.Role;
 import hu.szoftverfolyamat.web.helper.Template;
 import hu.szoftverfolyamat.web.helper.URI;
@@ -99,17 +100,19 @@ public class InterestController extends BaseController {
 	}
 
 	@RequestMapping(value = URI.SHOW_BY_ID)
-	public ModelAndView showInterest(@PathVariable("id") final Long interestId) {
+	public ModelAndView showInterest(Principal principal ,@PathVariable("id") final Long interestId) {
+		final long currentUserId = this.getCurrentUser(principal);
 		final ModelAndView result = new ModelAndView(Template.INTEREST_PAGE);
 		result.addObject("interest", interestService.getById(interestId));
 		final List<UserProfileDataDto> users = interestService
-				.getUsersForInterest(interestId);
+				.getUsersForInterest(currentUserId, interestId);
 		final List<ChannelProfileDto> channels = interestService
 				.getChannelsForInterest(interestId);
 
 		result.addObject("users", users.subList(0, Math.min(10, users.size())));
 		result.addObject("channels",
 				channels.subList(0, Math.min(10, channels.size())));
+		result.addObject("currentUserId", currentUserId);
 		return result;
 	}
 }

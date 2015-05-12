@@ -6,13 +6,13 @@
 <html>
 <head>
 <link rel="stylesheet" type="text/css"
-	href="<c:url value="/semantic/css/semantic.css"/>" />
+	href="<c:url value="/semantic/semantic.css"/>" />
 <link rel="stylesheet" type="text/css"
 	href="<c:url value="/css/app.css"/>" />
 <script type="text/javascript"
 	src="<c:url value="/js/jquery-1.11.1.min.js"/>"></script>
 <script type="text/javascript"
-	src="<c:url value="/semantic/javascript/semantic.js"/>"></script>
+	src="<c:url value="/semantic/semantic.js"/>"></script>
 <script type="text/javascript">
 	$(function() {
 		$('.ui.checkbox').checkbox();

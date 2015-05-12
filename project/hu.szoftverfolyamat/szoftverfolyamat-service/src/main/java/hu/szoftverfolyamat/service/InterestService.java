@@ -12,6 +12,7 @@ import hu.szoftverfolyamat.repository.UserProfileDataRepository;
 import hu.szoftverfolyamat.service.mapper.ChannelProfileMapper;
 import hu.szoftverfolyamat.service.mapper.InterestMapper;
 import hu.szoftverfolyamat.service.mapper.UserProfileDataMapper;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,6 +39,9 @@ public class InterestService {
 
     @Autowired
     UserProfileDataRepository userProfileDataRepository;
+    
+    @Autowired
+	private UserConnectionService userConnectionService;
 
     @Autowired
     ChannelRepository channelRepository;
@@ -52,14 +56,22 @@ public class InterestService {
         return interestMapper.apply(entity);
     }
 
-    public List<UserProfileDataDto> getUsersForInterest(long id) {
+    public List<UserProfileDataDto> getUsersForInterest(long userCredentialId, long id) {
+    	List<UserProfileDataDto> result;
         final InterestEntity entity = interestRepository.findOne(id);
 
         if (entity == null) {
             return new ArrayList<>();
         }
+        
+        result = new ArrayList<>();
+        for(UserProfileDataDto dto : userProfileDataMapper.apply(entity.getUsers())) {
+        	dto.setFriend(this.userConnectionService.isFriend(userCredentialId, dto.getCredentialId()));
+        	result.add(dto);
+        }
 
-        return userProfileDataMapper.apply(entity.getUsers());
+        
+        return result;
     }
 
     public List<ChannelProfileDto> getChannelsForInterest(long id) {

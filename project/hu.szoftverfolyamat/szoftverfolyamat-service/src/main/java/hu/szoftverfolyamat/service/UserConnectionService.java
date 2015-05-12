@@ -15,6 +15,20 @@ public class UserConnectionService {
 
 	@Autowired
 	private UserConnectionsRepository userConnectionsRepository;
+	
+	public boolean isFriend(long userCredentialId1, long userCredentialId2) {
+		for(long friendId : this.getFriendsIdByUserCredentialId(userCredentialId1)) {
+			if(friendId == userCredentialId2) {
+				return true;
+			}
+		}
+		for(long friendId : this.getFriendsIdByUserCredentialId(userCredentialId2)) {
+			if(friendId == userCredentialId1) {
+				return true;
+			}
+		}
+		return false;
+	}
 
 	public void createUserConnection(final Long userCredentialId1, final Long userCredentialId2) {
 		final UserConnectionEntity connectionEntity1 = new UserConnectionEntity();
