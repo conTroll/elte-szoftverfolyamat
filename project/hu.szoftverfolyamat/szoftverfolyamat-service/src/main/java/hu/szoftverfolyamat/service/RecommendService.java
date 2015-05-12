@@ -92,7 +92,7 @@ public class RecommendService {
 		Set<UserProfileDataDto> result = new HashSet<>();
 		
 		for(InterestEntity interest : interests) {
-			List<UserProfileDataDto> users = this.interestService.getUsersForInterest(interest.getId());
+			List<UserProfileDataDto> users = this.interestService.getUsersForInterest(ownUserId, interest.getId());
 			if(users != null) {
 				for(UserProfileDataDto user : users) {
 					if(user.getCredentialId().longValue() != ownUserId.longValue()) {
